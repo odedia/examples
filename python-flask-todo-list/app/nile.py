@@ -94,7 +94,7 @@ class NileClient(object):
             'email' : email,
             'password' : password
         }
-        data = self._send(method="POST", endpoint="/login", payload=payload)
+        data = self._send(method="POST", endpoint="/auth/login", payload=payload)
         token = data['token']
         try:
             user = jwt.decode(token, options={"verify_signature": False})
