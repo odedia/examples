@@ -33,8 +33,14 @@ class NileClient(object):
     def __init__(self,url):
         self.base_url = url
         self.active_users = {}
+        try:
+            data, headers = self._send("GET", "/health/ok", return_headers=True)
+            print("Successfully connected to Nile, at " + url)
+            print("Current Nile version: " + headers.get('X-NILE-VERSION',"n/a"))
+        except:
+            print("Failed to connect to Nile at " + url +" or Nile is unhealthy")
 
-    def _send(self, method, endpoint, payload):
+    def _send(self, method, endpoint, payload=None, return_headers=False):
         if not self.base_url:
             raise NileConfigError("Nile's URL is missing")
         if endpoint[0] != "/":
@@ -42,14 +48,23 @@ class NileClient(object):
 
         url = self.base_url + endpoint
 
-        encoded_data = json.dumps(payload).encode('utf-8')
-        resp = _http.request(method,url,body=encoded_data, headers={'Content-Type': 'application/json'})
+        if payload:
+            encoded_data = json.dumps(payload).encode('utf-8')
+            resp = _http.request(method,url,body=encoded_data, headers={'Content-Type': 'application/json'})
+        else:
+            assert method == "GET", "sending without body is only expected for GET requests"
+            resp = _http.request(method,url,headers={'Content-Type': 'application/json'})
         if resp.status >= 200 and resp.status <= 299:
             data = json.loads(resp.data.decode('utf-8'))
-            return data
-        else:
+            if return_headers:
+                return data, resp.headers
+            else:
+                return data
+        elif resp.status >=400 and resp.status <= 499:
             data = json.loads(resp.data.decode('utf-8'))
             raise NileError(data['status_code'], data['error_code'], data['message'])
+        else:
+            raise NileError(resp.status, resp.status, "internal server error")
 
 
     def signup(self, email, password,**kwargs):
