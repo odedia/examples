@@ -17,15 +17,6 @@ def index():
 
     todos = nile_client.get_instances("tasks", token, with_envelope=False)
     print (todos)
-    # db = get_db()
-    # todos = db.execute(
-    #    'SELECT id, creator, task_name, status, created, due_date'
-    #    ' FROM todo'
-    #    ' where is_private = ? or creator = ? '
-    #    ' ORDER BY created DESC',
-    #    (False, creator)
-    # ).fetchall()
-
     return render_template('todo/index.html', todos=todos)
 
 @bp.route('/add', methods=('GET', 'POST'))
