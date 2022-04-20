@@ -35,11 +35,6 @@ class NileClient(object):
     def __init__(self,url):
         self.base_url = url
         self.active_users = {}
-        logging.basicConfig()
-        logging.getLogger().setLevel(logging.DEBUG)
-        requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(logging.DEBUG)
-        requests_log.propagate = True
         try:
             data, headers = self._send("GET", "/health/ok", return_headers=True)
             print("Successfully connected to Nile, at " + url)
@@ -79,6 +74,7 @@ class NileClient(object):
                 return data
         elif resp.status == 404:
             raise NileError(resp.status, resp.status, "resource not found")
+
         elif resp.status >=400 and resp.status <= 499:
             data = json.loads(resp.data.decode('utf-8'))
             raise NileError(data['status_code'], data['error_code'], data['message'])
