@@ -170,8 +170,8 @@ class NileClient(object):
         except:
             raise TokenValidationError("Token is parsable, but not a known active session")
     
-    def get_user(self, token) -> NileUser:
-        if self.active_users.get(token):
+    def get_user(self, token, use_cache = True) -> NileUser:
+        if self.active_users.get(token) and use_cache:
             return self.active_users.get(token)
         else: 
             if token:

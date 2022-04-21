@@ -84,6 +84,7 @@ def invite():
         code = request.args.get('accept_invite')
         token = session.get('token')
         nile_client.accept_invite(code, token)
+        nile_client.get_user(token, use_cache = False) #refresh cache for this user, so we'll see the new org
         return redirect(url_for('todo.index'))
     else:
         args = request.args
