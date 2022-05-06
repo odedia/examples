@@ -1,0 +1,19 @@
+{
+    "name": "clusters-v2",
+    "schema": {
+      "type": "object",
+      "properties": {
+          "creator": {"type": "string"},
+          "created": {"type": "string"},
+          "updated": {"type": "string"},
+          "cluster_name": {"type": "string"},
+          "status": {
+            "type": "string",
+            "enum": ["create_requested", "creating", "delete_requested", "deleting", "available", "error"]
+          },
+          "ARN": {"type": "string"},
+          "Endpoint": {"type": "string"}
+       },   
+       "required": ["creator", "created", "cluster_name", "status"]
+    }
+  }
