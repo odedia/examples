@@ -1,7 +1,7 @@
 import json
 import boto3
 import os
-from lib import nile
+from nile import nile
 from datetime import datetime
 
 url = os.environ.get('NILE_URL', 'http://localhost:8080')
@@ -18,11 +18,14 @@ rds = boto3.client('rds')
 def handler(event):
     updates = {}
     if event['status'] == 'create_requested':
+        # Do a thing
         new_cluster =  rds.create_db_cluster(
             Engine='aurora-mysql',
             DBClusterIdentifier=event['cluster_name'],
             MasterUserPassword=mysql_default_password,
             MasterUsername="root")
+        # Map the response to updates that will be made to the cluster in Nile 
+        # All updated fields must be property of the Clusters entity
         updates['status'] = new_cluster['DBCluster']['Status']
         updates['Endpoint'] = new_cluster['DBCluster']['Endpoint']
         updates['ARN'] = new_cluster['DBCluster']['DBClusterArn']
@@ -49,9 +52,14 @@ def checker(event):
 
 if __name__ == "__main__":
     access_token = nile.login(username,password)
-    (success, fail) = nile.handle_events('clusters-v2', access_token, handler, checker, 'create_requested','delete_requested')
+    (success, fail) = nile.handle_events('clusters-v2', access_token, handler, 'create_requested','delete_requested')
     print ("events handled successfully: ")
     print (*success, sep="\n")
-    print ("errors encountered: ")
+    print ("events with errors: ")
+    print (*fail, sep="\n")
+    (success, fail) = nile.update_state('clusters-v2', access_token, checker)
+    print ("state updated successfully: ")
+    print (*success, sep="\n")
+    print ("updates with errors: ")
     print (*fail, sep="\n")
 
