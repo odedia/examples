@@ -13,23 +13,15 @@ def signup():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        error = None
+        try:
+            nile_client.signup(email, password)
 
-        if not email:
-            error = 'Email is required.'
-        elif not password:
-            error = 'Password is required.'
-
-        if error is None:
-            try:
-                nile_client.signup(email, password)
-
-                # After signup, lets complete the login and let the user through
-                token = nile_client.login(email, password)
-                session['token'] =  token
-                return redirect(url_for('index'))
-            except nile.NileError as ne:
-                flash(ne.message)
+            # After signup, lets complete the login and let the user through
+            token = nile_client.login(email, password)
+            session['token'] =  token
+            return redirect(url_for('index'))
+        except nile.NileError as ne:
+            flash(ne.message)
                 
     return render_template('auth/signup.html')
 
@@ -55,7 +47,7 @@ def logout():
     if token:
         nile_client.logout(token)
         session.clear()
-    return redirect(url_for('todo.index'))
+    return redirect(url_for('clusters.index'))
 
 def login_required(view):
     @functools.wraps(view)
@@ -77,7 +69,7 @@ def invite():
         token = session.get('token')
         nile_client.accept_invite(code, token)
         nile_client.get_user(token, use_cache = False) #refresh cache for this user, so we'll see the new org
-        return redirect(url_for('todo.index'))
+        return redirect(url_for('clusters.index'))
     else:
         args = request.args
         invite_code = args.get('invite_code')

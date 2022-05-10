@@ -12,8 +12,8 @@ from nile import nile
 url = os.environ.get('NILE_URL', 'http://localhost:8080')
 #ID is temporary, until we route by workspace name or entire base urls for a workspace
 workspace_id = os.environ.get('NILE_WORKSPACE_ID','4')
-# The agent logs in as a specific tenant in order to guarantee tenant isolation
-# This agent will run in the tenant VPC and will only ever see clusters that belong to this tenant.
+# The agent logs in as a specific tenant in order to make sure events are routed correctly
+# This agent will run in the tenant VPC and will only ever see events for clusters that belong to this tenant.
 # If you need a different access pattern, contact the Nile team
 username = os.environ.get('NILE_TENANT_USERNAME','gwen@demo.com')
 password = os.environ.get('NILE_TENANT_PASSWORD','verysecret')

@@ -297,8 +297,9 @@ class NileClient(object):
         return maybe_filter_users
 
     def accept_invite(self, invite_code, token=None):
+        curr_org = self.get_current_org(token)
         try:
-            self._send("POST",f"/invites/{invite_code}/accept", token=token)
+            self._send("POST",f"/orgs/{curr_org}/invites/{invite_code}/accept", token=token)
         except NileError as ne:
             if ne.error_code == "user_already_in_org":
                 pass

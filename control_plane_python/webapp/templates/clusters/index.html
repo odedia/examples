@@ -17,10 +17,10 @@
     <label for="select_org">Select Organization:</label>
       <select name="select_org" id="select_org">
         {% for org in orgs %}
-          <option value="{{ org['id'] }}" {% if org['id']|string == current_org %} selected="selected"{% endif %}>{{ org['org_name'] }}</option>
+          <option value="{{ org['id'] }}" {% if org['id']|string == current_org %} selected="selected"{% endif %}>{{ org['name'] }}</option>
         {% endfor %}
       </select>
-      <input type="submit" value="Switch Project">
+      <input type="submit" value="Switch Organization">
   </form>
   {% else %}
     <p></p>

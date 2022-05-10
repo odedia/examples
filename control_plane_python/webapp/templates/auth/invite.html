@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-Welcome to Todo List App.
+  <h1>{% block title %}Welcome to our MySQL Control Plane{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
     {% if session['token'] %}
         <p></p>
         <!-- TODO: Show the friend name and org name once we have an API for it -->
-        You've been invited by a friend to collaborate on a project:
+        You've been invited by your organization to help manage clusters:
 
         <form action="{{ url_for('auth.invite', accept_invite=invite_code)}}" method="post">
             <input type="submit" value="Accept?">
         </form>
     {% else %}
-        <p>You've been invited by a friend to collaborate on their tasks. </p>
+        <p>You've been invited by your organization to help manage clusters: </p>
 
         <p>To accept the invitation, you first need to be signed in to the app.</p>
 
