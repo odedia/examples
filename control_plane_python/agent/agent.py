@@ -40,8 +40,8 @@ def create_handler(event):
     event['properties']['status'] = new_cluster['DBCluster']['Status']
     event['properties']['Endpoint'] = new_cluster['DBCluster']['Endpoint']
     event['properties']['ARN'] = new_cluster['DBCluster']['DBClusterArn']
-    nile.update_instance(event['type'], event['id'], event)
-    logging.info("successful updated Nile with new cluster details:" + event)
+    nile.update_instance(event['type'], event['id'], event['properties'])
+    logging.info("successful updated Nile with new cluster details:" + str(event))
 
 def delete_handler(event):
     try:
@@ -61,6 +61,8 @@ def reconcile(cluster):
     try:
         updated = rds.describe_db_clusters(DBClusterIdentifier=cluster['properties']['cluster_name'])['DBClusters'][0]
         cluster['properties']['status'] = updated['Status']
+        cluster['properties']['Endpoint'] = updated['Endpoint']
+        cluster['properties']['ARN'] = updated['DBClusterArn']
         nile.update_instance(cluster['type'], cluster['id'], cluster['properties'])
         logging.info("successful reconciled Nile with new cluster details:" + str(cluster))
     except rds.exceptions.DBClusterNotFoundFault:
