@@ -40,7 +40,7 @@ def create_handler(event):
     event['properties']['status'] = new_cluster['DBCluster']['Status']
     event['properties']['Endpoint'] = new_cluster['DBCluster']['Endpoint']
     event['properties']['ARN'] = new_cluster['DBCluster']['DBClusterArn']
-    nile.update_instance(event['type'], event['id'], event, access_token)
+    nile.update_instance(event['type'], event['id'], event)
     logging.info("successful updated Nile with new cluster details:" + event)
 
 def delete_handler(event):
@@ -53,7 +53,7 @@ def delete_handler(event):
         logging.info(f"Cluster {event['properties']['cluster_name']} doesn't exist, so can't delete it. Doing nothing and will let the reconciliation loop handle the rest")
         return
     event['properties']['status'] = deleted['DBCluster']['Status']
-    nile.update_instance(event['type'], event['id'], event['properties'], access_token)
+    nile.update_instance(event['type'], event['id'], event['properties'])
     logging.info("successful updated Nile with new cluster details:" + str(event))
 
 #TODO batch requests to AWS
@@ -61,17 +61,17 @@ def reconcile(cluster):
     try:
         updated = rds.describe_db_clusters(DBClusterIdentifier=cluster['properties']['cluster_name'])['DBClusters'][0]
         cluster['properties']['status'] = updated['Status']
-        nile.update_instance(cluster['type'], cluster['id'], cluster['properties'], access_token)
+        nile.update_instance(cluster['type'], cluster['id'], cluster['properties'])
         logging.info("successful reconciled Nile with new cluster details:" + str(cluster))
     except rds.exceptions.DBClusterNotFoundFault:
-        nile.delete_instance(cluster['type'], cluster['id'], access_token, soft_delete=False) # deleting for real
+        nile.delete_instance(cluster['type'], cluster['id'], soft_delete=False) # deleting for real
         logging.info("successful deleted cluster from Nile: " + cluster['properties']['cluster_name'])
 
 if __name__ == "__main__":
-    access_token = nile.login(username,password)
-    nile.onEvent('clusters.created').handle(create_handler, access_token)
-    nile.onEvent('clusters.soft-deleted').handle(delete_handler, access_token)
+    nile.login(username, password, single_tenant=True)
+    nile.onEvent('clusters.created').handle(create_handler)
+    nile.onEvent('clusters.soft-deleted').handle(delete_handler)
 
-    [reconcile(instance) for instance in nile.get_instances('clusters', access_token)] # The python equivalent of get_instances().map(reconcile)
+    [reconcile(instance) for instance in nile.get_instances('clusters')] # The python equivalent of get_instances().map(reconcile)
 
 

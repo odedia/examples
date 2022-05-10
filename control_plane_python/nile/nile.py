@@ -51,6 +51,7 @@ class NileClient(object):
     def __init__(self, url, workspace, key = None, secret = None):
         self.base_url = url
         self.active_users = {}
+        self.single_tenant_token = "token_unset_login_with_single_tenant_required"
         try:
             data, headers = self._send("GET", "/health/ok", return_headers=True, developer=True)
             logger.info("Successfully connected to Nile, at " + url)
@@ -107,6 +108,8 @@ class NileClient(object):
         self.workspace.token = data['token']
 
     def _send(self, method, endpoint, payload=None, return_headers=False, token=None, developer=False):
+        if not token and self.single_tenant_token:
+            token = self.single_tenant_token
         if not self.base_url:
             raise NileConfigError("Nile's URL is missing")
         if endpoint[0] != "/":
@@ -173,7 +176,7 @@ class NileClient(object):
         self._send(method="POST",endpoint="/users",payload=payload)
 
 
-    def login(self, email, password):
+    def login(self, email, password, single_tenant = False):
         '''
             Authenticate a user returning an authentication token that should be stored in a session cookie.
             This library will store a list of all tokens currently authenticated and Nile user data associated with them for quick reference (AKA, cache).
@@ -198,6 +201,8 @@ class NileClient(object):
         token = data['token']
         try:
             self.get_user(token) # this loads the user details from Nile and generates an active session for the token
+            if single_tenant:
+                self.single_tenant_token=token
             return token
         except jwt.exceptions.InvalidTokenError as ite:
             raise TokenValidationError(ite)
@@ -267,6 +272,8 @@ class NileClient(object):
             return []
 
     def get_current_org(self, token):
+        if not token and self.single_tenant_token:
+            token = self.single_tenant_token
         user = self.active_users.get(token)
         if user:
             return user.current_org_id
@@ -281,8 +288,7 @@ class NileClient(object):
 # Invites
 ####################
 
-    def get_invites(self, token, just_current_user=True):
-        #TODO: Org filter in Nile is currently a bit buggy, so I'm filtering here
+    def get_invites(self, token = None, just_current_user=True):
         curr_org = self.get_current_org(token)
         user = self.get_user(token).id
         invites = self._send("GET",f"/orgs/{curr_org}/invites",token=token)
@@ -290,7 +296,7 @@ class NileClient(object):
 
         return maybe_filter_users
 
-    def accept_invite(self, invite_code, token):
+    def accept_invite(self, invite_code, token=None):
         try:
             self._send("POST",f"/invites/{invite_code}/accept", token=token)
         except NileError as ne:
@@ -327,7 +333,7 @@ class NileClient(object):
     '''
         This returns all instances of entity that belong to the current org
     '''
-    def get_instances(self, entity, token, with_envelope=True) -> Array:
+    def get_instances(self, entity, token=None, with_envelope=True) -> Array:
         org_id = self.get_current_org(token)
         if org_id is None:
             return []
@@ -342,7 +348,7 @@ class NileClient(object):
                 res.append(flat)
             return res
 
-    def get_instance(self, entity, id, token, with_envelope=True):
+    def get_instance(self, entity, id, token=None, with_envelope=True):
         org_id = self.get_current_org(token)
         if org_id is None:
             return None
@@ -355,7 +361,7 @@ class NileClient(object):
             flat['id'] = data['id']
             return flat
 
-    def create_instance(self, entity, instance, token):
+    def create_instance(self, entity, instance, token=None):
         org_id = self.get_current_org(token)
         now = str(datetime.now())
         instance['system'] = {}
@@ -366,7 +372,7 @@ class NileClient(object):
         if org_id:
             self._send("POST", f"/orgs/{org_id}/instances/{entity}", payload=instance, token=token)
 
-    def update_instance(self, entity, id, instance, token):
+    def update_instance(self, entity, id, instance, token=None):
         instance['system']['updated'] = str(datetime.now())
         instance['system']['event']   = "updated"
         org_id = self.get_current_org(token)
@@ -375,7 +381,7 @@ class NileClient(object):
             formatted = {"properties": instance}
             self._send("PUT", f"/orgs/{org_id}/instances/{entity}/{id}", payload=formatted, token=token)
 
-    def delete_instance(self, entity, id, token, soft_delete=True):
+    def delete_instance(self, entity, id, token=None, soft_delete=True):
         org_id = self.get_current_org(token)
         assert org_id, "No active session for the access token used. Re-authenticate and try again."
         if soft_delete:

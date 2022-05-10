@@ -9,7 +9,7 @@ class EventHandler:
         self.entity = entity
         self.event_type = type
 
-    def handle(self, handler, token): # temporary, this will register handlers and run a background loop to grab events and handle them
+    def handle(self, handler, token=None): # temporary, this will register handlers and run a background loop to grab events and handle them
         instances = self.nile_client.get_instances(self.entity, token)
 
         for instance in instances:
