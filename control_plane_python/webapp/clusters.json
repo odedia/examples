@@ -1,0 +1,22 @@
+{
+    "name": "clusters",
+    "schema": {
+      "type": "object",
+      "properties": {
+          "system" : {
+            "creator": {"type": "string"},
+            "created": {"type": "string"},
+            "updated": {"type": "string"},
+            "event":  {
+              "type": "string",
+              "enum": ["created", "updated", "deleted", "soft-deleted"]
+            }
+          },
+          "cluster_name": {"type": "string"},
+          "status": {"type": "string"},
+          "ARN": {"type": "string"},
+          "Endpoint": {"type": "string"}
+       },   
+       "required": ["cluster_name"]
+    }
+  }
