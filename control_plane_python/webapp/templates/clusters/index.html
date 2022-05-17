@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Welcome to our MySQL Control Plane{% endblock %}</h1>
+  <h1>{% block title %}Clustify - MySQL Clusters as a Service{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -12,58 +12,30 @@
     }
   </script>
 
-  {% if orgs|length > 1 %}
-  <form method="POST">
-    <label for="select_org">Select Organization:</label>
-      <select name="select_org" id="select_org">
-        {% for org in orgs %}
-          <option value="{{ org['id'] }}" {% if org['id']|string == current_org %} selected="selected"{% endif %}>{{ org['name'] }}</option>
-        {% endfor %}
-      </select>
-      <input type="submit" value="Switch Organization">
-  </form>
+  {% if clusters|length > 0 %}
+  <a href="{{ url_for('clusters.create') }}" class="bigfakebtn" style="width:auto; float: right;" value="Create cluster"> Create cluster</a>
+  <clusters>
+   {% for cluster in clusters %}
+   <clusterbox>
+     <clusterheader>
+      <h4>{{ cluster['properties']['cluster_name'] }}</h4>
+      {{ cluster['properties']['status'] }}
+     </clusterheader>
+     <clusterdetails>
+        <detail><listkey>Last updated:</listkey> <listval>{{ cluster['properties']['system']['updated'] }}</listval></detail>
+        <detail><listkey>Last event:</listkey> <listval>{{ cluster['properties']['system']['event'] }}</listval></detail>
+        <detail><listkey>ARN:</listkey> <listval>{{ cluster['properties']['ARN'] }}</listval></detail>
+        <detail><listkey>Endpoint:</listkey> <listval>{{ cluster['properties']['Endpoint'] }}</listval></detail>
+     </clusterdetails>
+    </clusterbox>
+   {% endfor %}
+  </clusters>
   {% else %}
-    <p></p>
-    You are currently working in organization: {{ orgs[0]['name'] }}
-    <p></p>
+  <a href="{{ url_for('clusters.create') }}" class="bigfakebtn" value="Create cluster"> Create cluster</a>
   {% endif %}
 
-  Invite a coworker to manage clusters: 
-  <a href="#" onclick="javascript:copyText('{{ url_for('auth.invite', invite_code=code, _external=True)|safe }}');"> click to copy invite link to clipboard</a>
-  <p></p>
-  <header>
-  <h1>MySQL Clusters</h1>
-  <a class="action" href="{{ url_for('clusters.create') }}">New</a>
-  </header>
-
-  <table>
-      <!--id, task_name, status, created, due_date-->
-  <tr>
-      <th>updated</th>
-      <th>last_event</th>
-      <th>cluster name</th>
-      <th>status</th>
-      <th>ARN</th>
-      <th>endpoint</th>
-      <th>delete</th>
-  </tr>
-    {% for cluster in clusters %}
-    <tr>
-        <td>{{ cluster['properties']['system']['updated'] }}</td>
-        <td>{{ cluster['properties']['system']['event'] }}</td>
-        <td>{{ cluster['properties']['cluster_name'] }}</td>
-        <td>{{ cluster['properties']['status'] }}</td>
-        <td>{{ cluster['properties']['ARN'] }}</td>
-        <td>{{ cluster['properties']['Endpoint'] }}</td>
-        <td>   <form action="{{ url_for('clusters.delete', id=cluster['id']) }}" method="post">
-          <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
 {% else %}
-  <p></p>
-  <a href="{{ url_for('auth.signup') }}">Register</a> or <a href="{{ url_for('auth.login') }}">Log In</a> to start managing MySQL Clusters.
+<a href="{{ url_for('auth.signup') }}" class="bigfakebtn">Signup</a>
+<a href="{{ url_for('auth.login') }}" class="bigfakebtn">Login</a>
 {% endif %}
 {% endblock %}

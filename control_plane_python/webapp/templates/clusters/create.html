@@ -7,8 +7,8 @@
 {% block content %}
   <form method="post">
     <label for="cluster_name">Cluster Name</label>
-    <input name="cluster_name" id="cluster_name" value="{{ request.form['cluster_name'] }}" required>
+    <input name="cluster_name" id="cluster_name" class="inputtext" value="{{ request.form['cluster_name'] }}" required>
 
-    <input type="submit" value="Save">
+    <input type="submit" value="Save" class="signuppost">
   </form>
 {% endblock %}

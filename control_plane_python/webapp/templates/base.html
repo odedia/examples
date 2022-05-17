@@ -1,18 +1,36 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Clusters List</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<script>
+/* Set the width of the side navigation to 250px */
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 <nav>
-  <h1>Clusters List</h1>
-  <ul>
-    {% if g.user %}
-      <li><span>{{ g.user.email }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.signup') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
+  <img src={{ url_for('static', filename='logo4.png') }} style="object-fit:contain; max-width:100%;
+  max-height:100%;"><h1>Clustify</h1>
+  {% if g.user %}
+  <input type="image" src={{ url_for('static', filename='hamburger3.png')}}  style="max-width: 56px;" onclick="openNav()">
+  {% endif %}
 </nav>
+{% if g.user %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">🧑 {{ g.user.email }}</a>
+  <a href="#">📂 {{ g.user.orgs[0]['name'] }}</a>
+  <a href="#" onclick="javascript:copyText('{{ url_for('auth.invite', invite_code=code, _external=True)|safe }}');"> 💙 Copy invite link </a>
+  <a href="{{ url_for('auth.logout') }}">👋 Log out</a>
+</div>
+{% endif %}
 <section class="content">
   <header>
     {% block header %}{% endblock %}

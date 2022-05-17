@@ -1,31 +1,108 @@
-:root {
-  /* Set sans-serif & mono fonts */
-  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
-    "Nimbus Sans L", Roboto, Noto, "Segoe UI", Arial, Helvetica,
-    "Helvetica Neue", sans-serif;
+html { background: white; }
+body { background: white; margin: 0}
+h1 { 
+  font-family: 'Roboto', sans-serif; 
+  color: #377ba8; 
+  font-weight: 300;
+  font-size: 2rem;
 }
-
-html { font-family: var(--sans-font); background: #eee; padding: 1rem; }
-body { max-width: 960px; margin: 0 auto; background: white; }
-h1 { font-family: var(--sans-font); color: #377ba8; margin: 1rem 0; }
 a { color: #377ba8; }
-hr { border: none; border-top: 1px solid lightgray; }
-nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
-nav h1 { flex: auto; margin: 0; }
-nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; }
+nav { 
+  background: #0e0b45; 
+  display: flex; 
+  align-items: center; 
+  padding: 1rem; 
+  height: 56px;
+  z-index: 2000; /* higher than the rest? */
+  position: relative;}
+nav h1 { 
+  flex: auto; 
+  margin: 0;  
+  font-size: 3rem;
+  padding: 0 0.8rem; }
+
+nav h1 { text-decoration: none; padding: 0.25rem 0.5rem; font-family: 'Roboto', sans-serif; font-weight: 300; font-size: 2rem}
 nav ul  { display: flex; list-style: none; margin: 0; padding: 0; }
 nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
-.content { padding: 0 1rem 1rem; }
-.content > header { border-bottom: 1px solid lightgray; display: flex; align-items: flex-end; }
-.content > header h1 { flex: auto; margin: 1rem 0 0.25rem 0; }
-.flash { margin: 1em 0; padding: 1em; background: #cae6f6; border: 1px solid #377ba8; }
+.content { 
+  padding: 0 1rem 1rem; 
+  display: flex; 
+  margin: auto; 
+  max-width: 960px;
+  flex-direction: column;}
+.content > header { display: flex; align-items: center; }
+.content > header h1 { 
+  flex: auto; margin: 2rem 0 1rem 0; font-family: 'Roboto', sans-serif; font-weight: 300; font-size: 2rem;
+}
+.content > h2 { font-family: 'Roboto', sans-serif; font-weight: 300; font-size: 1.5rem; margin: 0;}
+.flash { background: #cae6f6; border: 1px solid #377ba8; width: 60%;
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 300;
+  font-size: 1rem;
+  padding: 1rem 0 1rem 1rem;
+}
 .content:last-child { margin-bottom: 0; }
-.content form { margin: 1em 0; display: flex; flex-direction: column; }
-.content label { font-weight: bold; margin-bottom: 0.5em; }
-.content input, .content textarea { margin-bottom: 1em; }
+.content form { 
+  display: flex; 
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 300;
+  font-size: 1rem;
+  flex-direction: column; 
+  min-width: 400px;
+  margin: 0;
+}
+
+.content label {     
+  flex: 1;
+  margin: 1rem 0 0.4rem 0;
+  width: 100%; 
+}
+.inputtext
+{
+  font-size: 14px;
+  padding: 0.8rem 0;
+  border: 1px solid #807f7f;
+  border-radius: 4px;
+  width: 60%;
+  box-shadow: 0 3px 3px #ddd;
+}
+
 .content textarea { min-height: 12em; resize: vertical; }
 input.danger { color: #cc2f2e; }
-input[type=submit] { align-self: start; min-width: 10em; }
+
+.bigfakebtn {
+  width: 60%;
+  float: left;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  box-shadow: 0 3px 3px #ddd;
+  background: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 0.8rem;
+  margin: 1rem;
+  text-decoration: none
+}
+
+.signuppost {
+  min-width: 64px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  padding: 0.8rem 1.8rem;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 3px 3px #ddd;
+  margin-top: 1rem;
+  width: 60%;
+}
+
+.content input, .content textarea {
+    margin-bottom: 1em;
+}
+
 table {
     color: #333;
     background: white;
@@ -52,4 +129,124 @@ table {
   }
   [data-table-theme*=zebra][data-table-theme*=dark] tbody tr:nth-of-type(odd) {
     background: rgba(255,255,255,.05);
+  }
+
+  .sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* should be below nav */
+    top: 4.3rem; /* leave room for nav */
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px #ccc;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #aaa;
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 300;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  .text {
+    padding: 1rem 0;
+    text-decoration: none;
+    font-size: 20px;
+    color: #777;
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 300;
+    display: block;
+    transition: 0.3s;
+  }
+
+  clusters {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+  }
+
+  clusterbox {
+    width: 60%;
+    max-width: 400px;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    box-shadow: 0 3px 3px #ddd;
+    background: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 0.8rem;
+    margin: 1rem;
+    text-decoration: none
+  }
+
+  clusterheader {
+    border: none;
+    background: #c0e0eb;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+    padding: 1rem;
+  }
+
+  clusterheader h4 {
+    font-size: 1.8rem;
+    margin: 0.4rem
+  }
+
+  clusterdetails {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-decoration: none;
+    margin: 0.4rem
+  }
+
+  detail {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    border:#333;
+    margin: 0.4rem;
+    font-size: 1rem;
+  }
+
+  listkey {
+    display: flex;
+    margin-right: 1rem;
+    min-width: 40%;
+  }
+
+  listval {
+    display: flex;
   }
