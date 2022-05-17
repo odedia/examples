@@ -16,8 +16,16 @@
   <a href="{{ url_for('clusters.create') }}" class="bigfakebtn" style="width:auto; float: right;" value="Create cluster"> Create cluster</a>
   <clusters>
    {% for cluster in clusters %}
-   <clusterbox>
-     <clusterheader>
+   {% if cluster['properties']['system']['event'] == 'soft-deleted' %}
+   <clusterbox style="background:#ccc;">
+  {% else %}
+  <clusterbox>
+  {% endif %}
+  {% if cluster['properties']['system']['event'] == 'soft-deleted' %}
+  <clusterheader style="background:#aaa;">
+ {% else %}
+ <clusterheader>
+ {% endif %}
       <h4>{{ cluster['properties']['cluster_name'] }}</h4>
       {{ cluster['properties']['status'] }}
      </clusterheader>
@@ -26,6 +34,9 @@
         <detail><listkey>Last event:</listkey> <listval>{{ cluster['properties']['system']['event'] }}</listval></detail>
         <detail><listkey>ARN:</listkey> <listval>{{ cluster['properties']['ARN'] }}</listval></detail>
         <detail><listkey>Endpoint:</listkey> <listval>{{ cluster['properties']['Endpoint'] }}</listval></detail>
+        <form action="{{ url_for('clusters.delete', id=cluster['id']) }}" method="post">
+          <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+        </form>
      </clusterdetails>
     </clusterbox>
    {% endfor %}
