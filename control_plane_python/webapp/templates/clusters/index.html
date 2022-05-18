@@ -34,9 +34,11 @@
         <detail><listkey>Last event:</listkey> <listval>{{ cluster['properties']['system']['event'] }}</listval></detail>
         <detail><listkey>ARN:</listkey> <listval>{{ cluster['properties']['ARN'] }}</listval></detail>
         <detail><listkey>Endpoint:</listkey> <listval>{{ cluster['properties']['Endpoint'] }}</listval></detail>
+        {% if cluster['properties']['system']['event'] != 'soft-deleted' %}
         <form action="{{ url_for('clusters.delete', id=cluster['id']) }}" method="post">
           <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
         </form>
+        {% endif %}
      </clusterdetails>
     </clusterbox>
    {% endfor %}
