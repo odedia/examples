@@ -1,11 +1,12 @@
-import Nile, { Entity, Organization} from "@theniledev/js";
+import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
+import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
 
-const iteration_id = "7" // to allow running this script repeatedly
+const iteration_id = "11" // to allow running this script repeatedly
 
 
-const NILE_URL = "http://prod.thenile.dev:8080"
+const NILE_URL = "https://prod.thenile.dev"
 const NILE_WORKSPACE = "clustify" + iteration_id
-const NILE_DEVELOPER_EMAIL = `gwen${iteration_id}@test.org`
+const NILE_DEVELOPER_EMAIL = `chris${iteration_id}@clustify.com`
 const NILE_DEVELOPER_PASSWORD = "foobar"
 
 const nile = Nile({
@@ -13,7 +14,7 @@ const nile = Nile({
   workspace: NILE_WORKSPACE,
 });
 
-const entityDef: Entity = {
+const entityDefinition: CreateEntityRequest = {
     "name": "clusters",
     "schema": {
       "type": "object",
@@ -25,7 +26,7 @@ const entityDef: Entity = {
       },
       "required": ["cluster_name"]
     }
-};
+  };
 
 async function quickstart() {
 
@@ -34,7 +35,13 @@ async function quickstart() {
       email : NILE_DEVELOPER_EMAIL,
       password : NILE_DEVELOPER_PASSWORD,
     }
-  }).catch((error:any) => console.error(error.message))
+  }).catch((error:any) => {
+    if (error.message == "user already exists") {
+      console.log("Developer already exists")
+    } else {
+      console.error(error)
+    }
+  })
 
   await nile.developers.loginDeveloper({
     loginInfo: {
@@ -47,7 +54,7 @@ async function quickstart() {
   });
 
   nile.authToken = nile.developers.authToken;
-  console.log("Successfully logged into nile!")
+  console.log("Successfully logged into nile! " + nile.authToken)
 
   // check if workspace exists, create if not
   var myWorkspaces = await nile.workspaces.listWorkspaces()
@@ -61,11 +68,11 @@ async function quickstart() {
 
   // check if entity exists, create if not
  var myEntities =  await nile.entities.listEntities()
- if (myEntities.find( ws => ws.name==entityDef.name)) { 
-      console.log("Entity " + entityDef.name + " exists");
+ if (myEntities.find( ws => ws.name==entityDefinition.name)) { 
+      console.log("Entity " + entityDefinition.name + " exists");
   } else {
       await nile.entities.createEntity({
-        entity : entityDef
+        createEntityRequest: entityDefinition
       }).then((data) => 
       {
         console.log('API called successfully. Returned data: ' + JSON.stringify(data, null, 2));
@@ -110,7 +117,7 @@ async function quickstart() {
   var myOrgs = await nile.organizations.listOrganizations()
   var maybeTenant = myOrgs.find( org => org.name == NILE_TENANT_NAME)
   if (maybeTenant) {
-    console.log("Org " + NILE_TENANT_NAME + " exists")
+    console.log("Org " + NILE_TENANT_NAME + " exists with id " + maybeTenant.id)
     tenant_id = maybeTenant.id
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" : 
@@ -132,20 +139,27 @@ if (!tenant_id) {
   // create cluster
   await nile.entities.createInstance({
     org : tenant_id,
-    type : entityDef.name,
+    type : entityDefinition.name,
     body : {
       cluster_name : "MyFirstCluster"
     }
   }).then((cluster) => console.log ("cluster was created: " + JSON.stringify(cluster, null, 2)))
 
   // list clusters
-  nile.entities.listInstances({
+  await nile.entities.listInstances({
     org: tenant_id,
-    type: entityDef.name
+    type: entityDefinition.name
   }).then((clusters) => {
     console.log("You have the following clusters:")
     console.log(clusters)
   })
+
+// handle all past events
+console.log('Printing past events and on-going ones.')
+console.log('Create or update clusters to see more events. Ctrl-c to exit')
+nile.events.on({type: entityDefinition.name, seq: 0},
+  async(e) => console.log(JSON.stringify(e, null, 2)))
 }
 
 quickstart()
+

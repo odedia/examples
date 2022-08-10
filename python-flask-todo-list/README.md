@@ -28,6 +28,7 @@ git clone https://github.com/TheNileDev/examples
 cd examples/python-flask-todo-list
 
 # Install Flask and few other dependencies (they are captured in requirements.txt). venv is recommended but not mandatory
+python3 -m venv venv
 . venv/bin/activate 
 pip install Flask
 pip install PyJWT
