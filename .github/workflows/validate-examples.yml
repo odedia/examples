@@ -8,7 +8,7 @@ env:
 
 jobs:
 
-  nodejs_quickstart:
+  multi-tenancy:
 
     runs-on: ubuntu-latest
 
@@ -26,15 +26,15 @@ jobs:
           node-version: 18
 
       - name: yarn install
-        working-directory: nodejs_quickstart
+        working-directory: multi-tenancy
         run: yarn install --no-lockfile
 
       - name: yarn setup
-        working-directory: nodejs_quickstart
+        working-directory: multi-tenancy
         run: |
           timeout 15s yarn setup \
           || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
       - name: yarn test-setup
-        working-directory: nodejs_quickstart
+        working-directory: multi-tenancy
         run: yarn test-setup

@@ -1,10 +1,10 @@
-# examples
-Example and demos that show how to use Nile in various languages, environments and use-cases
+# Nile Examples
 
-Each directory contains an individual example or demo. Check the README in each directory to learn more about each example:
+These examples demonstrate how to use Nile for various use cases.
+Each one can be run independently, but we recommend running them sequentially in the following order to build up your service as you go:
 
-| Example | Local | Docker | Description |
-|---------|-------|--------|-------------|
-| [Minimal Quickstart](nodejs_quickstart/) | Y |  N | A minimal example of using some of the core Nile APIs |
-| [Data Plane with Pulumi](data-plane/pulumi/) | Y | N | This example demonstrates how to synchronize your data plane and control plane in real time with Nile events. |
-| [Python + Flask Todo List Webapp](python-flask-todo-list/) | Y | Y |  Taking a basic Todo List webapp written in Python and Flask and turning it to a PLG SaaS product with Nile APIs |
+1. [Multi-tenancy](multi-tenancy): setup your Nile control plane with multiple tenants and users in each organization
+2. [Data Plane with Pulumi](data-plane/pulumi/): synchronize your data plane and control plane in real time with Nile events
+3. Authorization: _coming soon_
+4. Metrics: _coming soon_
+5. Webapp: _coming soon_
