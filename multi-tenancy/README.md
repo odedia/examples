@@ -21,18 +21,33 @@ warning No license field
 [2/4] 🚚  Fetching packages...
 [3/4] 🔗  Linking dependencies...
 [4/4] 🔨  Building fresh packages...
-✨  Done in 2.58s.
+✨  Done in 2.26s.
 ```
+
+## Setup
+
+For future steps, it will be helpful to have a local file with your Nile configuration.
+For that purpose, in this example, you will create a `.env` file with environment variables.
+Copy the `.env.defaults` file to `.env`:
+
+```bash
+cp .env.defaults .env
+```
+
+Set the values in this `.env` file to match the values you want in your control plane.
+
 
 ## Execute
 
 The quickstart workflow creates your control plane and data plane in Nile:
 
 - Sign up a new developer
-- Create a workspace
-- Create an entity
-- Create an organization and tenant
-- Create an instance of an entity in the organization
+- Create a workspace, which must be globally unique
+- Create an entity called `SkyNet`
+- Create two organizations with one user each:
+  - `sac-norad` with user nora1@demo.io
+  - `sac-norad2` with user nora2@demo.io
+- Create a `SkyNet` entity instance in each organization
 
 To execute the above workflow, run the following command:
 
@@ -42,7 +57,7 @@ yarn start
 
 ## Validate
 
-To validate that the quickstart, run the following command to find the new instance of the entity:
+Run the following command to find the new entity instance:
 
 ```
 yarn test-setup
