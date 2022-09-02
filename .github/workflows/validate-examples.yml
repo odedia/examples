@@ -2,10 +2,6 @@ name: examples
 
 on: [push]
 
-env:
-  NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
-  NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
-
 jobs:
 
   multi-tenancy:
@@ -25,8 +21,8 @@ jobs:
         with:
           envkey_NILE_URL: https://prod.thenile.dev:443
           envkey_NILE_WORKSPACE: demo-test-dw
-          envkey_NILE_DEVELOPER_EMAIL: ${NILE_DEVELOPER_EMAIL}
-          envkey_NILE_DEVELOPER_PASSWORD: ${NILE_DEVELOPER_PASSWORD}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
           envkey_NILE_ORGANIZATION_NAME: sac-norad
           envkey_NILE_ENTITY_NAME: SkyNet
           directory: multi-tenancy
