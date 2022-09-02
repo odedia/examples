@@ -1,8 +1,6 @@
 import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
 import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
 
-import Reconcile from "./commands/reconcile/index"
-
 import * as dotenv from "dotenv";
 
 dotenv.config({ override: true })
@@ -30,8 +28,8 @@ const NILE_ORGANIZATION_NAME = process.env.NILE_ORGANIZATION_NAME!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 
 // Static
-const NILE_TENANT1_EMAIL = "nora@demo.io";
-const NILE_TENANT2_EMAIL = 'lisa@demo.io';
+const NILE_TENANT1_EMAIL = "nora1@demo.io";
+const NILE_TENANT2_EMAIL = "nora2@demo.io";
 const NILE_TENANT_PASSWORD = 'password';
 
 const nile = Nile({
@@ -53,40 +51,9 @@ const entityDefinition: CreateEntityRequest = {
 
 var colors = require('colors');
 
-//const getOrgIDFromOrgName = async (
-    //orgName: String): Promise< string | null > => {
-    //this.log(
-      //`Looking up the organization ID from the organization name #${orgName}`
-    //);
-//
-    //// Check if organization exists
-    //var myOrgs = await this.nile.organizations.listOrganizations()
-    //var maybeOrg = myOrgs.find( org => org.name == orgName)
-    //if (maybeOrg) {
-      //return maybeOrg.id
-    //} else {
-      //return null
-    //}
-//}
-
-// Setup the Control Plane
 async function run() {
 
   console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`)
-
-  // Signup developer
-  await nile.developers.createDeveloper({
-    createUserRequest : {
-      email : NILE_DEVELOPER_EMAIL,
-      password : NILE_DEVELOPER_PASSWORD,
-    }
-  }).catch((error:any) => {
-    if (error.message == "user already exists") {
-      console.log(`Developer ${NILE_DEVELOPER_EMAIL} already exists`)
-    } else {
-      console.error(error)
-    }
-  })
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -123,51 +90,31 @@ async function run() {
     console.log("Organization with name " + NILE_ORGANIZATION_NAME + " exists with id " + orgID)
   }
 
-  const body = {
-     org: orgID,
-   };
-   nile.authz
-     .listRules(body)
-     .then((data) => {
-       console.log("API called successfully. Returned data: " + data);
-     })
-     .catch((error: any) => console.error(error));
+ // List instances of the service
+  await nile.entities.listInstances({
+    org: orgID,
+    type: NILE_ENTITY_NAME,
+  }).then((dws) => {
+    console.log("DEVELOPER: The following instances exist:")
+    console.log(dws)
+  }).catch((error: any) => console.error(error));
 
-  // Check if tenant exists, create if not
-  var myUsers = await nile.users.listUsers()
-  if (myUsers.find( usr => usr.email==NILE_TENANT1_EMAIL)) {
-      console.log("User " + NILE_TENANT1_EMAIL + " exists")
-  } else {
-    await nile.users.createUser({
-      createUserRequest : {
-        email : NILE_TENANT1_EMAIL,
-        password : NILE_TENANT_PASSWORD
-      }
-    }).then ( (usr) => {
-      if (usr != null)
-        console.log(colors.green("\u2713"), "Created User: " + usr.email)
-    })
-  }
+  // Login tenant
+  await nile.users.loginUser({
+    loginInfo: {
+      email: NILE_TENANT1_EMAIL,
+      password: NILE_TENANT_PASSWORD
+    }
+  })
 
-  var myUsers = await nile.users.listUsers()
-  if (myUsers.find( usr => usr.email==NILE_TENANT1_EMAIL)) {
-      console.log("User " + NILE_TENANT2_EMAIL + " exists")
-  } else {
-    await nile.users.createUser({
-      createUserRequest : {
-        email : NILE_TENANT2_EMAIL,
-        password : NILE_TENANT_PASSWORD
-      }
-    }).then ( (usr) => {
-      if (usr != null)
-        console.log(colors.green("\u2713"), "Created User: " + usr.email)
-    })
-  }
+  nile.authToken = nile.users.authToken
+  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
+
 
    const body = {
       org: orgID,
       createRuleRequest: {
-        actions: ["deny"],
+        actions: "deny",
         resource: {
           type: NILE_ENTITY_NAME,
         },
@@ -179,12 +126,25 @@ async function run() {
     nile.authz
       .createRule(body)
       .then((data) => {
-        console.log("Created rule to deny tenant1 from entity.  Returned data: " + data);
+        console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + data);
       })
       .catch((error: any) => console.error(error));
 
-   // Above should create a rule that prevents tenant1 from _doing what_?
-   // Validate it below.
+  const body = {
+     org: orgID,
+   };
+   nile.authz
+     .listRules(body)
+      .then((data) => {
+        console.log("API called successfully. Returned data: " + data);
+        for (let i = 0; i < data.length; i++) {
+          const rule = data[i];
+          if (rule) {
+            console.log(" --> rule: " + JSON.stringify(rule, null, 2));
+          }
+        };
+      })
+     .catch((error: any) => console.error(error));
 
 
   console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`)
@@ -199,6 +159,25 @@ async function run() {
 
   nile.authToken = nile.users.authToken
   console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
+
+  // Create an instance of the service in the data plane
+  await nile.entities.createInstance({
+    org : orgID,
+    type : NILE_ENTITY_NAME,
+    body : {
+      greeting : `Test greeting 4`
+    }
+  }).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
+
+  // List instances of the service
+  await nile.entities.listInstances({
+    org: orgID,
+    type: NILE_ENTITY_NAME,
+  }).then((dws) => {
+    console.log("TENANT: The following instances exist:")
+    console.log(dws)
+  }).catch((error: any) => console.error(error));
+
 
 }
 
