@@ -187,7 +187,7 @@ async function run() {
    };
    console.log(`Creating rule with body ${body}`);
    console.log(JSON.stringify(body, null, 2));
-   nile.authz
+   await nile.authz
      .createRule(body)
      .then((data) => {
        console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
@@ -198,7 +198,7 @@ async function run() {
   const body = {
      org: orgID,
    };
-   nile.authz
+   await nile.authz
      .listRules(body)
       .then((data) => {
         console.log("Listed rules: ");
