@@ -1,6 +1,6 @@
-# Multi-tenancy
+# Quickstart
 
-This example sets up a Nile control plane with multi-tenancy.
+This quickstart sets up a Nile control plan
 It uses the Nile SDK available at https://github.com/TheNileDev/nile-js
 
 ## Install Dependencies
@@ -44,10 +44,9 @@ The quickstart workflow creates your control plane and data plane in Nile:
 - Sign up a new developer
 - Create a workspace, which must be globally unique
 - Create an entity called `SkyNet`
-- Create two organizations with one user each:
+- Create an organization with a user:
   - `sac-norad` with user nora1@demo.io
-  - `sac-norad2` with user nora2@demo.io
-- Create a `SkyNet` entity instance in each organization
+- Create a `SkyNet` entity instance in the organization
 
 To execute the above workflow, run the following command:
 

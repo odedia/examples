@@ -13,7 +13,6 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "prestart": "yarn --cwd ../quickstart/ install && yarn --cwd ../quickstart/ start",
     "start": "ts-node src/index.ts",
     "poststart": "ts-node src/find-instance.ts"
   }
