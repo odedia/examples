@@ -16,7 +16,7 @@ _Note any breaking changes_
 _Describe the validation already done, or needs to be done, by the PR submitter._
 
 <!-- Uncomment any of the following that are required -->
-<!-- - [ ] nodejs_quickstart -->
+<!-- - [ ] multi-tenancy -->
 <!-- - [ ] data-plane/pulumi -->
 <!-- - [ ] python-flask-todo-list -->
 
@@ -25,7 +25,7 @@ _Describe the validation already done, or needs to be done, by the PR submitter.
 _Describe the tasks/validation that the PR submitter is requesting to be done by the reviewer._
 
 <!-- Uncomment any of the following that are required -->
-<!-- - [ ] nodejs_quickstart -->
+<!-- - [ ] multi-tenancy -->
 <!-- - [ ] data-plane/pulumi -->
 <!-- - [ ] python-flask-todo-list -->
 

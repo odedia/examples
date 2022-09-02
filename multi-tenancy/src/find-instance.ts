@@ -36,6 +36,10 @@ const nile = Nile({
   workspace: NILE_WORKSPACE,
 });
 
+var colors = require('colors');
+
+
+
 async function run() {
 
   console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`)
