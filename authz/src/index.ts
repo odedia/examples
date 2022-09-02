@@ -128,6 +128,23 @@ async function run() {
     console.log("Organization with name " + NILE_ORGANIZATION_NAME + " exists with id " + orgID)
   }
 
+  // List rules
+  const body = {
+     org: orgID,
+   };
+   nile.authz
+     .listRules(body)
+      .then((data) => {
+        console.log("Listed rules: " + data);
+        for (let i = 0; i < data.length; i++) {
+          const rule = data[i];
+          if (rule) {
+            console.log(" --> rule: " + JSON.stringify(rule, null, 2));
+          }
+        };
+      })
+     .catch((error: any) => console.error(error));
+
  // List instances of the service
   await nile.entities.listInstances({
     org: orgID,
@@ -158,7 +175,7 @@ async function run() {
   const body = {
      org: orgID,
      createRuleRequest: {
-       actions: "deny",
+       actions: ["deny"],
        resource: {
          type: NILE_ENTITY_NAME,
        },
@@ -170,7 +187,7 @@ async function run() {
    nile.authz
      .createRule(body)
      .then((data) => {
-       console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + data);
+       console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
      })
      .catch((error: any) => console.error(error));
 
@@ -181,7 +198,7 @@ async function run() {
    nile.authz
      .listRules(body)
       .then((data) => {
-        console.log("Listed rules: " + data);
+        console.log("Listed rules: ");
         for (let i = 0; i < data.length; i++) {
           const rule = data[i];
           if (rule) {
