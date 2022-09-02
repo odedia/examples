@@ -37,21 +37,15 @@ The quickstart workflow creates your control plane and data plane in Nile:
 To execute the above workflow, run the following command:
 
 ```
-yarn setup
-```
-
-To run it repeatedly with new entries, pass in a unique parameter that will be the suffix:
-
-```
-yarn setup 2
+yarn start
 ```
 
 ## Validate
 
-To validate that the quickstart worked when you ran `yarn setup`, run the following command to find the new instance of the entity:
+To validate that the quickstart, run the following command to find the new instance of the entity:
 
 ```
 yarn test-setup
 ```
 
-Then log into the [Nile Admin Dashboard](https://nad.thenile.dev/) (default username/password: dev-mary@dw.demo/password) to see the control plane and data plane instances. 
+Then log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and data plane instances. 
