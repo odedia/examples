@@ -5,13 +5,12 @@
 ## Overview
 
 These examples demonstrate how to use Nile to build a control plane for an Infrastructure SaaS product.
+Each one is automated using the [Nile SDK](https://github.com/TheNileDev/nile-js).
 
 ## Instructions
 
-Each example is automated using the [Nile SDK](https://github.com/TheNileDev/nile-js).
-
-You can run them independently, but they also can be run sequentionally to build on top of one another.
-We recommend running them in the following order to build up your SaaS as you go:
+You can run the examples independently, but they can also be run sequentionally to build on top of one another.
+We recommend running these in the following order to build up your SaaS as you go:
 
 0. [Quickstart](quickstart): setup a minimal Nile control plane with a single tenant.
 1. [Multi-tenancy](multi-tenancy): setup the Nile control plane with multiple tenants and users.
