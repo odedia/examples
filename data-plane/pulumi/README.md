@@ -182,13 +182,13 @@ source .env
 3. Run the following reconciler executable:
 
 ```bash
- ./bin/dev reconcile --basePath $NILE_URL \
- --workspace $NILE_WORKSPACE \
- --entity $NILE_ENTITY_NAME \
- --organizationName $NILE_ORGANIZATION_NAME \
- --email $NILE_DEVELOPER_EMAIL \
- --password $NILE_DEVELOPER_PASSWORD
- ```
+./bin/dev reconcile --basePath $NILE_URL \
+  --workspace $NILE_WORKSPACE \
+  --entity $NILE_ENTITY_NAME \
+  --organizationName $NILE_ORGANIZATION_NAME \
+  --email $NILE_DEVELOPER_EMAIL \
+  --password $NILE_DEVELOPER_PASSWORD
+```
 
 ### Docker
 
