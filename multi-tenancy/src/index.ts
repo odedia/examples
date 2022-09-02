@@ -1,9 +1,8 @@
-import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
-import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
+import Nile, { CreateEntityRequest } from "@theniledev/js";
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
-dotenv.config({ override: true })
+dotenv.config({ override: true });
 
 let envParams = [
   "NILE_URL",
@@ -38,23 +37,22 @@ const nile = Nile({
 
 // Schema for the entity that defines the service in the data plane
 const entityDefinition: CreateEntityRequest = {
-    "name": NILE_ENTITY_NAME,
-    "schema": {
-      "type": "object",
-      "properties": {
-        "greeting": { "type": "string" }
-      },
-      "required": ["greeting"]
-    }
+  "name": NILE_ENTITY_NAME,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "greeting": { "type": "string" }
+    },
+    "required": ["greeting"]
+  }
 };
 
 var colors = require('colors');
 
-
 // Setup one tenant
 async function setup_tenant(tenant_email : string, organizationName : string) {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to configure tenant ${tenant_email} for organizationName ${organizationName}`)
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to configure tenant ${tenant_email} for organizationName ${organizationName}`);
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -69,12 +67,12 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
 
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
-  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
 
   // Check if tenant exists, create if not
   var myUsers = await nile.users.listUsers()
   if (myUsers.find( usr => usr.email==tenant_email)) {
-      console.log(colors.green("\u2713"), "User " + tenant_email + " exists")
+      console.log(colors.green("\u2713"), "User " + tenant_email + " exists");
   } else {
     await nile.users.createUser({
       createUserRequest : {
@@ -83,26 +81,26 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
       }
     }).then ( (usr) => {  
       if (usr != null) 
-        console.log(colors.green("\u2713"), "Created User: " + usr.email)
+        console.log(colors.green("\u2713"), "Created User: " + usr.email);
     })
   }
 
-  var tenant_id;
+  let tenant_id;
 
   // Check if organization exists, create if not
-  var myOrgs = await nile.organizations.listOrganizations()
-  var maybeTenant = myOrgs.find( org => org.name == organizationName)
+  var myOrgs = await nile.organizations.listOrganizations();
+  var maybeTenant = myOrgs.find( org => org.name == organizationName);
   if (maybeTenant) {
-    console.log(colors.green("\u2713"), "Org " + tenant_email + " exists with id " + maybeTenant.id)
-    tenant_id = maybeTenant.id
+    console.log(colors.green("\u2713"), "Org " + tenant_email + " exists with id " + maybeTenant.id);
+    tenant_id = maybeTenant.id;
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" : 
     {
       name : organizationName,
     }}).then ( (org) => {  
       if (org != null) {
-        console.log(colors.green("\u2713"), "Created Tenant: " + org.name)
-        tenant_id = org.id
+        console.log(colors.green("\u2713"), "Created Tenant: " + org.name);
+        tenant_id = org.id;
       }
     }).catch((error:any) => console.error(error.message));
   }
@@ -125,13 +123,13 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     .then((data) => {
       console.log(colors.green("\u2713"), `Added tenant ${tenant_email} to orgID ${tenant_id}`);
     }).catch((error:any) => {
-          if (error.message.startsWith('User is already in org')) {
-            console.log(colors.green("\u2713"), `User ${tenant_email} is already in ${organizationName}`)
-          } else {
-            console.error(error)
-            process.exit(1);
-          }
-        });
+      if (error.message.startsWith('User is already in org')) {
+        console.log(colors.green("\u2713"), `User ${tenant_email} is already in ${organizationName}`);
+      } else {
+        console.error(error)
+        process.exit(1);
+      }
+    });
 
   // Check if entity instance already exists, create if not
   var myInstances = await nile.entities.listInstances({
@@ -140,14 +138,14 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
       })
   var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
   if (maybeInstance) {
-    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
+    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id);
   } else {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)
     await nile.entities.createInstance({
-      org : tenant_id,
-      type : entityDefinition.name,
-      body : {
+      org: tenant_id,
+      type: entityDefinition.name,
+      body: {
         greeting : `Come with me if you want to live: ${identifier}`
       }
     }).then((entity_instance) => console.log (colors.green("\u2713"), "Created entity instance: " + JSON.stringify(entity_instance, null, 2)))
@@ -158,18 +156,15 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     org: tenant_id,
     type: entityDefinition.name
   }).then((dws) => {
-    console.log("The following Data Warehouses already exist:")
-    console.log(dws)
-  })
-
+    console.log("The following Data Warehouses already exist:");
+    console.log(dws);
+  });
 }
-
 
 async function setup_multi_tenancy() {
-
   // Log in as the tenants
-  await setup_tenant(NILE_TENANT1_EMAIL, NILE_ORGANIZATION_NAME)
-  await setup_tenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`)
+  await setup_tenant(NILE_TENANT1_EMAIL, NILE_ORGANIZATION_NAME);
+  await setup_tenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
 }
 
-setup_multi_tenancy()
+setup_multi_tenancy();
