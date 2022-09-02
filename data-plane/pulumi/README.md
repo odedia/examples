@@ -52,7 +52,7 @@ Set the values in this `.env` file to match the values you want in your control 
 There are a few ways to configure the control plane:
 
 - [Nile Admin Dashboard](#nile-admin-dashboard): use the UI to manually configure the control plane
-- [Programmatically](#programmatically): use the provided script which leverages the SDK
+- [Programmatically](#programmatically): use the provided script which leverages the Nile SDK
 
 ### Nile Admin Dashboard
 

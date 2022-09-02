@@ -42,7 +42,7 @@ Set the values in this `.env` file to match the values you want in your control 
 
 ## Execute
 
-The quickstart workflow creates your control plane and data plane in Nile:
+The workflow creates the following control plane in Nile:
 
 - Sign up a new developer
 - Create a workspace, which must be globally unique
