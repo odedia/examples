@@ -36,11 +36,12 @@ This example assumes you have:
 
 ## Setup
 
-For future steps, it will be helpful to have a local file with your Nile configuration.
-For that purpose, in this example, you will create a `.env` file with environment variables.
-Copy the `.env.defaults` file to `.env`:
+For all examples, you need a local file with your Nile configuration.
+For that purpose, create a `.env` file with environment variables.
+At the top-level of the examples, copy the `.env.defaults` file to `.env`:
 
 ```bash
+# From the top level of the examples folder
 cp .env.defaults .env
 ```
 
