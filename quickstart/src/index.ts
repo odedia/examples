@@ -1,4 +1,4 @@
-import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
+import Nile, { CreateEntityRequest } from "@theniledev/js";
 import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
 
 import * as dotenv from "dotenv";
@@ -49,7 +49,7 @@ var colors = require('colors');
 // Workflow for the Nile developer
 async function setup_workflow_developer() {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`)
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`);
 
   // Signup developer
   await nile.developers.createDeveloper({
@@ -59,9 +59,9 @@ async function setup_workflow_developer() {
     }
   }).catch((error:any) => {
     if (error.message == "user already exists") {
-      console.log(`Developer ${NILE_DEVELOPER_EMAIL} already exists`)
+      console.log(`Developer ${NILE_DEVELOPER_EMAIL} already exists`);
     } else {
-      console.error(error)
+      console.error(error);
     }
   })
 
@@ -78,7 +78,7 @@ async function setup_workflow_developer() {
 
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
-  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
 
   // Check if workspace exists, create if not
   var myWorkspaces = await nile.workspaces.listWorkspaces()
@@ -90,12 +90,12 @@ async function setup_workflow_developer() {
       }).then( (ws) => { if (ws != null)  console.log(colors.green("\u2713"), "Created workspace: " + ws.name)})
         .catch((error:any) => {
           if (error.message == "workspace already exists") {
-            console.error(`Error: workspace ${NILE_WORKSPACE} already exists (workspace names are globally unique)`)
+            console.error(`Error: workspace ${NILE_WORKSPACE} already exists (workspace names are globally unique)`);
             process.exit(1);
           } else {
-            console.error(error)
+            console.error(error);
           }
-        })
+        });
   }
 
   // Check if entity exists, create if not
@@ -112,40 +112,40 @@ async function setup_workflow_developer() {
   }
 
   // Check if organization exists, create if not
-  var myOrgs = await nile.organizations.listOrganizations()
-  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME)
-  var tenant_id! : string
+  var myOrgs = await nile.organizations.listOrganizations();
+  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME);
+  var tenant_id! : string;
 
   if (maybeTenant) {
-    console.log(colors.green("\u2713"), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
-    tenant_id = maybeTenant.id
+    console.log(colors.green("\u2713"), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id);
+    tenant_id = maybeTenant.id;
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" :
     {
-      name : NILE_ORGANIZATION_NAME,
+      name: NILE_ORGANIZATION_NAME,
     }}).then ( (org) => {
       if (org != null) {
-        console.log(colors.green("\u2713"), "Created Tenant: " + org.name)
+        console.log(colors.green("\u2713"), "Created Tenant: " + org.name);
         tenant_id = org.id
       }
     }).catch((error:any) => console.error(error.message));
   }
 
   // Check if entity instance already exists, create if not
-  var myInstances = await nile.entities.listInstances({
-        org: tenant_id,
-        type: NILE_ENTITY_NAME,
-      })
-  var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
+  let myInstances = await nile.entities.listInstances({
+    org: tenant_id,
+    type: NILE_ENTITY_NAME,
+  });
+  let maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME);
   if (maybeInstance) {
-    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
+    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id);
   } else {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)
     await nile.entities.createInstance({
-      org : tenant_id,
-      type : entityDefinition.name,
-      body : {
+      org: tenant_id,
+      type: entityDefinition.name,
+      body: {
         greeting : `Come with me if you want to live: ${identifier}`
       }
     }).then((entity_instance) => console.log (colors.green("\u2713"), "Created entity instance: " + JSON.stringify(entity_instance, null, 2)))
@@ -156,16 +156,14 @@ async function setup_workflow_developer() {
     org: tenant_id,
     type: entityDefinition.name
   }).then((entity_instances) => {
-    console.log("The following entity instances exist:")
-    console.log(entity_instances)
-  })
-  
+    console.log("The following entity instances exist:");
+    console.log(entity_instances);
+  });
 }
 
 async function setup_control_plane() {
-
   // Log in as the Nile developer
-  await setup_workflow_developer()
+  await setup_workflow_developer();
 }
 
-setup_control_plane()
+setup_control_plane();
