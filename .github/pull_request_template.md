@@ -6,7 +6,8 @@ _Note any breaking changes_
 
 ### Checklist before merge
 
-<!-- - [ ] Validate examples in prod -->
+<!-- - [ ] Manually validate examples in prod -->
+<!-- - [ ] Workflow in GitHub Actions passes -->
 <!-- - [ ] Update relevant READMEs -->
 <!-- - [ ] Spell check (e.g. using `aspell`) -->
 <!-- - [ ] Ensure `Squash and merge` is checked -->
