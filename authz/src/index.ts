@@ -72,8 +72,8 @@ async function test_tenant(orgID : string) {
     org: orgID,
     type: NILE_ENTITY_NAME,
   }).then((dws) => {
-    console.log("TENANT: The following instances exist:")
-    console.log(dws)
+    console.log("TENANT: was able to get the list of instances:")
+    //console.log(dws)
   }).catch((error: any) => console.error(error));
 
 
@@ -85,15 +85,6 @@ async function test_tenant(orgID : string) {
       greeting : `Test greeting 4`
     }
   }).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
-
-  // List instances of the service
-  await nile.entities.listInstances({
-    org: orgID,
-    type: NILE_ENTITY_NAME,
-  }).then((dws) => {
-    console.log("TENANT: The following instances exist:")
-    console.log(dws)
-  }).catch((error: any) => console.error(error));
 
 }
 
@@ -142,7 +133,7 @@ async function run() {
     org: orgID,
     type: NILE_ENTITY_NAME,
   }).then((dws) => {
-    console.log("DEVELOPER: The following instances exist:")
+    console.log("DEVELOPER: was able to get the list of instances:")
     console.log(dws)
   }).catch((error: any) => console.error(error));
 
@@ -163,32 +154,34 @@ async function run() {
   nile.authToken = nile.developers.authToken;
   console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
 
-   const body = {
-      org: orgID,
-      createRuleRequest: {
-        actions: "deny",
-        resource: {
-          type: NILE_ENTITY_NAME,
-        },
-        subject: { email: NILE_TENANT1_EMAIL },
-      },
-    };
-    console.log(`Creating rule with body ${body}`);
-    console.log(JSON.stringify(body, null, 2));
-    nile.authz
-      .createRule(body)
-      .then((data) => {
-        console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + data);
-      })
-      .catch((error: any) => console.error(error));
+  // Create rule
+  const body = {
+     org: orgID,
+     createRuleRequest: {
+       actions: "deny",
+       resource: {
+         type: NILE_ENTITY_NAME,
+       },
+       subject: { email: NILE_TENANT1_EMAIL },
+     },
+   };
+   console.log(`Creating rule with body ${body}`);
+   console.log(JSON.stringify(body, null, 2));
+   nile.authz
+     .createRule(body)
+     .then((data) => {
+       console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + data);
+     })
+     .catch((error: any) => console.error(error));
 
+  // List rules
   const body = {
      org: orgID,
    };
    nile.authz
      .listRules(body)
       .then((data) => {
-        console.log("API called successfully. Returned data: " + data);
+        console.log("Listed rules: " + data);
         for (let i = 0; i < data.length; i++) {
           const rule = data[i];
           if (rule) {
