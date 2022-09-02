@@ -59,7 +59,7 @@ async function run() {
   var myOrgs = await nile.organizations.listOrganizations()
   var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME)
   if (maybeTenant) {
-    console.log("Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
+    console.log(colors.green("\u2713"), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
     tenant_id = maybeTenant.id
   } else {
     console.error("Cannot find org id for " + NILE_ORGANIZATION_NAME)
@@ -71,7 +71,7 @@ async function run() {
     type: NILE_ENTITY_NAME
   })
   if ( instances.find( i => i.properties.greeting.startsWith('Come with me if you want to live')) != null) {
-    console.log (`Found Data Warehouse entry`)
+    console.log (colors.green("\u2713"), `Found Data Warehouse entry`)
   } else {
     console.error (`Error: could not find Data Warehouse entity instance`)
     return process.exit(1)

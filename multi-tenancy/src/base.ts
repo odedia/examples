@@ -83,7 +83,7 @@ async function setup_workflow_developer() {
   // Check if workspace exists, create if not
   var myWorkspaces = await nile.workspaces.listWorkspaces()
   if ( myWorkspaces.find( ws => ws.name==NILE_WORKSPACE) != null) {
-         console.log("Workspace " + NILE_WORKSPACE + " exists");
+         console.log(colors.green("\u2713"), "Workspace " + NILE_WORKSPACE + " exists");
   } else {
       await nile.workspaces.createWorkspace({
         createWorkspaceRequest: { name: NILE_WORKSPACE },
@@ -101,7 +101,7 @@ async function setup_workflow_developer() {
   // Check if entity exists, create if not
   var myEntities =  await nile.entities.listEntities()
   if (myEntities.find( ws => ws.name==entityDefinition.name)) { 
-      console.log("Entity " + entityDefinition.name + " exists");
+      console.log(colors.green("\u2713"), "Entity " + entityDefinition.name + " exists");
   } else {
       await nile.entities.createEntity({
         createEntityRequest: entityDefinition
@@ -117,7 +117,7 @@ async function setup_workflow_developer() {
   var tenant_id! : string
 
   if (maybeTenant) {
-    console.log("Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
+    console.log(colors.green("\u2713"), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
     tenant_id = maybeTenant.id
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" :
@@ -138,7 +138,7 @@ async function setup_workflow_developer() {
       })
   var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
   if (maybeInstance) {
-    console.log("Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
+    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
   } else {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)

@@ -74,7 +74,7 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
   // Check if tenant exists, create if not
   var myUsers = await nile.users.listUsers()
   if (myUsers.find( usr => usr.email==tenant_email)) {
-      console.log("User " + tenant_email + " exists")
+      console.log(colors.green("\u2713"), "User " + tenant_email + " exists")
   } else {
     await nile.users.createUser({
       createUserRequest : {
@@ -93,7 +93,7 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
   var myOrgs = await nile.organizations.listOrganizations()
   var maybeTenant = myOrgs.find( org => org.name == organizationName)
   if (maybeTenant) {
-    console.log("Org " + tenant_email + " exists with id " + maybeTenant.id)
+    console.log(colors.green("\u2713"), "Org " + tenant_email + " exists with id " + maybeTenant.id)
     tenant_id = maybeTenant.id
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" : 
@@ -112,7 +112,7 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     process.exit(1);
   }
 
-  // Add tenant to org
+  // Add user to organization
   const body = {
     org: tenant_id,
     addUserToOrgRequest: {
@@ -123,10 +123,10 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
   nile.organizations
     .addUserToOrg(body)
     .then((data) => {
-      console.log(`Added tenant ${tenant_email} to orgID ${tenant_id}`);
+      console.log(colors.green("\u2713"), `Added tenant ${tenant_email} to orgID ${tenant_id}`);
     }).catch((error:any) => {
           if (error.message.startsWith('User is already in org')) {
-            console.log(`User ${tenant_email} is already in ${organizationName}`)
+            console.log(colors.green("\u2713"), `User ${tenant_email} is already in ${organizationName}`)
           } else {
             console.error(error)
             process.exit(1);
@@ -140,7 +140,7 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
       })
   var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
   if (maybeInstance) {
-    console.log("Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
+    console.log(colors.green("\u2713"), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
   } else {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)
