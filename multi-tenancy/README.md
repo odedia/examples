@@ -60,9 +60,12 @@ yarn start
 
 ## Validate
 
-Log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
-For the email and password, use the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.
-
-Your dashboard should resemble below:
+1. Log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.  For the email and password, use the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.  Your dashboard should resemble below:
 
 ![image](images/nad.png)
+
+2. Validate tenant isolation: at first user nora1@demo.io should not see any instances in organization sac-norad2, but after adding nora1@demo.io to sac-norad2, nora1@demo.io can see all the instances in sac-norad2 that nora2@demo.io can see.
+
+```
+yarn test
+```

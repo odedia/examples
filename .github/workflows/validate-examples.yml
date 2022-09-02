@@ -83,6 +83,10 @@ jobs:
         working-directory: multi-tenancy
         run: yarn start
 
+      - name: yarn test
+        working-directory: multi-tenancy
+        run: yarn test
+
 
   data-plane-pulumi:
 

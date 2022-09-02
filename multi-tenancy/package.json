@@ -15,6 +15,6 @@
   "scripts": {
     "prestart": "yarn --cwd ../quickstart/ install && yarn --cwd ../quickstart/ start",
     "start": "ts-node src/index.ts",
-    "poststart": "ts-node src/find-instance.ts"
+    "test": "ts-node src/validate-multi-tenancy.ts"
   }
 }
