@@ -3,6 +3,7 @@ name: examples
 on: [push]
 
 env:
+  DEST_WORKSPACE: ${{ github.workspace }}
   NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
   NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
 
@@ -23,7 +24,7 @@ jobs:
         envkey_NILE_DEVELOPER_PASSWORD: ${NILE_DEVELOPER_PASSWORD}
         envkey_NILE_ORGANIZATION_NAME: sac-norad
         envkey_NILE_ENTITY_NAME: SkyNet
-        directory: multi-tenancy
+        directory: ${DEST_WORKSPACE}/multi-tenancy
         file_name: .env
         fail_on_empty: false
 
