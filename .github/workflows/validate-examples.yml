@@ -45,6 +45,8 @@ jobs:
 
   multi-tenancy:
 
+    needs: quickstart
+
     runs-on: ubuntu-latest
 
     permissions:
