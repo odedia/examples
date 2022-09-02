@@ -48,7 +48,7 @@ jobs:
         run: yarn test-setup
 
 
-  data-plane/pulumi:
+  data-plane-pulumi:
 
     needs: multi-tenancy
 
