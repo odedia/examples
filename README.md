@@ -1,7 +1,16 @@
 # Nile Examples
 
-These examples demonstrate how to use Nile for various use cases.
-Each example is automated and can be run independently, so you can run just the ones that you are interested in.
+![image](images/Nile-text-logo.png)
+
+## Overview
+
+These examples demonstrate how to use Nile to build a control plane for an Infrastructure SaaS product.
+
+## Instructions
+
+Each example is automated using Nile's SDK.
+You can run them independently, so you can run just the ones that you are interested in, but they can build on top of one another as you go through them.
+
 We recommend running them in the following order to build up your SaaS as you go:
 
 0. [Quickstart](quickstart): setup a minimal Nile control plane with a single tenant.
