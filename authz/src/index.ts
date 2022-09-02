@@ -37,6 +37,7 @@ const nile = Nile({
   workspace: NILE_WORKSPACE,
 });
 
+
 // Schema for the entity that defines the service in the data plane
 const entityDefinition: CreateEntityRequest = {
     "name": NILE_ENTITY_NAME,
@@ -50,6 +51,53 @@ const entityDefinition: CreateEntityRequest = {
 };
 
 var colors = require('colors');
+
+async function test_tenant(orgID : string) {
+
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`)
+
+  // Login tenant
+  await nile.users.loginUser({
+    loginInfo: {
+      email: NILE_TENANT1_EMAIL,
+      password: NILE_TENANT_PASSWORD
+    }
+  })
+
+  nile.authToken = nile.users.authToken
+  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
+
+  // List instances of the service
+  await nile.entities.listInstances({
+    org: orgID,
+    type: NILE_ENTITY_NAME,
+  }).then((dws) => {
+    console.log("TENANT: The following instances exist:")
+    console.log(dws)
+  }).catch((error: any) => console.error(error));
+
+
+  // Create an instance of the service in the data plane
+  await nile.entities.createInstance({
+    org : orgID,
+    type : NILE_ENTITY_NAME,
+    body : {
+      greeting : `Test greeting 4`
+    }
+  }).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
+
+  // List instances of the service
+  await nile.entities.listInstances({
+    org: orgID,
+    type: NILE_ENTITY_NAME,
+  }).then((dws) => {
+    console.log("TENANT: The following instances exist:")
+    console.log(dws)
+  }).catch((error: any) => console.error(error));
+
+}
+
+
 
 async function run() {
 
@@ -82,7 +130,6 @@ async function run() {
 
   console.log("orgID is: " + orgID);
 
-
   if (!orgID) {
     console.error ("Error: cannot determine the ID of the organization from the provided name :" + NILE_ORGANIZATION_NAME)
     process.exit(1);
@@ -99,17 +146,22 @@ async function run() {
     console.log(dws)
   }).catch((error: any) => console.error(error));
 
-  // Login tenant
-  await nile.users.loginUser({
+  await test_tenant(orgID)
+
+  // Login developer
+  await nile.developers.loginDeveloper({
     loginInfo: {
-      email: NILE_TENANT1_EMAIL,
-      password: NILE_TENANT_PASSWORD
-    }
-  })
+      email: NILE_DEVELOPER_EMAIL,
+      password: NILE_DEVELOPER_PASSWORD,
+    },
+  }).catch((error:any) => {
+    console.error(`Error: Failed to login to Nile as developer ${NILE_DEVELOPER_EMAIL}: ` + error.message);
+    process.exit(1);
+  });
 
-  nile.authToken = nile.users.authToken
-  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
-
+  // Get the JWT token
+  nile.authToken = nile.developers.authToken;
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
 
    const body = {
       org: orgID,
@@ -146,38 +198,7 @@ async function run() {
       })
      .catch((error: any) => console.error(error));
 
-
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`)
-
-  // Login tenant
-  await nile.users.loginUser({
-    loginInfo: {
-      email: NILE_TENANT1_EMAIL,
-      password: NILE_TENANT_PASSWORD
-    }
-  })
-
-  nile.authToken = nile.users.authToken
-  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
-
-  // Create an instance of the service in the data plane
-  await nile.entities.createInstance({
-    org : orgID,
-    type : NILE_ENTITY_NAME,
-    body : {
-      greeting : `Test greeting 4`
-    }
-  }).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
-
-  // List instances of the service
-  await nile.entities.listInstances({
-    org: orgID,
-    type: NILE_ENTITY_NAME,
-  }).then((dws) => {
-    console.log("TENANT: The following instances exist:")
-    console.log(dws)
-  }).catch((error: any) => console.error(error));
-
+  await test_tenant(orgID)
 
 }
 
