@@ -133,6 +133,26 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
           }
         });
 
+  // Check if entity instance already exists, create if not
+  var myInstances = await nile.entities.listInstances({
+        org: tenant_id,
+        type: NILE_ENTITY_NAME,
+      })
+  var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
+  if (maybeInstance) {
+    console.log("Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id)
+  } else {
+    console.log(myInstances);
+    const identifier = Math.floor(Math.random() * 100000)
+    await nile.entities.createInstance({
+      org : tenant_id,
+      type : entityDefinition.name,
+      body : {
+        greeting : `Come with me if you want to live: ${identifier}`
+      }
+    }).then((entity_instance) => console.log (colors.green("\u2713"), "Created entity instance: " + JSON.stringify(entity_instance, null, 2)))
+  }
+
   // List instances of the service
   await nile.entities.listInstances({
     org: tenant_id,

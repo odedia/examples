@@ -148,7 +148,7 @@ async function setup_workflow_developer() {
       body : {
         greeting : `Come with me if you want to live: ${identifier}`
       }
-    }).then((entity_instance) => console.log (colors.green("\u2713"), "Created entity instances: " + JSON.stringify(entity_instance, null, 2)))
+    }).then((entity_instance) => console.log (colors.green("\u2713"), "Created entity instance: " + JSON.stringify(entity_instance, null, 2)))
   }
 
   // List instances of the service
