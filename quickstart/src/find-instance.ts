@@ -1,7 +1,7 @@
 import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
 import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config({ override: true })
 

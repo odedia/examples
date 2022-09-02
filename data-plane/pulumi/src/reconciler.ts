@@ -1,8 +1,8 @@
-import Reconcile from "./commands/reconcile/index"
+import Reconcile from './commands/reconcile/index';
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
-dotenv.config({ override: true })
+dotenv.config({ override: true });
 
 let envParams = [
   "NILE_URL",
@@ -12,7 +12,7 @@ let envParams = [
   "NILE_ORGANIZATION_NAME",
   "NILE_ENTITY_NAME",
 ]
-envParams.forEach( (key: string) => {
+envParams.forEach((key: string) => {
   if (!process.env[key]) {
     console.error(`Error: missing environment variable ${ key }. See .env.defaults for more info and copy it to .env with your values`);
     process.exit(1);
@@ -27,7 +27,6 @@ const organizationName = process.env.NILE_ORGANIZATION_NAME!;
 const entity = process.env.NILE_ENTITY_NAME!;
 
 async function run() {
-
   await Reconcile.run([
     '--basePath', basePath,
     '--workspace', workspace,
@@ -35,8 +34,7 @@ async function run() {
     '--password', password,
     '--organizationName', organizationName,
     '--entity', entity
-  ])
-
+  ]);
 }
 
-run()
+run();
