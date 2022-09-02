@@ -57,11 +57,10 @@ yarn start
 
 ## Validate
 
-Run the following command to find the new entity instance:
+Log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
+For the email and password, use the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.
 
-```
-yarn test-setup
-```
+Your dashboard should resemble below:
 
-Then log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
-Log in using the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.
+![image](images/nad.png)
+
