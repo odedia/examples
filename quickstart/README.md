@@ -1,5 +1,9 @@
 # Quickstart
 
+![image](../images/Nile-text-logo.png)
+
+## Overview
+
 This quickstart sets up a Nile control plan
 It uses the Nile SDK available at https://github.com/TheNileDev/nile-js
 

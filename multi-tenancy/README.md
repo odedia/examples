@@ -1,7 +1,10 @@
 # Multi-tenancy
 
+![image](../images/Nile-text-logo.png)
+
+## Overview
+
 This example sets up a Nile control plane with multi-tenancy.
-It uses the Nile SDK available at https://github.com/TheNileDev/nile-js
 
 ## Install Dependencies
 

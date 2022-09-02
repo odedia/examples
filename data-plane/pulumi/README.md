@@ -1,16 +1,6 @@
 # Nile Data Plane Example #
 
-## Table of Contents
-
-* [Overview](#overview)
-* [Prerequisites](#prerequisites)
-* [Setup](#setup)
-* [Configure the Control Plane](#configure-the-control-plane)
-* [Configure the Data Plane](#configure-the-data-plane)
-* [Run the reconciler](#run-the-reconciler)
-* [Explanation](#Explanation)
-* [Add or remove instances](#add-or-remove-instances)
-
+![image](../../images/Nile-text-logo.png)
 
 ## Overview
 
@@ -23,6 +13,17 @@ using [Pulumi](https://app.pulumi.com/) to deploy objects into AWS.
 > If you're using another tool like Kubernetes or Terraform, replace
 > the [`PulumiAwsDeployment`](./src/commands/reconcile/lib/pulumi/PulumiAwsDeployment.ts) 
 > class in this example with your own deployment implementation.
+
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Configure the Control Plane](#configure-the-control-plane)
+* [Configure the Data Plane](#configure-the-data-plane)
+* [Run the reconciler](#run-the-reconciler)
+* [Explanation](#Explanation)
+* [Add or remove instances](#add-or-remove-instances)
 
 ## Prerequisites ##
 

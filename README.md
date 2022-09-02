@@ -8,7 +8,8 @@ These examples demonstrate how to use Nile to build a control plane for an Infra
 
 ## Instructions
 
-Each example is automated using Nile's SDK.
+Each example is automated using the [Nile SDK](https://github.com/TheNileDev/nile-js).
+
 You can run them independently, so you can run just the ones that you are interested in, but they can build on top of one another as you go through them.
 
 We recommend running them in the following order to build up your SaaS as you go:
