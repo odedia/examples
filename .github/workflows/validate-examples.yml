@@ -32,8 +32,7 @@ jobs:
       - name: yarn setup
         working-directory: multi-tenancy
         run: |
-          timeout 15s yarn setup \
-          || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+          timeout 15s yarn start
 
       - name: yarn test-setup
         working-directory: multi-tenancy

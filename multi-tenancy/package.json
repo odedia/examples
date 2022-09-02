@@ -3,6 +3,7 @@
     "@theniledev/js": "^0.17.0",
     "@types/node": "^18.0.0",
     "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
     "node-docker-api": "^1.1.22",
     "yarn": "^1.22.19"
   },
@@ -12,7 +13,8 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
-    "setup": "ts-node src/index.ts",
+    "prestart": "ts-node src/base.ts",
+    "start": "ts-node src/multi_tenancy.ts",
     "test-setup": "ts-node src/find-instance.ts"
   }
 }

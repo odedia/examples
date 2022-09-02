@@ -64,7 +64,7 @@
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",
     "prepack": "yarn build && oclif manifest && oclif readme",
-    "prereconcile": "yarn build && ts-node src/cp-configure.ts",
+    "prereconcile": "yarn build && ts-node ./../../multi-tenancy/src/base.ts",
     "reconcile": "yarn build && ts-node src/reconciler.ts",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme && git add README.md"

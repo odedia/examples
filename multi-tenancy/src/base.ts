@@ -1,8 +1,6 @@
 import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
 import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
 
-import Reconcile from "./commands/reconcile/index"
-
 import * as dotenv from "dotenv";
 
 dotenv.config({ override: true })
@@ -48,8 +46,8 @@ const entityDefinition: CreateEntityRequest = {
 
 var colors = require('colors');
 
-// Setup the Control Plane
-async function setup_control_plane() {
+// Workflow for the Nile developer
+async function setup_workflow_developer() {
 
   console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`)
 
@@ -162,6 +160,12 @@ async function setup_control_plane() {
     console.log(entity_instances)
   })
   
+}
+
+async function setup_control_plane() {
+
+  // Log in as the Nile developer
+  await setup_workflow_developer()
 }
 
 setup_control_plane()
