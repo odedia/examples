@@ -8,17 +8,3 @@ Each one can be run independently, but we recommend running them sequentially in
 3. Authorization: _coming soon_
 4. Metrics: _coming soon_
 5. Webapp: _coming soon_
-
-## Setup
-
-For all examples, you need a local file with your Nile configuration.
-For that purpose, create a `.env` file with environment variables.
-At the top-level of the examples, copy the `.env.defaults` file to `.env`:
-
-```bash
-# From the top level of the examples folder
-cp .env.defaults .env
-```
-
-Set the values in this `.env` file to match the values you want in your control plane.
-Each subfolder has a symlink to this top-level `.env` file.

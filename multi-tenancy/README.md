@@ -27,12 +27,11 @@ warning No license field
 ## Setup
 
 For all examples, you need a local file with your Nile configuration.
-For that purpose, create a `.env` file with environment variables.
-At the top-level of the examples, copy the `.env.defaults` file to `.env`:
+For that purpose, at the top-level of the examples, copy the `.env.defaults` file to `.env`:
 
 ```bash
 # From the top level of the examples folder
-cp .env.defaults .env
+$ examples> cp .env.defaults .env
 ```
 
 Set the values in this `.env` file to match the values you want in your control plane.
