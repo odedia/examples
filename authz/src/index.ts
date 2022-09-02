@@ -132,7 +132,7 @@ async function run() {
   const body = {
      org: orgID,
    };
-   nile.authz
+   await nile.authz
      .listRules(body)
       .then((data) => {
         console.log("Listed rules: " + data);
