@@ -46,3 +46,45 @@ jobs:
       - name: yarn test-setup
         working-directory: multi-tenancy
         run: yarn test-setup
+
+
+  data-plane/pulumi:
+
+    needs: multi-tenancy
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: https://prod.thenile.dev:443
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: multi-tenancy
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: data-plane/pulumi
+        run: yarn install --no-lockfile
+
+      - name: yarn prereconcile
+        working-directory: data-plane/pulumi
+        run: |
+          timeout 15s yarn prereconcile
