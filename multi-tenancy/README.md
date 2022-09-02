@@ -63,4 +63,5 @@ Run the following command to find the new entity instance:
 yarn test-setup
 ```
 
-Then log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and data plane instances. 
+Then log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
+Log in using the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.
