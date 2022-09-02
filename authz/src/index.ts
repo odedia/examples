@@ -65,26 +65,27 @@ async function test_tenant(orgID : string) {
   })
 
   nile.authToken = nile.users.authToken
-  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `--> Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
 
   // List instances of the service
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
   }).then((dws) => {
-    console.log("TENANT: was able to get the list of instances:")
-    //console.log(dws)
+    console.log("TENANT: was able to get the list of instances but should be empty list (some instances might be ok)!")
+    console.log(dws)
   }).catch((error: any) => console.error(error));
 
 
+  // Write is not supported yet
   // Create an instance of the service in the data plane
-  await nile.entities.createInstance({
-    org : orgID,
-    type : NILE_ENTITY_NAME,
-    body : {
-      greeting : `Test greeting 4`
-    }
-  }).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
+  //await nile.entities.createInstance({
+    //org : orgID,
+    //type : NILE_ENTITY_NAME,
+    //body : {
+      //greeting : `Test greeting 4`
+    //}
+  //}).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
 
 }
 
@@ -145,7 +146,7 @@ async function run() {
       })
      .catch((error: any) => console.error(error));
 
- // List instances of the service
+  // List instances of the service
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
@@ -154,6 +155,7 @@ async function run() {
     console.log(dws)
   }).catch((error: any) => console.error(error));
 
+  console.log("Test tenant before");
   await test_tenant(orgID)
 
   // Login developer
@@ -178,6 +180,7 @@ async function run() {
        actions: ["deny"],
        resource: {
          type: NILE_ENTITY_NAME,
+         //id: <instance id>,
        },
        subject: { email: NILE_TENANT1_EMAIL },
      },
@@ -208,6 +211,7 @@ async function run() {
       })
      .catch((error: any) => console.error(error));
 
+  console.log("Test tenant after");
   await test_tenant(orgID)
 
 }
