@@ -67,18 +67,14 @@ async function get_instances(
   nile.authToken = nile.users.authToken
   console.log(colors.green("\u2713"), `Logged into Nile as tenant ${tenantEmail}!\nToken: ` + nile.authToken)
 
-  let orgID;
-
-  // Get orgID
-  var myOrgs = await nile.organizations.listOrganizations();
-  var maybeTenant = myOrgs.find( org => org.name == organizationName);
-  if (maybeTenant) {
-    console.log(colors.green("\u2713"), "Org " + tenantEmail + " exists in org id " + maybeTenant.id);
-    orgID = maybeTenant.id;
+  let orgID = await getOrgIDFromOrgName (organizationName);
+  if (orgID) {
+    console.log(colors.green("\u2713"), "Org " + organizationName + " exists in org id " + orgID);
   } else {
     console.log(`Logged in as tenant ${tenantEmail}, cannot find organization with name ${organizationName}`);
     return;
   }
+  console.log("Mapped organizationName " + organizationName + " to orgID " + orgID);
 
   // List instances of the service
   const instances = (
@@ -124,19 +120,11 @@ async function add_tenant(
   console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
 
   // Get orgID
-  let orgID;
-  var myOrgs = await nile.organizations.listOrganizations();
-  var maybeTenant = myOrgs.find( org => org.name == organizationName);
-  if (maybeTenant) {
-    console.log(colors.green("\u2713"), "Org " + organizationName + " exists with org id " + maybeTenant.id);
-    orgID = maybeTenant.id;
+  let orgID = await getOrgIDFromOrgName (organizationName);
+  if (orgID) {
+    console.log(colors.green("\u2713"), "Org " + organizationName + " exists in org id " + orgID);
   } else {
-    console.error(`Error: organization for tenant ${tenantEmail} should have already been configured`);
-    process.exit(1);
-  }
-
-  if (!orgID) {
-    console.error(`Unable to find or create organization with name ${organizationName}`);
+    console.error(`Error: organization ${organizationName} for tenant ${tenantEmail} should have already been configured`);
     process.exit(1);
   }
   console.log("orgID is: " + orgID);
@@ -168,6 +156,19 @@ function getDifference<T>(a: T[], b: T[]): T[] {
   return a.filter((element) => {
     return !b.includes(element);
   });
+}
+
+async function getOrgIDFromOrgName(
+  orgName: String): Promise< string | null > {
+
+  // Check if organization exists
+  var myOrgs = await nile.organizations.listOrganizations()
+  var maybeOrg = myOrgs.find( org => org.name == orgName)
+  if (maybeOrg) {
+    return maybeOrg.id
+  } else {
+    return null
+  }
 }
 
 async function run() {
