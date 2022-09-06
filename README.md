@@ -19,8 +19,8 @@ They can also be run sequentionally to build on top of one another, in which cas
 
 | Example | Languages Shown | Description |
 |---------|-----------------|-------------|
-| [Multi-tenancy](multi-tenancy) | JS SDK | Setup the Nile control plane with multiple tenants and users |
+| [Multi-tenancy](multi-tenancy/) | JS SDK | Setup the Nile control plane with multiple tenants and users |
 | [Data Plane with Pulumi](data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane in real time with Nile events. Even if you're using another deployment tool like Kubernetes or Terraform, similar principles apply |
-| Authorization | | _coming soon_ |
+| [Authorization](authz/) | JS SDK | Use ABAC to grant and revoke permissions to resources |
 | Metrics | | _coming soon_ |
 | Webapp | | _coming soon_ |
