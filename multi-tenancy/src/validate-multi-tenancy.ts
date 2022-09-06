@@ -65,7 +65,7 @@ async function get_instances(
   })
 
   nile.authToken = nile.users.authToken
-  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${tenantEmail}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `Logged into Nile as tenant ${tenantEmail}!`)
 
   let orgID = await getOrgIDFromOrgName (organizationName);
   if (orgID) {
@@ -74,7 +74,7 @@ async function get_instances(
     console.log(`Logged in as tenant ${tenantEmail}, cannot find organization with name ${organizationName}`);
     return;
   }
-  console.log("Mapped organizationName " + organizationName + " to orgID " + orgID);
+  console.log(colors.green("\u2713"), "Mapped organizationName " + organizationName + " to orgID " + orgID);
 
   // List instances of the service
   const instances = (
@@ -88,7 +88,7 @@ async function get_instances(
       acc[instance.id] = instance;
       return acc;
     }, {} as { [key: string]: Instance });
-  console.log('Nile Instances: ', instances);
+  //console.log('Nile Instances: ', instances);
 
   return Object.keys(instances).filter(
       (key: string) => key !== null && key !== undefined
@@ -100,9 +100,7 @@ async function add_tenant(
   organizationName: string
 ) {
 
-  console.log("\n--> add_tenant\n");
-
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to configure tenant ${tenantEmail} for organizationName ${organizationName}`);
+  console.log(`Logging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to add ${tenantEmail} to ${organizationName}`);
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -117,7 +115,7 @@ async function add_tenant(
 
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
-  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!`);
 
   // Get orgID
   let orgID = await getOrgIDFromOrgName (organizationName);
@@ -127,7 +125,7 @@ async function add_tenant(
     console.error(`Error: organization ${organizationName} for tenant ${tenantEmail} should have already been configured`);
     process.exit(1);
   }
-  console.log("orgID is: " + orgID);
+  //console.log("orgID is: " + orgID);
 
   // Add user to organization
   const body = {
@@ -136,7 +134,6 @@ async function add_tenant(
       email: tenantEmail,
     },
   };
-  console.log(`Trying to add tenant ${tenantEmail} to orgID ${orgID}`);
   nile.organizations
     .addUserToOrg(body)
     .then((data) => {
@@ -174,34 +171,34 @@ async function getOrgIDFromOrgName(
 async function run() {
   // Get instances for NILE_TENANT1_EMAIL
   const instances2a = await get_instances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
-  console.log("\nBEFORE: \ninstances2a: " + instances2a);
+  console.log(`\n-->BEFORE instances: ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2a}`);
 
   // Add tenant1 to tenant2's organization
+  console.log(`\nAdding ${NILE_TENANT1_EMAIL} to ${NILE_ORGANIZATION_NAME}2\n`);
   await add_tenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
 
   // Get instances for NILE_TENANT1_EMAIL
   const instances2b = await get_instances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
-  console.log("\nAFTER: \ninstances2b: " + instances2b);
+  console.log(`\n-->AFTER instances: ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2b}`);
 
   // Get instances for NILE_TENANT2_EMAIL
   const instances2c = await get_instances(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
-  console.log("\nCompare to tenant2: \ninstances2c: " + instances2c);
+  console.log(`\n-->Compare to instances: ${NILE_TENANT2_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2c}`);
 
-  console.log("\ninstances2b: " + instances2b + "\ninstances2c: " + instances2c);
   if (instances2b == undefined || instances2c == undefined) {
     console.error(`Error in setup, need to troubleshoot.`);
     process.exit(1)
   }
   const diff = getDifference(instances2b, instances2c);
-  console.log("Diff: " + diff);
-
   if (diff != "") {
     console.error(`Error: ${NILE_TENANT1_EMAIL} should see the same instances as ${NILE_TENANT2_EMAIL} in ${NILE_ORGANIZATION_NAME}2 after being added to that org`);
+    console.log("Diff: " + diff);
     process.exit(1)
+  } else {
+    console.log(colors.green("\u2713"), `No difference between instances seen by ${NILE_TENANT1_EMAIL} and ${NILE_TENANT2_EMAIL}`);
   }
 
-  // Note: at this time there is no interface to delete a user from an organization.
-  // So there is no cleanup to do
+  // Note: at this time there is no interface to delete a user from an organization
 
 }
 

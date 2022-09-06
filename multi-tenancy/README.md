@@ -64,7 +64,7 @@ yarn start
 
 ![image](images/nad.png)
 
-2. Validate tenant isolation: at first user nora1@demo.io should not see any instances in organization sac-norad2, but after adding nora1@demo.io to sac-norad2, nora1@demo.io can see all the instances in sac-norad2 that nora2@demo.io can see.
+2. Validate tenant isolation by running the command below. At first user nora1@demo.io cannot see the organization sac-norad2 nor any instances in it, but after adding nora1@demo.io to sac-norad2, nora1@demo.io can see all the instances in sac-norad2 that nora2@demo.io can see.
 
 ```
 yarn test
