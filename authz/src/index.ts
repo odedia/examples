@@ -71,21 +71,33 @@ async function test_tenant(orgID : string) {
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
-  }).then((dws) => {
-    console.log("TENANT: was able to get the list of instances but should be empty list (some instances might be ok)!")
-    console.log(dws)
+  }).then((instances) => {
+    console.log("\n--> TENANT: list of allowed instances:")
+    console.log(instances)
   }).catch((error: any) => console.error(error));
 
-
   // Write is not supported yet
-  // Create an instance of the service in the data plane
-  //await nile.entities.createInstance({
-    //org : orgID,
-    //type : NILE_ENTITY_NAME,
-    //body : {
-      //greeting : `Test greeting 4`
-    //}
-  //}).then((dw) => console.log (colors.green("\u2713"), `${NILE_TENANT1_EMAIL} was able to create an entity instance of ${NILE_ENTITY_NAME}:` + JSON.stringify(dw, null, 2)))
+
+}
+
+async function listRules(orgID : string) {
+
+  // List rules
+  const body = {
+     org: orgID,
+   };
+   await nile.authz
+     .listRules(body)
+      .then((data) => {
+        console.log("Listed rules: ", data);
+        //for (let i = 0; i < data.length; i++) {
+          //const rule = data[i];
+          //if (rule) {
+            //console.log("--> rule: " + JSON.stringify(rule, null, 2));
+          //}
+        //};
+      })
+     .catch((error: any) => console.error(error));
 
 }
 
@@ -130,29 +142,15 @@ async function run() {
   }
 
   // List rules
-  const body = {
-     org: orgID,
-   };
-   await nile.authz
-     .listRules(body)
-      .then((data) => {
-        console.log("Listed rules: " + data);
-        for (let i = 0; i < data.length; i++) {
-          const rule = data[i];
-          if (rule) {
-            console.log(" --> rule: " + JSON.stringify(rule, null, 2));
-          }
-        };
-      })
-     .catch((error: any) => console.error(error));
+  listRules(orgID);
 
   // List instances of the service
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
-  }).then((dws) => {
-    console.log("DEVELOPER: was able to get the list of instances:")
-    console.log(dws)
+  }).then((instances) => {
+    console.log("DEVELOPER: list of allowed instances:")
+    console.log(instances)
   }).catch((error: any) => console.error(error));
 
   console.log("Test tenant before");
@@ -174,6 +172,7 @@ async function run() {
   console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
 
   // Create rule
+  var ruleID;
   const body = {
      org: orgID,
      createRuleRequest: {
@@ -185,31 +184,36 @@ async function run() {
        subject: { email: NILE_TENANT1_EMAIL },
      },
    };
-   console.log(`Creating rule with body ${body}`);
-   console.log(JSON.stringify(body, null, 2));
+   console.log("Creating rule with body: " + JSON.stringify(body, null, 2));
    await nile.authz
      .createRule(body)
      .then((data) => {
-       console.log(`Created rule to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
+       ruleID = JSON.stringify(data.id, null, 2).replace(/['"]+/g, '');
+       console.log(`Created rule with id ${ruleID} to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
      })
      .catch((error: any) => console.error(error));
 
   // List rules
+  listRules(orgID);
+
+  console.log("Test tenant after");
+  await test_tenant(orgID)
+
+  // Delete rule
   const body = {
      org: orgID,
+     ruleId: ruleID,
    };
+   console.log("\nDeleting rule with body: " + JSON.stringify(body, null, 2));
    await nile.authz
-     .listRules(body)
-      .then((data) => {
-        console.log("Listed rules: ");
-        for (let i = 0; i < data.length; i++) {
-          const rule = data[i];
-          if (rule) {
-            console.log(" --> rule: " + JSON.stringify(rule, null, 2));
-          }
-        };
-      })
+     .deleteRule(body)
+     .then((data) => {
+       console.log(`Deleted rule with id ${ruleID}`);
+     })
      .catch((error: any) => console.error(error));
+
+  // List rules
+  listRules(orgID);
 
   console.log("Test tenant after");
   await test_tenant(orgID)
