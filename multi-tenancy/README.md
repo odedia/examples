@@ -4,7 +4,7 @@
 
 ## Overview
 
-This example creates the following control plane in Nile and demonstrates multi-tenancy.
+This example creates (or validates the existence of) the following control plane in Nile and demonstrates multi-tenancy.
 
 - Sign up a new developer
 - Create a workspace, which must be globally unique

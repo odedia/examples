@@ -4,7 +4,14 @@
 
 ## Overview
 
-This quickstart sets up a Nile control plane.
+This quickstart creates (or validates the existence of) the following control plane in Nile:
+
+- Sign up a new developer
+- Create a workspace, which must be globally unique
+- Create an entity called `SkyNet`
+- Create an organization with a user:
+  - `sac-norad` with user nora1@demo.io
+- Create a `SkyNet` entity instance in the organization
 
 ## Install Dependencies
 
@@ -42,16 +49,7 @@ Set the values in this `.env` file to match the values you want in your control 
 
 ## Execute
 
-The workflow creates the following control plane in Nile:
-
-- Sign up a new developer
-- Create a workspace, which must be globally unique
-- Create an entity called `SkyNet`
-- Create an organization with a user:
-  - `sac-norad` with user nora1@demo.io
-- Create a `SkyNet` entity instance in the organization
-
-To execute the above workflow, run the following command:
+To execute the workflow, run the following command:
 
 ```
 yarn start
