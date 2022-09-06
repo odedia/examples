@@ -20,6 +20,7 @@ _Describe the validation already done, or needs to be done, by the PR submitter.
 <!-- - [ ] quickstart -->
 <!-- - [ ] multi-tenancy -->
 <!-- - [ ] data-plane/pulumi -->
+<!-- - [ ] authorization -->
 <!-- - [ ] python-flask-todo-list -->
 
 ### Reviewer Tasks
@@ -30,5 +31,6 @@ _Describe the tasks/validation that the PR submitter is requesting to be done by
 <!-- - [ ] quickstart -->
 <!-- - [ ] multi-tenancy -->
 <!-- - [ ] data-plane/pulumi -->
+<!-- - [ ] authorization -->
 <!-- - [ ] python-flask-todo-list -->
 

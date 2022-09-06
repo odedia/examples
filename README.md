@@ -15,7 +15,7 @@ Start here to configure a base Nile control plane:
 | [Quickstart](quickstart) | JS SDK | Setup a minimal Nile control plane with a single tenant |
 
 You can use Nile for different use cases, so after running the Quickstart, you can run the examples independently.
-They can also be run sequentionally to build on top of one another, in which case, we recommend running them in the following order to build up your SaaS as you go.
+They can also be run sequentially to build on top of one another, in which case, we recommend running them in the following order to build up your SaaS as you go.
 
 | Example | Languages Shown | Description |
 |---------|-----------------|-------------|
