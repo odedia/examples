@@ -4,7 +4,15 @@
 
 ## Overview
 
-This example sets up a Nile control plane with multi-tenancy.
+This example creates the following control plane in Nile and demonstrates multi-tenancy.
+
+- Sign up a new developer
+- Create a workspace, which must be globally unique
+- Create an entity called `SkyNet`
+- Create two organizations with one user each:
+  - `sac-norad` with user nora1@demo.io
+  - `sac-norad2` with user nora2@demo.io
+- Create a `SkyNet` entity instance in each organization
 
 ## Install Dependencies
 
@@ -42,17 +50,7 @@ Set the values in this `.env` file to match the values you want in your control 
 
 ## Execute
 
-The workflow creates the following control plane in Nile:
-
-- Sign up a new developer
-- Create a workspace, which must be globally unique
-- Create an entity called `SkyNet`
-- Create two organizations with one user each:
-  - `sac-norad` with user nora1@demo.io
-  - `sac-norad2` with user nora2@demo.io
-- Create a `SkyNet` entity instance in each organization
-
-To execute the above workflow, run the following command:
+To execute the workflow, run the following command:
 
 ```
 yarn start
