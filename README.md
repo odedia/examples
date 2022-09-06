@@ -22,6 +22,5 @@ They can also be run sequentionally to build on top of one another, in which cas
 | [Multi-tenancy](multi-tenancy/) | JS SDK | Setup the Nile control plane with multiple tenants and users |
 | [Data Plane with Pulumi](data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane in real time with Nile events. Even if you're using another deployment tool like Kubernetes or Terraform, similar principles apply |
 | [Authorization](authz/) | JS SDK | Use ABAC to grant and revoke permissions to resources |
-| Metrics | | _coming soon_ |
-| Webapp | | _coming soon_ |
 | [Python + Flask Todo List Webapp](python-flask-todo-list/) | Python REST | Take a basic Todo List webapp written in Python and Flask and turn it to a PLG SaaS product with Nile APIs |
+| Metrics | | _coming soon_ |
