@@ -2,7 +2,23 @@
 
 ## Overview
 
-This example shows how to configuration authorization.
+This example demonstrates authorization features in Nile in the following workflow:
+
+- Lists the `SkyNet` instances allowed to be read by the user nora1@demo.io in a given organization
+- Creates a new rule that denies the user access to instances of the type `SkyNet` (organization is provided in the request)
+
+  ```json
+  {
+    "actions": [ "deny" ],
+    "resource": { "type": "SkyNet" },
+    "subject": { "email": "nora1@demo.io" }
+  }
+  ```
+
+- Lists the `SkyNet` instances allowed to be read by the user in a given organization: should be none
+- Deletes the rule
+- Lists the `SkyNet` instances allowed to be read by the user in a given organization
+
 
 ## Install Dependencies
 
@@ -39,24 +55,7 @@ Set the values in this `.env` file to match the values you want in your control 
 
 ## Execute
 
-The workflow does the following:
-
-- Lists the `SkyNet` instances allowed to be read by the user nora1@demo.io in a given organization
-- Creates a new rule that denies the user access to instances of the type `SkyNet` (organization is provided in the request)
-
-  ```json
-  {
-    "actions": [ "deny" ],
-    "resource": { "type": "SkyNet" },
-    "subject": { "email": "nora1@demo.io" }
-  }
-  ```
-
-- Lists the `SkyNet` instances allowed to be read by the user in a given organization: should be none
-- Deletes the rule
-- Lists the `SkyNet` instances allowed to be read by the user in a given organization
-
-To execute the above workflow, run the following command:
+To execute the workflow, run the following command:
 
 ```
 yarn start
