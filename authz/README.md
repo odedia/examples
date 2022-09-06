@@ -1,5 +1,7 @@
 # Authorization
 
+![image](../images/Nile-text-logo.png)
+
 ## Overview
 
 This example demonstrates authorization features in Nile in the following workflow:
