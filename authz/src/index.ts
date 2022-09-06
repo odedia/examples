@@ -76,8 +76,6 @@ async function test_tenant(orgID : string) {
     console.log(instances)
   }).catch((error: any) => console.error(error));
 
-  // Write is not supported yet
-
 }
 
 async function listRules(orgID : string) {
