@@ -52,7 +52,7 @@ const entityDefinition: CreateEntityRequest = {
 
 var colors = require('colors');
 
-async function test_tenant(orgID : string) {
+async function test_tenant(orgID : string, expectEmpty : boolean = false) {
 
   console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`)
 
@@ -74,6 +74,10 @@ async function test_tenant(orgID : string) {
   }).then((instances) => {
     console.log("\n--> TENANT: list of allowed instances:")
     console.log(instances)
+    if (expectEmpty && instances.length != 0) {
+      console.error(`Error: Tenant should not see ${NILE_ENTITY_NAME} instances`);
+      process.exit(1);
+    }
   }).catch((error: any) => console.error(error));
 
 }
@@ -152,7 +156,7 @@ async function run() {
   }).catch((error: any) => console.error(error));
 
   console.log("Test tenant before");
-  await test_tenant(orgID)
+  await test_tenant(orgID, false)
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -195,7 +199,7 @@ async function run() {
   listRules(orgID);
 
   console.log("Test tenant after");
-  await test_tenant(orgID)
+  await test_tenant(orgID, true)
 
   // Delete rule
   const body = {
@@ -214,7 +218,7 @@ async function run() {
   listRules(orgID);
 
   console.log("Test tenant after");
-  await test_tenant(orgID)
+  await test_tenant(orgID, false)
 
 }
 
