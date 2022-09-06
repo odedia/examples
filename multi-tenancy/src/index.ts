@@ -50,9 +50,9 @@ const entityDefinition: CreateEntityRequest = {
 var colors = require('colors');
 
 // Setup one tenant
-async function setup_tenant(tenant_email : string, organizationName : string) {
+async function setupTenant(userEmail : string, organizationName : string) {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to configure tenant ${tenant_email} for organizationName ${organizationName}`);
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}, to configure tenant ${userEmail} for organizationName ${organizationName}`);
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -71,12 +71,12 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
 
   // Check if tenant exists, create if not
   var myUsers = await nile.users.listUsers()
-  if (myUsers.find( usr => usr.email==tenant_email)) {
-      console.log(colors.green("\u2713"), "User " + tenant_email + " exists");
+  if (myUsers.find( usr => usr.email==userEmail)) {
+      console.log(colors.green("\u2713"), "User " + userEmail + " exists");
   } else {
     await nile.users.createUser({
       createUserRequest : {
-        email : tenant_email,
+        email : userEmail,
         password : NILE_TENANT_PASSWORD
       }
     }).then ( (usr) => {  
@@ -85,14 +85,14 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     })
   }
 
-  let tenant_id;
+  let orgID;
 
   // Check if organization exists, create if not
   var myOrgs = await nile.organizations.listOrganizations();
   var maybeTenant = myOrgs.find( org => org.name == organizationName);
   if (maybeTenant) {
-    console.log(colors.green("\u2713"), "Org " + tenant_email + " exists with id " + maybeTenant.id);
-    tenant_id = maybeTenant.id;
+    console.log(colors.green("\u2713"), "Org " + userEmail + " exists with id " + maybeTenant.id);
+    orgID = maybeTenant.id;
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" : 
     {
@@ -100,31 +100,31 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     }}).then ( (org) => {  
       if (org != null) {
         console.log(colors.green("\u2713"), "Created Tenant: " + org.name);
-        tenant_id = org.id;
+        orgID = org.id;
       }
     }).catch((error:any) => console.error(error.message));
   }
 
-  if (!tenant_id) {
+  if (!orgID) {
     console.error(`Unable to find or create organization with name ${organizationName}`);
     process.exit(1);
   }
 
   // Add user to organization
   const body = {
-    org: tenant_id,
+    org: orgID,
     addUserToOrgRequest: {
-      email: tenant_email,
+      email: userEmail,
     },
   };
-  console.log(`Trying to add tenant ${tenant_email} to orgID ${tenant_id}`);
+  console.log(`Trying to add tenant ${userEmail} to orgID ${orgID}`);
   nile.organizations
     .addUserToOrg(body)
     .then((data) => {
-      console.log(colors.green("\u2713"), `Added tenant ${tenant_email} to orgID ${tenant_id}`);
+      console.log(colors.green("\u2713"), `Added tenant ${userEmail} to orgID ${orgID}`);
     }).catch((error:any) => {
       if (error.message.startsWith('User is already in org')) {
-        console.log(colors.green("\u2713"), `User ${tenant_email} is already in ${organizationName}`);
+        console.log(colors.green("\u2713"), `User ${userEmail} is already in ${organizationName}`);
       } else {
         console.error(error)
         process.exit(1);
@@ -133,7 +133,7 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
 
   // Check if entity instance already exists, create if not
   var myInstances = await nile.entities.listInstances({
-        org: tenant_id,
+        org: orgID,
         type: NILE_ENTITY_NAME,
       })
   var maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME)
@@ -143,8 +143,8 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)
     await nile.entities.createInstance({
-      org: tenant_id,
-      type: entityDefinition.name,
+      org: orgID,
+      type: NILE_ENTITY_NAME,
       body: {
         greeting : `Come with me if you want to live: ${identifier}`
       }
@@ -153,18 +153,18 @@ async function setup_tenant(tenant_email : string, organizationName : string) {
 
   // List instances of the service
   await nile.entities.listInstances({
-    org: tenant_id,
-    type: entityDefinition.name
+    org: orgID,
+    type: NILE_ENTITY_NAME
   }).then((dws) => {
     console.log("The following Data Warehouses already exist:");
     console.log(dws);
   });
 }
 
-async function setup_multi_tenancy() {
+async function setupMultiTenancy() {
   // Log in as the tenants
-  await setup_tenant(NILE_TENANT1_EMAIL, NILE_ORGANIZATION_NAME);
-  await setup_tenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
+  await setupTenant(NILE_TENANT1_EMAIL, NILE_ORGANIZATION_NAME);
+  await setupTenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
 }
 
-setup_multi_tenancy();
+setupMultiTenancy();

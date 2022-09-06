@@ -49,7 +49,7 @@ const entityDefinition: CreateEntityRequest = {
 
 var colors = require('colors');
 
-async function get_instances(
+async function getInstances(
   tenantEmail: string,
   organizationName: string
 ): Promise<{ [key: string]: string }> {
@@ -95,7 +95,7 @@ async function get_instances(
   );
 }
 
-async function add_tenant(
+async function addTenant(
   tenantEmail: string,
   organizationName: string
 ) {
@@ -170,19 +170,19 @@ async function getOrgIDFromOrgName(
 
 async function run() {
   // Get instances for NILE_TENANT1_EMAIL
-  const instances2a = await get_instances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
+  const instances2a = await getInstances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
   console.log(`\n-->BEFORE instances: ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2a}`);
 
   // Add tenant1 to tenant2's organization
   console.log(`\nAdding ${NILE_TENANT1_EMAIL} to ${NILE_ORGANIZATION_NAME}2\n`);
-  await add_tenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
+  await addTenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
 
   // Get instances for NILE_TENANT1_EMAIL
-  const instances2b = await get_instances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
+  const instances2b = await getInstances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
   console.log(`\n-->AFTER instances: ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2b}`);
 
   // Get instances for NILE_TENANT2_EMAIL
-  const instances2c = await get_instances(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
+  const instances2c = await getInstances(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME}2`);
   console.log(`\n-->Compare to instances: ${NILE_TENANT2_EMAIL} in ${NILE_ORGANIZATION_NAME}2: ${instances2c}`);
 
   if (instances2b == undefined || instances2c == undefined) {
