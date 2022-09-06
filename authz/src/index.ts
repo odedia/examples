@@ -1,9 +1,8 @@
-import Nile, { CreateEntityRequest, Entity, Organization} from "@theniledev/js";
-import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
+import Nile from '@theniledev/js';
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
-dotenv.config({ override: true })
+dotenv.config({ override: true });
 
 let envParams = [
   "NILE_URL",
@@ -28,8 +27,8 @@ const NILE_ORGANIZATION_NAME = process.env.NILE_ORGANIZATION_NAME!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 
 // Static
-const NILE_TENANT1_EMAIL = "nora1@demo.io";
-const NILE_TENANT2_EMAIL = "nora2@demo.io";
+const NILE_TENANT1_EMAIL = 'nora1@demo.io';
+const NILE_TENANT2_EMAIL = 'nora2@demo.io';
 const NILE_TENANT_PASSWORD = 'password';
 
 const nile = Nile({
@@ -37,24 +36,11 @@ const nile = Nile({
   workspace: NILE_WORKSPACE,
 });
 
-
-// Schema for the entity that defines the service in the data plane
-const entityDefinition: CreateEntityRequest = {
-    "name": NILE_ENTITY_NAME,
-    "schema": {
-      "type": "object",
-      "properties": {
-        "greeting": { "type": "string" }
-      },
-      "required": ["greeting"]
-    }
-};
-
 var colors = require('colors');
 
-async function test_tenant(orgID : string, expectEmpty : boolean = false) {
+async function testTenant(orgID : string, expectEmpty : boolean = false) {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`)
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${NILE_TENANT1_EMAIL}`);
 
   // Login tenant
   await nile.users.loginUser({
@@ -65,15 +51,14 @@ async function test_tenant(orgID : string, expectEmpty : boolean = false) {
   })
 
   nile.authToken = nile.users.authToken
-  console.log(colors.green("\u2713"), `--> Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `--> Logged into Nile as tenant ${NILE_TENANT1_EMAIL}!\nToken: ` + nile.authToken);
 
   // List instances of the service
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
   }).then((instances) => {
-    console.log("\n--> TENANT: list of allowed instances:")
-    console.log(instances)
+    console.log("\n--> TENANT: list of allowed instances:", instances);
     if (expectEmpty && instances.length != 0) {
       console.error(`Error: Tenant should not see ${NILE_ENTITY_NAME} instances`);
       process.exit(1);
@@ -83,31 +68,23 @@ async function test_tenant(orgID : string, expectEmpty : boolean = false) {
 }
 
 async function listRules(orgID : string) {
-
   // List rules
   const body = {
-     org: orgID,
-   };
-   await nile.authz
-     .listRules(body)
-      .then((data) => {
-        console.log("Listed rules: ", data);
-        //for (let i = 0; i < data.length; i++) {
-          //const rule = data[i];
-          //if (rule) {
-            //console.log("--> rule: " + JSON.stringify(rule, null, 2));
-          //}
-        //};
-      })
-     .catch((error: any) => console.error(error));
-
+    org: orgID,
+  };
+  await nile.authz
+    .listRules(body)
+    .then((data) => {
+      console.log('Listed rules: ', data);
+    })
+    .catch((error: any) => console.error(error));
 }
 
 
 
 async function run() {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`)
+  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer ${NILE_DEVELOPER_EMAIL}`);
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -115,32 +92,32 @@ async function run() {
       email: NILE_DEVELOPER_EMAIL,
       password: NILE_DEVELOPER_PASSWORD,
     },
-  }).catch((error:any) => {
-    console.error(`Error: Failed to login to Nile as developer ${NILE_DEVELOPER_EMAIL}: ` + error.message);
-    process.exit(1);
-  });
+    }).catch((error:any) => {
+      console.error(`Error: Failed to login to Nile as developer ${NILE_DEVELOPER_EMAIL}: ` + error.message);
+      process.exit(1);
+    });
 
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
-  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
 
-  console.log("NILE_ORGANIZATION_NAME is: " + NILE_ORGANIZATION_NAME);
+  console.log(`NILE_ORGANIZATION_NAME is ${NILE_ORGANIZATION_NAME}`);
 
   var orgID;
-  var myOrgs = await nile.organizations.listOrganizations()
-  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME)
+  var myOrgs = await nile.organizations.listOrganizations();
+  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME);
   if (maybeTenant) {
-    console.log("Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
-    orgID = maybeTenant.id
+    console.log("Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id);
+    orgID = maybeTenant.id;
   } 
 
-  console.log("orgID is: " + orgID);
+  console.log(`orgID is ${orgID}`);
 
   if (!orgID) {
     console.error ("Error: cannot determine the ID of the organization from the provided name :" + NILE_ORGANIZATION_NAME)
     process.exit(1);
   } else {
-    console.log("Organization with name " + NILE_ORGANIZATION_NAME + " exists with id " + orgID)
+    console.log('Organization with name ' + NILE_ORGANIZATION_NAME + ' exists with id ' + orgID);
   }
 
   // List rules
@@ -150,13 +127,13 @@ async function run() {
   await nile.entities.listInstances({
     org: orgID,
     type: NILE_ENTITY_NAME,
-  }).then((instances) => {
-    console.log("DEVELOPER: list of allowed instances:")
-    console.log(instances)
-  }).catch((error: any) => console.error(error));
+    }).then((instances) => {
+      console.log('DEVELOPER: list of allowed instances:', instances);
+    })
+    .catch((error: any) => console.error(error));
 
-  console.log("Test tenant before");
-  await test_tenant(orgID, false)
+  console.log('Test tenant before');
+  await testTenant(orgID, false);
 
   // Login developer
   await nile.developers.loginDeveloper({
@@ -164,62 +141,62 @@ async function run() {
       email: NILE_DEVELOPER_EMAIL,
       password: NILE_DEVELOPER_PASSWORD,
     },
-  }).catch((error:any) => {
-    console.error(`Error: Failed to login to Nile as developer ${NILE_DEVELOPER_EMAIL}: ` + error.message);
-    process.exit(1);
-  });
+    })
+    .catch((error:any) => {
+      console.error(`Error: Failed to login to Nile as developer ${NILE_DEVELOPER_EMAIL}: ` + error.message);
+      process.exit(1);
+    });
 
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
-  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken)
+  console.log(colors.green("\u2713"), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!\nToken: ` + nile.authToken);
 
   // Create rule
   var ruleID;
   const body = {
-     org: orgID,
-     createRuleRequest: {
-       actions: ["deny"],
-       resource: {
-         type: NILE_ENTITY_NAME,
-         //id: <instance id>,
-       },
-       subject: { email: NILE_TENANT1_EMAIL },
-     },
-   };
-   console.log("Creating rule with body: " + JSON.stringify(body, null, 2));
-   await nile.authz
-     .createRule(body)
-     .then((data) => {
-       ruleID = JSON.stringify(data.id, null, 2).replace(/['"]+/g, '');
-       console.log(`Created rule with id ${ruleID} to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
-     })
-     .catch((error: any) => console.error(error));
+    org: orgID,
+    createRuleRequest: {
+      actions: ["deny"],
+      resource: {
+        type: NILE_ENTITY_NAME,
+        //id: <instance id>,
+      },
+      subject: { email : NILE_TENANT1_EMAIL },
+    },
+  };
+  console.log("Creating rule with body: " + JSON.stringify(body, null, 2));
+  await nile.authz
+    .createRule(body)
+    .then((data) => {
+      ruleID = JSON.stringify(data.id, null, 2).replace(/['"]+/g, '');
+      console.log(`Created rule with id ${ruleID} to deny ${NILE_TENANT1_EMAIL} from entity ${NILE_ENTITY_NAME}.  Returned data: ` + JSON.stringify(data, null, 2));
+    })
+    .catch((error: any) => console.error(error));
 
   // List rules
   listRules(orgID);
 
-  console.log("Test tenant after");
-  await test_tenant(orgID, true)
+  console.log('Test tenant after');
+  await testTenant(orgID, true);
 
   // Delete rule
   const body = {
-     org: orgID,
-     ruleId: ruleID,
-   };
-   console.log("\nDeleting rule with body: " + JSON.stringify(body, null, 2));
-   await nile.authz
-     .deleteRule(body)
-     .then((data) => {
-       console.log(`Deleted rule with id ${ruleID}`);
-     })
-     .catch((error: any) => console.error(error));
+    org: orgID,
+    ruleId: ruleID,
+  };
+  console.log("\nDeleting rule with body: " + JSON.stringify(body, null, 2));
+  await nile.authz
+    .deleteRule(body)
+    .then((data) => {
+      console.log(`Deleted rule with id ${ruleID}`);
+    })
+    .catch((error: any) => console.error(error));
 
   // List rules
   listRules(orgID);
 
-  console.log("Test tenant after");
-  await test_tenant(orgID, false)
-
+  console.log('Test tenant after');
+  await testTenant(orgID, false);
 }
 
-run()
+run();
