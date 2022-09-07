@@ -1,9 +1,13 @@
 const schema = {
   "type": "object",
   "properties": {
-    "greeting": { "type": "string" }
+    "greeting": {
+      "type": "string"
+    }
   },
-  "required": ["greeting"]
+  "required": [
+    "greeting"
+  ]
 };
 
 exports.EntitySchema = schema;
