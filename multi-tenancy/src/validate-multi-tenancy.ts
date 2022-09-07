@@ -1,4 +1,4 @@
-import Nile, { CreateEntityRequest } from "@theniledev/js";
+import Nile from "@theniledev/js";
 
 var emoji = require('node-emoji');
 
@@ -36,18 +36,6 @@ const nile = Nile({
   basePath: NILE_URL,
   workspace: NILE_WORKSPACE,
 });
-
-// Schema for the entity that defines the service in the data plane
-const entityDefinition: CreateEntityRequest = {
-  "name": NILE_ENTITY_NAME,
-  "schema": {
-    "type": "object",
-    "properties": {
-      "greeting": { "type": "string" }
-    },
-    "required": ["greeting"]
-  }
-};
 
 async function getInstances(
   tenantEmail: string,

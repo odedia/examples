@@ -1,5 +1,6 @@
 import Nile, { CreateEntityRequest } from "@theniledev/js";
 import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/openapi/src";
+import { EntitySchema } from './models/EntitySchema';
 
 var emoji = require('node-emoji');
 
@@ -40,13 +41,7 @@ const nile = Nile({
 // Schema for the entity that defines the service in the data plane
 const entityDefinition: CreateEntityRequest = {
     "name": NILE_ENTITY_NAME,
-    "schema": {
-      "type": "object",
-      "properties": {
-        "greeting": { "type": "string" }
-      },
-      "required": ["greeting"]
-    }
+    "schema": EntitySchema,
 };
 
 // Workflow for the Nile developer
