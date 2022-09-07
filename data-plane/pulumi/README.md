@@ -63,7 +63,7 @@ For the values below, make sure they match what you set in the `.env` file.
 
 1. Login to the [Nile Admin Dashboard](https://nad.thenile.dev/).
 2. If there isn't one already, create a workspace named "clustify".
-3. Create an entity type named "SkyNet". For this example, the entity definition should have a schema that matches the schema defined in [EntitySchema.js](quickstart/src/models/EntitySchema.js).
+3. Create an entity type named "SkyNet". For this example, the entity definition should have a schema that matches the schema defined in [EntitySchema.js](../../quickstart/src/models/EntitySchema.js).
 :
 
 ```json

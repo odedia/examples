@@ -55,7 +55,7 @@ This provides a simple setup to learn the concepts but also serves as the founda
 ## Multi-tenancy
 
 Tenants have access to specific organizations that have isolated sets of resources.
-Users are be allowed to access the entity instances in the organizations to which they have been added.
+Users are allowed to access only the entity instances in the organizations to which they have been added.
 
 | Example | Languages | Description |
 |---------|-----------|-------------|
