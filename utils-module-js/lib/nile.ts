@@ -1,4 +1,4 @@
-exports.getOrgIDFromOrgName =async function (
+exports.getOrgIDFromOrgName = async function (
   orgName: String, nile: nileAPI): Promise< string | null > {
 
   // Check if organization exists
