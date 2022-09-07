@@ -74,7 +74,7 @@ async function getInstances(
   if (orgID) {
     console.log(emoji.get('white_check_mark'), "Mapped organizationName " + organizationName + " to orgID " + orgID);
   } else {
-    console.error(emoji.get('x'), `Logged in as tenant ${tenantEmail}, cannot find organization with name ${organizationName}`);
+    console.log(emoji.get('x'), `Tenant ${tenantEmail} cannot find organization with name ${organizationName}`);
     return;
   }
 
@@ -122,9 +122,9 @@ async function addTenant(
   // Get orgID
   let orgID = await nileUtils.getOrgIDFromOrgName (organizationName, nile);
   if (orgID) {
-    console.log(emoji.get('white_check_mark'), "Org " + organizationName + " exists in org id " + orgID);
+    console.log(emoji.get('white_check_mark'), "Mapped organizationName " + organizationName + " to orgID " + orgID);
   } else {
-    console.error(emoji.get('x'), `Error: organization ${organizationName} for tenant ${tenantEmail} should have already been configured`);
+    console.error(emoji.get('x'), `Error: Tenant ${tenantEmail} cannot find organization with name ${organizationName}`);
     process.exit(1);
   }
   //console.log("orgID is: " + orgID);
