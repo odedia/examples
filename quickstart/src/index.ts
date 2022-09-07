@@ -3,6 +3,8 @@ import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/open
 
 var emoji = require('node-emoji');
 
+var nileUtils = require('../../utils-module-js/').nileUtils;
+
 import * as dotenv from 'dotenv';
 
 dotenv.config({ override: true })
@@ -112,23 +114,23 @@ async function setup_workflow_developer() {
   }
 
   // Check if organization exists, create if not
-  var myOrgs = await nile.organizations.listOrganizations();
-  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME);
-  var orgID! : string;
-
-  if (maybeTenant) {
-    console.log(emoji.get('white_check_mark'), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id);
-    orgID = maybeTenant.id;
+  let orgID = await nileUtils.getOrgIDFromOrgName (NILE_ORGANIZATION_NAME, nile);
+  if (orgID) {
+    console.log(emoji.get('white_check_mark'), "Mapped organizationName " + NILE_ORGANIZATION_NAME + " to orgID " + orgID);
   } else {
     await nile.organizations.createOrganization({"createOrganizationRequest" :
     {
-      name: NILE_ORGANIZATION_NAME,
+      name : NILE_ORGANIZATION_NAME,
     }}).then ( (org) => {
       if (org != null) {
-        console.log(emoji.get('white_check_mark'), "Created Tenant: " + org.name);
-        orgID = org.id
+        console.log(emoji.get('white_check_mark'), "Created organization " + org.name);
+        orgID = org.id;
       }
     }).catch((error:any) => console.error(error.message));
+  }
+  if (!orgID) {
+    console.error(emoji.get('x'), `Unable to find or create organization with name ${NILE_ORGANIZATION_NAME}`);
+    process.exit(1);
   }
 
   // Check if entity instance already exists, create if not

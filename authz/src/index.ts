@@ -2,6 +2,8 @@ import Nile from '@theniledev/js';
 
 var emoji = require('node-emoji');
 
+var nileUtils = require('../../utils-module-js/').nileUtils;
+
 import * as dotenv from 'dotenv';
 
 dotenv.config({ override: true });
@@ -103,21 +105,13 @@ async function run() {
 
   console.log(`NILE_ORGANIZATION_NAME is ${NILE_ORGANIZATION_NAME}`);
 
-  var orgID;
-  var myOrgs = await nile.organizations.listOrganizations();
-  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME);
-  if (maybeTenant) {
-    console.log("Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id);
-    orgID = maybeTenant.id;
-  } 
-
-  console.log(`orgID is ${orgID}`);
-
-  if (!orgID) {
-    console.error ("Error: cannot determine the ID of the organization from the provided name :" + NILE_ORGANIZATION_NAME)
-    process.exit(1);
+  // Get orgID
+  let orgID = await nileUtils.getOrgIDFromOrgName (NILE_ORGANIZATION_NAME, nile);
+  if (orgID) {
+    console.log(emoji.get('white_check_mark'), "Mapped organizationName " + NILE_ORGANIZATION_NAME + " to orgID " + orgID);
   } else {
-    console.log('Organization with name ' + NILE_ORGANIZATION_NAME + ' exists with id ' + orgID);
+    console.error(emoji.get('x'), `Cannot find organization with name ${NILE_ORGANIZATION_NAME}`);
+    process.exit(1);
   }
 
   // List rules

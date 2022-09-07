@@ -2,6 +2,8 @@ import Nile, { CreateEntityRequest } from "@theniledev/js";
 
 var emoji = require('node-emoji');
 
+var nileUtils = require('../../utils-module-js/').nileUtils;
+
 import * as dotenv from 'dotenv';
 
 dotenv.config({ override: true });
@@ -67,14 +69,14 @@ async function getInstances(
   nile.authToken = nile.users.authToken
   console.log(emoji.get('white_check_mark'), `Logged into Nile as tenant ${tenantEmail}!`)
 
-  let orgID = await getOrgIDFromOrgName (organizationName);
+  // Get orgID
+  let orgID = await nileUtils.getOrgIDFromOrgName (organizationName, nile);
   if (orgID) {
-    console.log(emoji.get('white_check_mark'), "Org " + organizationName + " exists in org id " + orgID);
+    console.log(emoji.get('white_check_mark'), "Mapped organizationName " + organizationName + " to orgID " + orgID);
   } else {
-    console.log(`Logged in as tenant ${tenantEmail}, cannot find organization with name ${organizationName}`);
+    console.error(emoji.get('x'), `Logged in as tenant ${tenantEmail}, cannot find organization with name ${organizationName}`);
     return;
   }
-  console.log(emoji.get('white_check_mark'), "Mapped organizationName " + organizationName + " to orgID " + orgID);
 
   // List instances of the service
   const instances = (
@@ -118,7 +120,7 @@ async function addTenant(
   console.log(emoji.get('white_check_mark'), `Logged into Nile as developer ${NILE_DEVELOPER_EMAIL}!`);
 
   // Get orgID
-  let orgID = await getOrgIDFromOrgName (organizationName);
+  let orgID = await nileUtils.getOrgIDFromOrgName (organizationName, nile);
   if (orgID) {
     console.log(emoji.get('white_check_mark'), "Org " + organizationName + " exists in org id " + orgID);
   } else {
@@ -153,19 +155,6 @@ function getDifference<T>(a: T[], b: T[]): T[] {
   return a.filter((element) => {
     return !b.includes(element);
   });
-}
-
-async function getOrgIDFromOrgName(
-  orgName: String): Promise< string | null > {
-
-  // Check if organization exists
-  var myOrgs = await nile.organizations.listOrganizations()
-  var maybeOrg = myOrgs.find( org => org.name == orgName)
-  if (maybeOrg) {
-    return maybeOrg.id
-  } else {
-    return null
-  }
 }
 
 async function run() {

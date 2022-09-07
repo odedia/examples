@@ -3,6 +3,8 @@ import { CreateEntityOperationRequest } from "@theniledev/js/dist/generated/open
 
 var emoji = require('node-emoji');
 
+var nileUtils = require('../../utils-module-js/').nileUtils;
+
 import * as dotenv from 'dotenv';
 
 dotenv.config({ override: true })
@@ -55,15 +57,13 @@ async function run() {
   // Get the JWT token
   nile.authToken = nile.developers.authToken;
 
-  // Find tenant id
-  var orgID;
-  var myOrgs = await nile.organizations.listOrganizations()
-  var maybeTenant = myOrgs.find( org => org.name == NILE_ORGANIZATION_NAME)
-  if (maybeTenant) {
-    console.log(emoji.get('white_check_mark'), "Org " + NILE_ORGANIZATION_NAME + " exists with id " + maybeTenant.id)
-    orgID = maybeTenant.id
+  // Get orgID
+  let orgID = await nileUtils.getOrgIDFromOrgName (NILE_ORGANIZATION_NAME, nile);
+  if (orgID) {
+    console.log(emoji.get('white_check_mark'), "Mapped organizationName " + NILE_ORGANIZATION_NAME + " to orgID " + orgID);
   } else {
-    console.error(emoji.get('x'), "Cannot find org id for " + NILE_ORGANIZATION_NAME)
+    console.error(emoji.get('x'), `Cannot find organization with name ${NILE_ORGANIZATION_NAME}`);
+    process.exit(1);
   }
 
   // Find instance with matching name
