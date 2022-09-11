@@ -1,0 +1,78 @@
+{
+    "name": "FlinkDeployment",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "name" : {"type": "string"}
+          }
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "flinkConfiguration": {
+              "type": "object",
+              "properties": {
+                "taskmanager.numberOfTaskSlots" : {"type": "number"}
+              }
+            },
+            "job": {
+              "type": "object",
+              "properties" : {
+                "jarURI": {"type": "string"},
+                "parallelism": {"type": "integer"},
+                "upgradeMode": {"enum": ["SAVEPOINT", "LAST_STATE", "STATELESS"]},
+                "state": {
+                    "enum": ["RUNNING", "SUSPENDED"],
+                    "description": "Desired state of the job"
+                }
+              }
+            },
+            "jobManager": {
+                "type" : "object",
+                "properties" : {
+                    "resource" : {
+                        "type" : "object",
+                        "properties" : {
+                            "cpu": {"type" : "number"},
+                            "memory": {"type": "string"}
+                        }
+                    }
+                }
+            },
+            "taskManager": {
+                "type" : "object",
+                "properties" : {
+                    "resource" : {
+                        "type" : "object",
+                        "properties" : {
+                            "cpu": {"type" : "number"},
+                            "memory": {"type": "string"}
+                        }
+                    },
+                    "replicas": {"type": "number"}
+                }
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "jobStatus": {
+                "type": "object",
+                "properties": {
+                    "jobName": {"type": "string"},
+                    "jobID": {"type": "string"},
+                    "state": {"type": "string"},
+                    "startTime": {"type": "string", "format": "date-time"},
+                    "updateTime": {"type": "string", "format": "date-time"}
+                }
+            },
+            "error": {"type": "string"}
+          }
+        }
+      }
+    }
+  }

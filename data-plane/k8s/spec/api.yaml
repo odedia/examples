@@ -1,0 +1,173 @@
+openapi: 3.0.2
+info:
+  title: nile
+  version: '0.1'
+servers:
+  - url: 'https://api.thenile.dev/v0'
+paths:
+  /instances/FlinkDeployment:
+    get:
+      tags:
+      - FlinkDeployment
+      operationId: listInstances
+      summary: Get all FlinkDeployments
+      responses:
+        '200':
+          description: List of all FlinkDeployments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FlinkDeployment'
+    post:
+      tags:
+      - FlinkDeployment
+      operationId: createInstance
+      summary: Create a new FlinkDeployment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlinkDeployment'
+      responses:
+        '200':
+          description: Created a new FlinkDeployment
+
+  /instances/FlinkDeployment/{id}:
+    parameters:
+      - $ref: '#/components/parameters/idInPath'
+      - $ref: '#/components/parameters/orgIdInQuery'
+    get:
+      tags:
+      - FlinkDeployment
+      operationId: getInstance
+      summary: Get a FlinkDeployment
+      responses:
+        '200':
+          description: Get a FlinkDeployment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlinkDeployment'
+    put:
+      tags:
+      - FlinkDeployment
+      operationId: updateInstance
+      summary: Update a FlinkDeployment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlinkDeployment'
+      responses:
+        '200':
+          description: The updated FlinkDeployment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlinkDeployment'
+    delete:
+      tags:
+      - FlinkDeployment
+      operationId: deleteInstance
+      summary: Delete this FlinkDeployment.
+      responses:
+        204:
+          description: Successful deletion of the FlinkDeployment.
+
+components:
+  parameters:
+    orgIdInQuery:
+      in: query
+      name: orgId
+      schema:
+        type: integer
+      required: true
+      description: Org ID
+    idInPath:
+      in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: Unique identifier
+
+  schemas:
+    FlinkDeployment:
+        type: "object"
+        properties:
+          spec:
+            type: "object"
+            properties:
+              job:
+                type: "object"
+                properties:
+                  state:
+                    enum:
+                    - "RUNNING"
+                    - "SUSPENDED"
+                    description: "Desired state of the job"
+                  jarURI:
+                    type: "string"
+                  parallelism:
+                    type: "integer"
+                  upgradeMode:
+                    enum:
+                    - "SAVEPOINT"
+                    - "LAST_STATE"
+                    - "STATELESS"
+              jobManager:
+                type: "object"
+                properties:
+                  resource:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "number"
+                      memory:
+                        type: "string"
+              taskManager:
+                type: "object"
+                properties:
+                  replicas:
+                    type: "number"
+                  resource:
+                    type: "object"
+                    properties:
+                      cpu:
+                        type: "number"
+                      memory:
+                        type: "string"
+              flinkConfiguration:
+                type: "object"
+                properties:
+                  taskmanager.numberOfTaskSlots:
+                    type: "number"
+          status:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+              jobStatus:
+                type: "object"
+                properties:
+                  jobID:
+                    type: "string"
+                  state:
+                    type: "string"
+                  jobName:
+                    type: "string"
+                  startTime:
+                    type: "string"
+                    format: "date-time"
+                  updateTime:
+                    type: "string"
+                    format: "date-time"
+          metadata:
+            type: "object"
+            properties:
+              name:
+                type: "string"
