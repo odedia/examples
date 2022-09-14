@@ -1,0 +1,267 @@
+name: examples
+
+on: [push]
+
+  workflow_call:
+    secrets:
+      nile_url:
+        required: true
+
+jobs:
+
+  quickstart:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: quickstart
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: quickstart
+        run: yarn install --no-lockfile
+
+      - name: yarn start
+        working-directory: quickstart
+        run: yarn start
+
+
+  multi-tenancy:
+
+    needs: quickstart
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: multi-tenancy
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: multi-tenancy
+        run: yarn install --no-lockfile
+
+      - name: yarn start
+        working-directory: multi-tenancy
+        run: yarn start
+
+      - name: yarn test
+        working-directory: multi-tenancy
+        run: yarn test
+
+
+  data-plane-pulumi:
+
+    needs: multi-tenancy
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: multi-tenancy
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: data-plane/pulumi
+        run: yarn install --no-lockfile
+
+      - name: yarn prereconcile
+        working-directory: data-plane/pulumi
+        run: yarn prereconcile
+
+  authz:
+
+    needs: multi-tenancy
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: authz
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: authz
+        run: yarn install --no-lockfile
+
+      - name: yarn start
+        working-directory: authz
+        run: yarn start
+
+      - name: yarn clean
+        working-directory: authz
+        run: yarn clean
+
+  authz-be:
+
+    needs: multi-tenancy
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: authz
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: authz-be
+        run: yarn install --no-lockfile
+
+      - name: yarn prestart
+        working-directory: authz-be
+        run: yarn prestart
+
+      - name: yarn gh-start
+        working-directory: authz-be
+        run: yarn gh-start
+
+      - name: yarn gh-clean
+        working-directory: authz-be
+        run: yarn gh-clean
+
+  authz-python:
+
+    needs: authz
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets.nile_url }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ORGANIZATION_NAME: sac-norad
+          envkey_NILE_ENTITY_NAME: SkyNet
+          directory: authz-python
+          file_name: .env
+          fail_on_empty: false
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        working-directory: authz-python
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: python authz.py
+        working-directory: authz-python
+        run: python authz.py

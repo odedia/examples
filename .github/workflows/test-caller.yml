@@ -1,0 +1,20 @@
+name: Validate examples against prod and dev
+
+on: [push]
+
+jobs:
+
+  validate-examples:
+
+    strategy:
+      matrix:
+        include:
+          - environment: dev
+            nile_url: NILE_URL_DEV
+          - environment: prod
+            nile_url: NILE_URL_PROD
+
+    env:
+      NILE_URL: ${{ secrets[matrix.nile_url] }}
+
+    uses: .github/workflows/test.yml
