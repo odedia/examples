@@ -232,7 +232,7 @@ jobs:
           envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
           envkey_NILE_ORGANIZATION_NAME: sac-norad
           envkey_NILE_ENTITY_NAME: FlinkDeployment
-          directory: dataplane/k8s
+          directory: data-plane/k8s
           file_name: .env
           fail_on_empty: false
 
