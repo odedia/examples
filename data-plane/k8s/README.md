@@ -179,7 +179,12 @@ docker images
 kind load docker-image nile-data-plane-k8s:0.1.0
 ```
 
-3. The reconciler will run under default service account in K8s, give it permissions to manage the cluster so it can deploy Flink jobs.
+3. Load `.env` file as a secret configuration to K8s. After all, it contains the developer credentials:
+```bash
+kubectl create secret generic nile-secrets --from-env-file=.env
+```
+
+4. The reconciler will run under default service account in K8s, so give it permissions to manage the cluster so it can deploy Flink jobs.
 ```bash
 kubectl apply -f - <<EOF
   apiVersion: rbac.authorization.k8s.io/v1
@@ -197,7 +202,7 @@ kubectl apply -f - <<EOF
 EOF
 ```
 
-4. Start a pod with the reconciler image:
+5. Start a pod with the reconciler image:
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: v1
@@ -213,7 +218,7 @@ spec:
          name: nile-secrets
 EOF
 ```
-5. Check the pod logs to see the reconciler in action:
+6. Check the pod logs to see the reconciler in action:
 ```bash
 kubectl logs nile-data-plane-k8s -f
 ```
