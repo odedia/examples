@@ -17,4 +17,4 @@ jobs:
     env:
       NILE_URL: ${{ secrets[matrix.nile_url] }}
 
-    uses: ./.github/workflows/test.yml@main
+    uses: ./.github/workflows/test.yml@test-gh-combined
