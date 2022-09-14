@@ -1,14 +1,14 @@
-# Nile Data Plane Example #
+# Deploy Apache Flink to K8s with Nile Example #
 
 ![image](../../images/Nile-text-logo.png)
 
 ## Overview
 
 This example demonstrates how to synchronize (i.e., `reconcile`) the data
-plane and control plane in real time with Nile events.
+plane and control plane in real time with Nile events. 
 
-Nile doesn't prescribe any particular data plane deployment solution, but here we'll be
-using [Apache Flink's Operator ](https://github.com/apache/flink-kubernetes-operator) to deploy objects into Kubernetes. 
+Nile doesn't prescribe any particular data plane deployment solution. Here we'll be
+using [Apache Flink's Operator](https://github.com/apache/flink-kubernetes-operator) to deploy objects into Kubernetes. 
 
 > If your data plane is something other than Flink jobs or does not use Kubernetes, replace 
 > the [`FlinkDeploymentService`](./src/service/FlinkDeploymentService.ts) 
@@ -32,7 +32,7 @@ This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](http
 
 This example assumes you have:
 
-* Kubernetes cluster and ability to execute `kubectl` commands from your development environment. [Kind is great for local testing](https://kind.sigs.k8s.io/)
+* Kubernetes cluster and ability to execute `kubectl` commands from your development environment. [Kind](https://kind.sigs.k8s.io/) is great for local testing
 * [Flink Operator installed on K8s](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/docs/try-flink-kubernetes-operator/quick-start/)
 * [OpenAPI code generator installed](https://openapi-generator.tech/docs/installation/#homebrew)
 * A Nile developer account using an email address and password
@@ -121,11 +121,11 @@ yarn install  --ignore-engines
 yarn setup
 ```
 
-3. In the previous step you created a FlinkDeployment entity. Nile automatucally generated an OpenAPI spec for the entity. You can view the spec in the UI, and we [included it in this repository](spec/api.yaml) for convenience.
+3. In the previous step you created a FlinkDeployment entity. Nile automatically generated an OpenAPI spec for the entity, which our script then downloaded. 
 4. Generate FlinkDeployment JS module from the entity spec: 
 
 ```bash
-openapi-generator generate -i spec/api.yaml -g typescript -o generated/openapi
+openapi-generator generate -i spec/FlinkDeployment.yaml -g typescript -o generated/openapi
 ```
 
 ## Run the reconciler ##
@@ -149,7 +149,7 @@ yarn install  --ignore-engines
 yarn start
 ```
 
-For more detailed information while reconcilling: 
+For more detailed information while reconciling: 
 
 ```bash
 yarn debug

@@ -2,7 +2,7 @@ import Nile, { CreateEntityRequest } from "@theniledev/js";
 
 const emoji = require('node-emoji');
 const fs = require('fs');
-const colorize = require('json-colorizer')
+const yaml = require('js-yaml');
 
 require('dotenv').config({ override: true })
 
@@ -129,9 +129,9 @@ async function setup_workflow_developer() {
     org: tenant_id,
     type: NILE_ENTITY_NAME,
   });
-  let maybeInstance = myInstances.find( instance => instance.type == NILE_ENTITY_NAME);
+  let maybeInstance = myInstances.find( instance => instance.type == entityDefinition.name);
   if (maybeInstance) {
-    console.log(emoji.get('white_check_mark'), "Entity instance " + NILE_ENTITY_NAME + " exists with id " + maybeInstance.id);
+    console.log(emoji.get('white_check_mark'), "Entity instance " + entityDefinition.name + " exists with id " + maybeInstance.id);
   } else {
     console.log(myInstances);
     const identifier = Math.floor(Math.random() * 100000)
@@ -177,6 +177,24 @@ async function setup_workflow_developer() {
     console.log("The following entity instances exist:");
     console.log(JSON.stringify(entity_instances, null, 2));
   });
+
+  // Download OpenAPI spec
+  var strSpec = await nile.entities.getOpenAPI({
+    workspace: NILE_WORKSPACE,
+    type: entityDefinition.name
+  })
+  var objSpec = yaml.load(strSpec)
+  try {
+    delete objSpec.components.schemas.FlinkDeployment.name
+    objSpec.components.schemas.FlinkDeployment.type = objSpec.components.schemas.FlinkDeployment.schema.type
+    objSpec.components.schemas.FlinkDeployment.properties = objSpec.components.schemas.FlinkDeployment.schema.properties
+    delete objSpec.components.schemas.FlinkDeployment.schema
+  } catch{
+    console.log("Yaml cleanup failed. We'll assume it is because no cleanup is needed")
+  }
+
+  fs.writeFileSync('./spec/FlinkDeployment.yaml', yaml.dump(objSpec))
+
 }
 
 async function setup_control_plane() {
