@@ -4,7 +4,9 @@ on: [push]
 
 jobs:
 
-  validate-examples:
+  run-validation:
+
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
