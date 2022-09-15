@@ -11,8 +11,7 @@ let envParams = [
   "NILE_WORKSPACE",
   "NILE_DEVELOPER_EMAIL",
   "NILE_DEVELOPER_PASSWORD",
-  "NILE_ORGANIZATION_NAME",
-  "NILE_ENTITY_NAME",
+  "NILE_ORGANIZATION_NAME"
 ]
 envParams.forEach( (key: string) => {
   if (!process.env[key]) {
@@ -26,7 +25,6 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_DEVELOPER_EMAIL = process.env.NILE_DEVELOPER_EMAIL!;
 const NILE_DEVELOPER_PASSWORD = process.env.NILE_DEVELOPER_PASSWORD!;
 const NILE_ORGANIZATION_NAME = process.env.NILE_ORGANIZATION_NAME!;
-const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 
 const nile = Nile({
   basePath: NILE_URL,
@@ -133,8 +131,6 @@ async function setup_workflow_developer() {
   if (maybeInstance) {
     console.log(emoji.get('white_check_mark'), "Entity instance " + entityDefinition.name + " exists with id " + maybeInstance.id);
   } else {
-    console.log(myInstances);
-    const identifier = Math.floor(Math.random() * 100000)
     await nile.entities.createInstance({
       org: tenant_id,
       type: entityDefinition.name,

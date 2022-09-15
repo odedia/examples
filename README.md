@@ -69,7 +69,7 @@ Even if you're using another deployment tool like Kubernetes or Terraform, simil
 | Example | Languages | Description |
 |---------|-----------|-------------|
 | [Data Plane with Pulumi](data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane |
-| [Data Plane with Apache Flink and Kubernetes] | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes |
+| [Data Plane with Apache Flink and Kubernetes](data-plane/k8s/)  | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes |
 
 ## Authorization
 

@@ -23,7 +23,6 @@ This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](http
 * [Prerequisites](#prerequisites)
 * [Setup](#setup)
 * [Configure the Control Plane](#configure-the-control-plane)
-* [Configure the Data Plane](#configure-the-data-plane)
 * [Run the reconciler](#run-the-reconciler)
 * [Explanation](#Explanation)
 * [Add or remove instances](#add-or-remove-instances)
@@ -100,11 +99,10 @@ For the values below, make sure they match what you set in the `.env` file.
   }
 }
 ```
-6. Nile generated an OpenAPI spec for the entity. You can view the spec in the UI, and we [included it in this repository](spec/api.yaml) for convenience.
-7. Generate FlinkDeployment JS module from the entity spec: 
+6. Nile generated an OpenAPI spec for the entity. Navigate to the `Open API` tab in the `Entities` page and copy the API definition to a file called `spec/FlinkDeployment.yaml`.
 
 ```bash
-openapi-generator generate -i spec/api.yaml -g typescript -o generated/openapi
+openapi-generator generate -i spec/FlinkDeployment.yaml -g typescript -o generated/openapi
 ```
 
 ### Programmatically
@@ -231,8 +229,11 @@ control plane and will call K8s APIs to deploy this job configuration in K8s.
 
 Verify that the Flink job is indeed running in K8s looking at its latest state:
 ```bash
-gwen@Gwens-MBP ~ % kubectl get deploy/basic-example
+kubectl get deploy/basic-example
+```
 
+Your output should resemble:
+```bash
 NAME            READY   UP-TO-DATE   AVAILABLE   AGE
 basic-example   1/1     1            1           2d
 ```

@@ -1,4 +1,4 @@
-import Nile, { Instance, NileApi } from '@theniledev/js';
+import Nile, { Instance, CreateEntityRequest } from '@theniledev/js';
 import { ReconciliationPlan } from './model/ReconciliationPlan';
 import FlinkDeploymentService from './service/FlinkDeploymentService';
 import { FlinkDeployment } from '../generated/openapi';
@@ -6,14 +6,14 @@ import { FlinkDeployment } from '../generated/openapi';
 const emoji = require('node-emoji');
 const debug = require('debug')('data-plane-on-k8s-demo')
 require('dotenv').config({ override: true })
+const fs = require('fs');
 
 let envParams = [
   "NILE_URL",
   "NILE_WORKSPACE",
   "NILE_DEVELOPER_EMAIL",
   "NILE_DEVELOPER_PASSWORD",
-  "NILE_ORGANIZATION_NAME",
-  "NILE_ENTITY_NAME",
+  "NILE_ORGANIZATION_NAME"
 ]
 envParams.forEach( (key: string) => {
   if (!process.env[key]) {
@@ -27,10 +27,12 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_DEVELOPER_EMAIL = process.env.NILE_DEVELOPER_EMAIL!;
 const NILE_DEVELOPER_PASSWORD = process.env.NILE_DEVELOPER_PASSWORD!;
 const NILE_ORGANIZATION_NAME = process.env.NILE_ORGANIZATION_NAME!;
-const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 const CHECK_STATUS = process.env.CHECK_STATUS; // optional, and therefore not included earlier for verification
 
 var deploymentService!: FlinkDeploymentService;
+
+// Schema for the entity that defines the service in the data plane
+const entityDefinition: CreateEntityRequest = JSON.parse(fs.readFileSync('./spec/FlinkDeployment.json'))
 
 const nile = Nile({
   basePath: NILE_URL,
@@ -55,7 +57,7 @@ async function run() {
 
   const instances = await loadInstances(
     String(NILE_ORGANIZATION_NAME),
-    String(NILE_ENTITY_NAME)
+    entityDefinition.name
   );
   const requiredDeployments = toDeployments(instances);
 
@@ -85,7 +87,7 @@ async function run() {
 
   // listen to updates from Nile and handle accordingly
   await listenForNileEvents(
-    String(NILE_ENTITY_NAME),
+    entityDefinition.name,
     findLastSeq(Object.values(instances))
   );
 }
