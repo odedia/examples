@@ -125,7 +125,7 @@ async function setup_workflow_developer() {
   // Check if entity instance already exists, create if not
   let myInstances = await nile.entities.listInstances({
     org: tenant_id,
-    type: NILE_ENTITY_NAME,
+    type: entityDefinition.name,
   });
   let maybeInstance = myInstances.find( instance => instance.type == entityDefinition.name);
   if (maybeInstance) {
