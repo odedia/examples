@@ -23,6 +23,7 @@ This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](http
 * [Prerequisites](#prerequisites)
 * [Setup](#setup)
 * [Configure the Control Plane](#configure-the-control-plane)
+* [Configure the Data Plane](#configure-the-data-plane)
 * [Run the reconciler](#run-the-reconciler)
 * [Explanation](#Explanation)
 * [Add or remove instances](#add-or-remove-instances)
@@ -32,7 +33,7 @@ This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](http
 This example assumes you have:
 
 * Kubernetes cluster and ability to execute `kubectl` commands from your development environment. [Kind](https://kind.sigs.k8s.io/) is great for local testing
-* [Flink Operator installed on K8s](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-main/docs/try-flink-kubernetes-operator/quick-start/)
+* [Helm installed](https://helm.sh/docs/intro/install/)
 * [OpenAPI code generator installed](https://openapi-generator.tech/docs/installation/#homebrew)
 * A Nile developer account using an email address and password
 
@@ -125,6 +126,33 @@ yarn setup
 ```bash
 openapi-generator generate -i spec/FlinkDeployment.yaml -g typescript -o generated/openapi
 ```
+## Configure the data plane ##
+
+This example uses the [Apache Flink Operator](https://github.com/apache/flink-kubernetes-operator).
+
+1. Install Flink Operator from a helm chart:
+
+```bash 
+helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-1.1.0
+helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator
+```
+
+2. You can verify the installation by running:
+
+```bash
+helm list && kubectl get pods
+```
+
+which should print output similar to:
+
+```bash
+NAME                     	NAMESPACE	REVISION	UPDATED                             	STATUS  	CHART                          	APP VERSION
+flink-kubernetes-operator	default  	1       	2022-08-31 14:08:02.511915 -0700 PDT	deployed	flink-kubernetes-operator-1.1.0	1.1.0
+NAME                                         READY   STATUS    RESTARTS        AGE
+flink-kubernetes-operator-66cc555799-lqsgd   1/1     Running   1 (4d21h ago)   14d
+```
+
+You will next run the reconciler to get the Flink Operator to deploy a Flink job. That job is described by the FlinkDeployment instance that you created in the previous step.
 
 ## Run the reconciler ##
 
