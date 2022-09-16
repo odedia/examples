@@ -174,7 +174,7 @@ jobs:
 
   authz-be:
 
-    needs: authz
+    needs: multi-tenancy
 
     runs-on: ubuntu-latest
 
@@ -222,7 +222,7 @@ jobs:
 
   authz-python:
 
-    needs: authz-be
+    needs: authz
 
     runs-on: ubuntu-latest
 
