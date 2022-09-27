@@ -8,6 +8,7 @@ import getConfig from 'next/config'
 import NavBar from '../NavBar';
 import { CreateInstance } from './CreateInstance';
 import { useFirstOrg } from './hooks';
+import { checkAccess } from '../CreateOrg/policies';
 
 
 export default function ClustersTable(){
@@ -15,6 +16,8 @@ export default function ClustersTable(){
   const [isLoading, user, org, unauthorized] = useFirstOrg();
   const { publicRuntimeConfig } = getConfig();
   const { NILE_ENTITY_NAME } = publicRuntimeConfig;
+
+  const hasAccess = React.useMemo(() => checkAccess(user), [user]);
 
   // just a simple refresh for now.
   React.useEffect(() => {
@@ -46,7 +49,13 @@ export default function ClustersTable(){
                 justifyContent: 'flex-end'
               }}
             >
-              <CreateInstance key="create-instance" org={org.id} setReRender={() => setReRender(true)}/>
+              { hasAccess && (
+                <CreateInstance 
+                  key="create-instance" 
+                  org={org.id} 
+                  setReRender={() => setReRender(true)}
+                />
+              )}
             </Box>
           </Stack>
           {reRender ? null : (
