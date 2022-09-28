@@ -4,10 +4,12 @@
 
 ## Overview
 
-This examples uses [Next.js](https://nextjs.org/) to create a frontend for a SaaS appliation integrated with [Nile](https://thenile.dev/).
+This examples uses [Next.js](https://nextjs.org/) to create a frontend for a SaaS application integrated with [Nile](https://thenile.dev/).
 The app is completely self-serve, allowing end users to sign up on their own, create their own organization, and manage their own instances.
 
 ## Setup
+
+To run these examples, you need to access to Nile. Please [reach out](https://www.thenile.dev) for more information.
 
 1. Create certificates for your local machine and accept them. The Nile backend will only serve cookies to `\*.thenile.dev` domains, which is required for login
 
@@ -23,7 +25,7 @@ The app is completely self-serve, allowing end users to sign up on their own, cr
      printf "[dn]\nCN=*.thenile.dev\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:*.thenile.dev\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
    ```
 
-2. Opne the certificate just created (`open localhost.crt`), and double click on the certificate in your keychain.
+2. Open the certificate just created (`open localhost.crt`), and double click on the certificate in your keychain.
 
 3. From the pop up window, open the dropdown for `Trust` and select `Always Trust`.
 
@@ -45,13 +47,13 @@ yarn install
 
 ## Setup
 
-Setup the Nile control plane
+Run the following command to preconfigure the Nile control plane just so you're not starting from scratch: entity definition called [SaaSDB](../quickstart/src/models/SaaSDB_Entity_Definition.json), two organizations with users from [userList.json](../quickstart/src/datasets/userList.json), and entity instances from [dbList.json](../quickstart/src/datasets/dbList.json).
 
 ```bash
 yarn setup-nile
 ```
 
-## Run the server locally
+## Run the web server locally
 
 ```bash
 yarn dev
@@ -65,13 +67,15 @@ yarn dev
 
    ![image](images/login.png)
 
-2. Once logged in (e.g. as `nora@demo.io`), the user sees the entity instances (e.g. databases in this mock scenario) that she has acccess to.
+2. Once logged in (e.g. as `nora@demo.io`), the user sees the entity instances (e.g. databases in this mock scenario) that she has access to.
 
    ![image](images/instances.png)
 
 3. Logout. Then instead of logging in as an existing user, sign up as a new user.  Enter any email/password, then create an organization name.
 
-3. As a Nile developer: log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
+4. Create a new SaaSDB instance.
+
+5. As a Nile developer: log into the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
 For the email and password, use the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file.
 
    Your dashboard should resemble below:
