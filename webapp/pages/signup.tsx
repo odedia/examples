@@ -1,6 +1,5 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { useNile } from '@theniledev/react';
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
 import MySignUpForm from '~/components/MySignupForm';
 
@@ -15,7 +14,7 @@ const Home: NextPage = () => {
       {/** wrapper around the nile login form */}
       <MySignUpForm />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

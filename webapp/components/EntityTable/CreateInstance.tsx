@@ -1,17 +1,21 @@
 import React from 'react';
-import { Alert, Button, Modal, ModalClose, Sheet, Stack, Typography } from '@mui/joy';
+import { Alert, Button, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
 import getConfig from 'next/config';
 import { EntityForm } from '@theniledev/react';
+
 import fields from './FormFields';
 
-export function CreateInstance(props: {org: string, setReRender: () => void}) {
+export function CreateInstance(props: {
+  org: string;
+  setReRender: () => void;
+}) {
   const { org, setReRender } = props;
   const { publicRuntimeConfig } = getConfig();
   const { NILE_ENTITY_NAME } = publicRuntimeConfig;
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   return (
-   <Stack>
+    <Stack>
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
@@ -40,9 +44,9 @@ export function CreateInstance(props: {org: string, setReRender: () => void}) {
             }}
           />
           {error && <Alert color="danger">{error}</Alert>}
-          <EntityForm 
-            fields={fields} 
-            entityType={NILE_ENTITY_NAME} 
+          <EntityForm
+            fields={fields}
+            entityType={NILE_ENTITY_NAME}
             onSuccess={() => {
               setOpen(false);
               setReRender();
@@ -56,9 +60,7 @@ export function CreateInstance(props: {org: string, setReRender: () => void}) {
           />
         </Sheet>
       </Modal>
-      <Button onClick={() => setOpen(true)}>
-        Create {NILE_ENTITY_NAME}
-      </Button>
-   </Stack> 
+      <Button onClick={() => setOpen(true)}>Create {NILE_ENTITY_NAME}</Button>
+    </Stack>
   );
 }

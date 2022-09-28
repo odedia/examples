@@ -1,9 +1,10 @@
 import { Stack, Typography } from '@mui/joy';
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
 import getConfig from 'next/config';
-import Head from 'next/head'
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
+
 import EntityTable from '~/components/EntityTable'; // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
 import NavBar from '~/components/NavBar';
 
@@ -17,9 +18,17 @@ const Clusters: NextPage = () => {
       <>
         <Head>Not found</Head>
         <NavBar>
-          <Stack sx={{height: 'calc(calc(100vh - 64px) / 2)', justifyContent: 'center'}}>
+          <Stack
+            sx={{
+              height: 'calc(calc(100vh - 64px) / 2)',
+              justifyContent: 'center',
+            }}
+          >
             <Typography level="h1">Entity {urlEntity} not found.</Typography>
-            <Typography level="h4">The entity in the url does not match the entity name in the configuration.</Typography>
+            <Typography level="h4">
+              The entity in the url does not match the entity name in the
+              configuration.
+            </Typography>
           </Stack>
         </NavBar>
       </>
@@ -36,5 +45,5 @@ const Clusters: NextPage = () => {
       <EntityTable />
     </>
   );
-}
+};
 export default Clusters;

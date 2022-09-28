@@ -8,18 +8,19 @@ let runtimeConfig = {};
 try {
   // reads from .env to expose values to the client
   const file = fs.readFileSync(envPath, 'utf8');
-  const lines = file.split("\n");
+  const lines = file.split('\n');
   runtimeConfig = lines.reduce((accum, line) => {
-    if (line.startsWith('#') || !line)  {
+    if (line.startsWith('#') || !line) {
       return accum;
     }
     const [name, value] = line.split('=');
     accum[name] = value;
     return accum;
   }, {});
-
-} catch(err) {
-  console.warn('[WARN] local .env file missing. This must be configured before the demo can be run. ')
+} catch (err) {
+  console.warn(
+    '[WARN] local .env file missing. This must be configured before the demo can be run. '
+  );
   process.exit(0);
 }
 
@@ -36,6 +37,6 @@ const nextConfig = {
 
     return config;
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

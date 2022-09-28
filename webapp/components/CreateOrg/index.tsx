@@ -2,13 +2,12 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Alert, Stack } from '@mui/material';
 import { CreateOrganizationRequest } from '@theniledev/js';
-import { Queries, useMutation, useNile } from '@theniledev/react';
+import { useMutation, useNile } from '@theniledev/react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Typography, Box } from '@mui/joy';
-
-import NavBar from '../NavBar';
 import getConfig from 'next/config';
 
+import NavBar from '../NavBar';
 
 export default function AddOrgForm() {
   const nile = useNile();
@@ -25,8 +24,8 @@ export default function AddOrgForm() {
     {
       onSuccess: (data) => {
         if (!NILE_ENTITY_NAME) {
-          alert('no entity type has been entered.')
-        }else {
+          alert('no entity type has been entered.');
+        } else {
           router.push(`/entities/${NILE_ENTITY_NAME}`);
         }
       },
@@ -59,7 +58,7 @@ export default function AddOrgForm() {
         >
           <TextField
             {...register('name')}
-            sx={{maxWidth: '30rem'}}
+            sx={{ maxWidth: '30rem' }}
             id="name"
             name="name"
             label="Name"

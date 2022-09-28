@@ -1,9 +1,7 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
 import MyLoginForm from '~/components/MyLoginForm';
-
-
 
 const Home: NextPage = () => {
   return (
@@ -16,7 +14,7 @@ const Home: NextPage = () => {
       {/** wrapper around the nile login form */}
       <MyLoginForm />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

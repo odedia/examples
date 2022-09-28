@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { NextPage } from 'next';
+import Head from 'next/head';
 
 import AddOrgForm from '~/components/CreateOrg';
 
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       {/** wrapper around the nile login form */}
       <AddOrgForm />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

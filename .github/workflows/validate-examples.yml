@@ -301,3 +301,15 @@ jobs:
         working-directory: data-plane/k8s
         run: yarn setup
 
+  webapp:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: yarn lint
+        working-directory: webapp
+        run: yarn lint
