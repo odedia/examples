@@ -310,6 +310,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: webapp
+        run: yarn install --no-lockfile
+
       - name: yarn lint
         working-directory: webapp
         run: yarn lint
