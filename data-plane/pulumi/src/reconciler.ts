@@ -1,7 +1,7 @@
 import Reconcile from './commands/reconcile/index';
 
-+const fs = require('fs');
-+const EntityDefinition = JSON.parse(fs.readFileSync('../../../src/models/SaaSDB_Entity_Definition.json'));
+const fs = require('fs');
+const EntityDefinition = JSON.parse(fs.readFileSync('./../../quickstart/src/models/SaaSDB_Entity_Definition.json'));
 
 import * as dotenv from 'dotenv';
 
@@ -35,7 +35,7 @@ async function run() {
     '--email', email,
     '--password', password,
     '--organizationName', organizationName,
-    '--entity', entity
+    '--entity', NILE_ENTITY_NAME
   ]);
 }
 

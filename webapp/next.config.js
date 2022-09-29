@@ -17,10 +17,8 @@ try {
     accum[name] = value;
     return accum;
   }, {});
-} catch (err) {
-  console.warn(
-    '[WARN] local .env file missing. This must be configured before the demo can be run. '
-  );
+} catch(err) {
+  console.warn('[ERROR] local .env file missing. This must be configured before the demo can be run. ')
   process.exit(0);
 }
 

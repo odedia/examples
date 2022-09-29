@@ -119,6 +119,8 @@ async function addInstanceToOrg(email: string, password: string, orgName: string
         cloud : instanceJson.cloud,
         environment : instanceJson.environment,
         size : instanceJson.size,
+        connection : "server-" + instanceJson.dbName + ":5432",
+        status : "Up"
       }
     }).then((entity_instance) => console.log (emoji.get('white_check_mark'), "Created entity instance: " + JSON.stringify(entity_instance, null, 2)))
   }

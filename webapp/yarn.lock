@@ -1297,10 +1297,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^5.17.3":
-  version "5.17.3"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.3.tgz#3a2802c71bb99d30953ae1d6a6d6107e60300c68"
-  integrity sha512-EBTD7nfV3b6Zz7X8IS0BR4x3ihzHqGAemP6Ah22N/oHTIz+HWsCMtsYWRs5SjQewVjY8JXJ3fcJJEgldOcaqqg==
+"@mui/x-data-grid@^5.17.4":
+  version "5.17.4"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.4.tgz#93ccd06a0a15d02b8d59c2d3038e217ffc72350d"
+  integrity sha512-cxZuu65Whh1DNU9M2X5ljDOx+GAEpGeJLPnugMjhgqTOszfJZX/4kI7NftrPy051Hy0um0sv0NVTDSFXG6yixA==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/utils" "^5.10.3"
@@ -1587,48 +1587,48 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tanstack/query-core@4.3.8":
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.3.8.tgz#d5f07c1d9d4f83f16f0bed7f3b245fa0e557b037"
-  integrity sha512-AEUWtCNBIImFZ9tMt/P8V86kIhMHpfoJqAI1auGOLR8Wzeq7Ymiue789PJG0rKYcyViUicBZeHjggMqyEQVMfQ==
+"@tanstack/query-core@4.7.2":
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.7.2.tgz#5e8f0bc632b9c5423e5c5ca6d147c386b64dfec7"
+  integrity sha512-1zQuFsKShMhLY6rQYBEmkYiK9Zcb3lQcCVOTIgQcvliKIxPyZFaE/8LMtaITEEfgGF5qwYqHdm61+BUtpyNsrg==
 
-"@tanstack/react-query@^4.3.9":
-  version "4.3.9"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.3.9.tgz#13332a1d4dd404baec24c2853883bcb3cc61ea92"
-  integrity sha512-odfDW6WiSntCsCh+HFeJtUys3UnVOjfJMhykAtGtYvcklMyyDmCv9BVBt5KlSpbk/qW3kURPFCDapO+BFUlCwg==
+"@tanstack/react-query@^4.7.1":
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.7.2.tgz#ce020c4e0261e16b99d24322d1598ffc28974472"
+  integrity sha512-4nJ0HxU2kxkaHZ/swJw39io3Bb3liiggJBsCCdFOydZOl8AJDRCor1E3GsOBrtn53HT01R9EIP4PY/6fyYdKsw==
   dependencies:
-    "@tanstack/query-core" "4.3.8"
+    "@tanstack/query-core" "4.7.2"
     use-sync-external-store "^1.2.0"
 
-"@theniledev/js@^0.22.1":
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.22.1.tgz#b2122eda3bce5f3ebbe803f0339c00b62a1b6b60"
-  integrity sha512-eTOsjvy1LVns2wJdHFge568ZXmHHKqTgI9rZcYv4zaAc4mItTuStM46SKJBsAJ6EFL0NNu2npjBhFL+ZqZFB6A==
+"@theniledev/js@^0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.23.0.tgz#54cadc5edb2a3bef88ac5e2ca85586f9df127fe8"
+  integrity sha512-MXbaARLM659/178GBiTIbg3o56Qo+JnlPGssduJd2oVlaXXd3gSlvnv+F8Jz70MHnV5NPj1y0Vrbt8CqILL8Lg==
   dependencies:
     "@openapitools/openapi-generator-cli" "^2.5.2"
     es6-promise "^4.2.8"
     node-fetch "^3.2.10"
     sade "^1.8.1"
 
-"@theniledev/react@^0.22.1":
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/@theniledev/react/-/react-0.22.1.tgz#a5d68d3a5617c80b0efcf7a945d4a573aa59a0b8"
-  integrity sha512-UEvSFnvVmaRREy//0vwSYe9EfounHDVrpywjADQFeeDeptfg6K7AMjr2f/cKvP6XzME6GtFFpW2GVbuQ7G4yJQ==
+"@theniledev/react@^0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@theniledev/react/-/react-0.23.0.tgz#5754ba031c4fb81645fb97a99ac7ed69618dcc74"
+  integrity sha512-5KdWlDa//XMPkRtyhKWeaHzKoaUGI0G/lMLXwvQ6k/um5qJHsjovltU3g1hqTzeZqzA/1XVDwZsw+S77tQ0UfQ==
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
     "@mui/icons-material" "^5.10.6"
     "@mui/joy" "^5.0.0-alpha.46"
     "@mui/material" "^5.10.6"
-    "@mui/x-data-grid" "^5.17.3"
-    "@tanstack/react-query" "^4.3.9"
-    "@theniledev/js" "^0.22.1"
+    "@mui/x-data-grid" "^5.17.4"
+    "@tanstack/react-query" "^4.7.1"
+    "@theniledev/js" "^0.23.0"
     chart.js "^3.9.1"
     date-fns "^2.29.3"
     react ">=18"
     react-chartjs-2 "^4.3.1"
     react-dom "^18.2.0"
-    react-hook-form "^7.36.0"
+    react-hook-form "^7.36.1"
     react-is "^18.2.0"
 
 "@trysound/sax@0.2.0":
@@ -3776,10 +3776,10 @@ react-dom@18.2.0, react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-hook-form@^7.36.0:
-  version "7.36.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.36.0.tgz#27bf64e2a06b994bc64e055b4cc502794b8f6978"
-  integrity sha512-2PmRhTDH90/G1XWbUGpfuFBf7wxj9kYvzPqoZCv4wUGBIfuac0fK3up9sbeoz0ghpLYcFFXRVDKMUXgMutLXTw==
+react-hook-form@^7.36.1:
+  version "7.36.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.36.1.tgz#82a311fe8cbe75e689fd4529f083b7c983da6520"
+  integrity sha512-EbYYkCG2p8ywe7ikOH2l02lAFMrrrslZi1I8fqd8ifDGNAkhomHZQzQsP6ksvzrWBKntRe8b5L5L7Zsd+Gm02Q==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

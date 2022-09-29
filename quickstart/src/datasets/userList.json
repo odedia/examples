@@ -17,24 +17,24 @@
     "email": "shaun@demo.io",
     "password": "password",
     "org": "db-customer1",
-    "role": "dev"
+    "role": "RW"
   },
   {
     "email": "parker@demo.io",
     "password": "password",
     "org": "db-customer1",
-    "role": "billing"
+    "role": "RO"
   },
   {
     "email": "lisa@demo.io",
     "password": "password",
     "org": "db-customer2",
-    "role": "terminated"
+    "role": "deny"
   },
   {
     "email": "london@demo.io",
     "password": "password",
     "org": "db-customer2",
-    "role": "billing"
+    "role": "RO"
   }
 ]

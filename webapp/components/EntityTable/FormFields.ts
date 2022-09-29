@@ -42,3 +42,6 @@ const fields = [
   },
 ];
 export default fields;
+
+const columns = ['dbName', 'cloud', 'environment', 'size', 'connection', 'status'];
+export { columns };

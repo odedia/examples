@@ -55,14 +55,7 @@ async function listPolicies(orgID : string) {
     .catch((error: any) => console.error(error));
 }
 
-async function createAccessPolicy(email: string, orgName: string, dbName: string, actions: string[]) {
-
-  let createIfNot = false;
-  let orgID = await nileUtils.maybeCreateOrg (nile, orgName, createIfNot);
-  if (!orgID) {
-    console.error ("Error: cannot determine the ID of the organization from the provided name :" + orgName)
-    process.exit(1);
-  } 
+async function createAccessPolicyEntityInstance(email: string, orgID: string, dbName: string, actions: string[]) {
 
   // Find instance
   var instance_id;
@@ -103,6 +96,31 @@ async function createAccessPolicy(email: string, orgName: string, dbName: string
 
 }
 
+async function createAccessPolicyForPolicies(email: string, orgID: string) {
+
+  // Create policy
+  var policyID;
+  const body = {
+    org: orgID,
+    createPolicyRequest: {
+      actions: ["read", "write"],
+      resource: {
+        type: "policy"
+      },
+      subject: { email : email },
+    },
+  };
+  console.log("Creating policy with body: " + JSON.stringify(body, null, 2));
+  await nile.access
+    .createPolicy(body)
+    .then((data) => {
+      policyID = JSON.stringify(data.id, null, 2).replace(/['"]+/g, '');
+      console.log(emoji.get('white_check_mark'), `Created policy with id ${policyID} for subject ${email} for policies`);
+    })
+    .catch((error: any) => console.error(error));
+
+}
+
 async function run() {
 
   // For ease of demo: the Nile developer creates all the access policies
@@ -113,24 +131,34 @@ async function run() {
   const dbsJson = require('../../quickstart/src/datasets/dbList.json');
   const usersJson = require('../../quickstart/src/datasets/userList.json');
   for (let index = 0 ; index < dbsJson.length ; index++) {
+
     let pageOrg = dbsJson[index].org;
+    let createIfNot = false;
+    let orgID = await nileUtils.maybeCreateOrg (nile, pageOrg, createIfNot);
+    if (!orgID) {
+      console.error ("Error: cannot determine the ID of the organization from the provided name :" + orgName)
+      process.exit(1);
+    }
+
     for (let index2 = 0 ; index2 < usersJson.length ; index2++) {
       if (usersJson[index2].org == pageOrg) {
         if (usersJson[index2].role == "admin") {
-          actions = ["write", "read"];
-        } else if (usersJson[index2].role == "dev") {
-          actions = ["write"];
-        } else if (usersJson[index2].role == "billing") {
+          // In this scenario, admins have RW for policies and entity instances
+          await createAccessPolicyForPolicies(usersJson[index2].email, orgID);
+          actions = ["read", "write"];
+        } else if (usersJson[index2].role == "RW") {
+          actions = ["read", "write"];
+        } else if (usersJson[index2].role == "RO") {
           actions = ["read"];
         } else {
           actions = ["deny"];
         }
-        await createAccessPolicy(usersJson[index2].email, pageOrg, dbsJson[index].dbName, actions);
+        await createAccessPolicyEntityInstance(usersJson[index2].email, orgID, dbsJson[index].dbName, actions);
+
       }
     }
+
     // List policies
-    let createIfNot = false;
-    let orgID = await nileUtils.maybeCreateOrg (nile, pageOrg, createIfNot);
     await listPolicies(orgID);
   }
 }

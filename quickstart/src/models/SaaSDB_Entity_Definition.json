@@ -16,6 +16,13 @@
       },
       "size": {
         "type": "integer"
+      },
+      "connection": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Submitted", "Provisioning", "Up", "Deleted"]
       }
     },
     "required": [

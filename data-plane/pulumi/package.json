@@ -18,6 +18,7 @@
     "@types/node-fetch": "^2.6.2",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
+    "node-emoji": "^1.11.0",
     "node-fetch": "^3.2.10"
   },
   "devDependencies": {

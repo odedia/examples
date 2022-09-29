@@ -55,7 +55,7 @@
       const res = await fetch('/api/auth/getUsers')
       const data = await res.json()
       data.user.map((mappedUser)=> {
-          let li = `<li> ${mappedUser.email} (${mappedUser.role}) </li>`
+          let li = `<li> ${mappedUser.email} (${mappedUser.role} in ${mappedUser.org}) </li>`
           ul.innerHTML += li
       })
     }

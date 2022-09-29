@@ -149,6 +149,7 @@ exports.getUsers = async (req, res, next) => {
       const userFunction = users.map((user) => {
         const container = {};
         container.email = user.email;
+        container.org = user.org;
         container.role = user.role;
         container.id = user._id;
 

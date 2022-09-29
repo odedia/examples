@@ -5,7 +5,12 @@
 ## Overview
 
 This example shows a SaaS service integrated with [Nile](https://thenile.dev/). 
-Once a developer defines their service's entity schema, Nile provides: web frontend with self-service (user signup/login, org creation, instance management), multi-tenancy, authorization policies, metrics, events for reconciling Nile with the data plane.
+The mock scenario is a company that provides databases as SaaS which is using Nile for its control plane.
+
+![image](./images/SaaSDB-overview.png)
+
+For this SaaS company, you define your example entity schema called `SaaSDB` in the file [SaaSDB_Entity_Definition.json](../quickstart/src/models/SaaSDB_Entity_Definition.json) that has a schema for each database instance.
+Once a developer defines their service's entity schema, Nile provides web frontend with self-service (user signup/login, org creation, instance management), multi-tenancy, authorization policies, metrics, events for reconciling Nile with the data plane.
 
 The sample webapp uses Nile React components for [Next.js](https://nextjs.org/) to create a frontend for a SaaS application integrated with [Nile](https://thenile.dev/).
 
@@ -62,11 +67,10 @@ For that purpose, at the top-level of the examples, copy the `.env.defaults` fil
 
    - Nile connection configuration: [.env](.env) (see step above)
    - Entity schema: [SaaSDB_Entity_Definition.json](../quickstart/src/models/SaaSDB_Entity_Definition.json)
-   - List of users and their metadata: [userList.json](../quickstart/src/datasets/userList.json)
-   - List of pre-existing entity instances: [dbList.json](../quickstart/src/datasets/dbList.json)
-   - Webapp column names: [EntityTable.tsx](components/EntityTable/EntityTable.tsx)
-   - Webapp form fields for creating new instances: [FormFields.ts](components/EntityTable/FormFields.ts)
-   - Webapp logo: [cloud-db.svg](public/images/cloud-db.svg)
+   - Pre-populate Nile with users: [userList.json](../quickstart/src/datasets/userList.json)
+   - Pre-populate Nile with entity instances: [dbList.json](../quickstart/src/datasets/dbList.json)
+   - Webapp column names and form fields derived from the entity schema: [FormFields.ts](components/EntityTable/FormFields.ts)
+   - Webapp SaaS company logo: [saas-logo.svg](public/images/saas-logo.svg)
 
 3. Run the following command to preconfigure the Nile control plane.
 

@@ -6,7 +6,7 @@
 
 This collection of examples demonstrates how to use Nile as a control plane for an Infrastructure SaaS product.
 
-The mock scenario in these examples is a company that provides databases as SaaS.
+The mock scenario in these examples is a company that provides databases as SaaS which is using Nile for its control plane.
 For this SaaS company, you define your example entity schema called `SaaSDB` in the file [SaaSDB_Entity_Definition.json](quickstart/src/models/SaaSDB_Entity_Definition.json) that has a schema for each database instance.
 
 For demonstration purposes, these examples simulate different organizations and entity instances from mock customers:

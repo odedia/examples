@@ -191,7 +191,7 @@ docker run --init --rm \
   -e AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
   -e AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
   -e PULUMI_ACCESS_TOKEN=$PULUMI_ACCESS_TOKEN \
-  theniledev/reconciler:v0.3
+  theniledev/reconciler:v0.4
 ```
 
 ## Explanation
