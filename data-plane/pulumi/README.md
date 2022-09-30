@@ -37,15 +37,31 @@ This example assumes you have:
 
 ## Setup
 
-For all examples, you need a local file with your Nile configuration.
-For that purpose, at the top-level of the examples, copy the `.env.defaults` file to `.env`:
+To run this example:
 
-```bash
-# From the top level of the examples folder
-$ examples> cp .env.defaults .env
-```
+1. You must have access to Nile, please [reach out](https://www.thenile.dev) for more information.
 
-Set the values in this `.env` file to match the values you want in your control plane.
+2. Validate your environment has the minimum required Node version as defined in [.nvmrc](./.nvmrc) .  If you are running earlier versions, you may encounter errors such as `ReferenceError: fetch is not defined`.
+
+   ```
+   nvm use
+   ```
+
+3. Obtain the following parameter values that represent your control plane configuration in Nile.
+These can be an existing control plane or a new one will be created for you from these values.
+
+   - `NILE_URL`
+   - `NILE_WORKSPACE`
+   - `NILE_DEVELOPER_EMAIL`
+   - `NILE_DEVELOPER_PASSWORD`
+   - `NILE_ORGANIZATION_NAME`
+   - `NILE_ENTITY_NAME`
+
+   At the top-level of the examples repo, copy the [.env.defaults](.env.defaults) file to `.env` and set the values in this `.env` file to match the values you want in your control plane.  It will be used for all the examples.
+
+   ```bash
+   cp .env.defaults .env
+   ```
 
 ## Configure the Control Plane ##
 
