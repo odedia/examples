@@ -16,5 +16,8 @@
   "scripts": {
     "start": "yarn --cwd ../quickstart/ install && NILE_TENANT_MAX=true yarn --cwd ../quickstart/ start",
     "test": "ts-node src/validate-multi-tenancy.ts"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }

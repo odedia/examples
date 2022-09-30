@@ -33,5 +33,8 @@
     "gh-clean": "yarn --cwd ../authz/ install && yarn --cwd ../authz/ clean",
     "run-server": "node server.js",
     "clean": "./cleanup.sh && yarn gh-clean"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }

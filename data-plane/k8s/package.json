@@ -20,5 +20,8 @@
     "debug": "DEBUG=data-plane-on-k8s-demo ts-node src/index.ts",
     "setup": "NODE_NO_WARNINGS=1 ts-node src/setup.ts",
     "status": "NODE_NO_WARNINGS=1 CHECK_STATUS=1 ts-node src/index.ts"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }

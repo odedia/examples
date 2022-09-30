@@ -17,5 +17,8 @@
     "prestart": "yarn --cwd ../utils-module-js/ install",
     "start": "ts-node src/index.ts",
     "poststart": "ts-node src/find-instance.ts"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }

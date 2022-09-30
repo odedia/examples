@@ -17,5 +17,8 @@
     "prestart": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
     "start": "ts-node src/index.ts",
     "clean": "ts-node src/delete-all-policies.ts"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }
