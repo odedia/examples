@@ -29,8 +29,9 @@ export default function AddOrgForm() {
               paths.entities({ org: data.id, entity: NILE_ENTITY_NAME }).index
             );
           }}
+          cancelButton={<Button variant="outlined">Cancel</Button>}
         />
-      </Stack>
+      />
     </NavBar>
   );
 }
