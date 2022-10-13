@@ -17,7 +17,7 @@ export default function AddOrgForm() {
   return (
     <NavBar>
       <Stack>
-        <Typography level="h5">Yo, you new around here?</Typography>
+        <Typography level="h5">Create your organization</Typography>
         <OrganizationForm
           onSuccess={(data) => {
             router.push(
