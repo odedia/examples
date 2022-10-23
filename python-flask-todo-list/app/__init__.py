@@ -1,15 +1,41 @@
 import os
+import sys
 
 from flask import Flask
+from emoji import emojize
+from dotenv import load_dotenv
+
+from nile-api import AuthenticatedClient, Client
+
+GOOD = emojize(":check_mark_button:")
+BAD = emojize(":red_circle:")
+DART = emojize(":dart:", language="alias")
+ARROW_RIGHT = emojize(":arrow_right:", language="alias")
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY = 'dev', # Replace in production!
-        DATABASE = os.path.join(app.instance_path, 'todo.sqlite'),
-        NILE = os.environ.get('NILE', 'http://localhost:8080'),
-    )
+
+    load_dotenv(override=True)
+    params = {
+        param: os.environ.get(param)
+        for param in [
+            "NILE_URL",
+            "NILE_WORKSPACE",
+            "NILE_DEVELOPER_EMAIL",
+            "NILE_DEVELOPER_PASSWORD",
+        ]
+    }
+
+    for name, value in params.items():
+        if not value:
+            print(
+                f"{BAD} Error: missing environment variable {name}. See .env.defaults for more info and copy it to .env with your values",  # noqa: E501
+            )
+            sys.exit(1)
+
+    SECRET_KEY = 'dev', # Replace in production!
+    DATABASE = os.path.join(app.instance_path, 'todo.sqlite'),
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -19,7 +45,10 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     print("Database: "+ app.config['DATABASE'])
-    print("Nile: "+ app.config['NILE'])
+    print("Nile url: "+ app.config['NILE_URL'])
+
+    # Initializing Nile client
+    NILE_CLIENT = Client(base_url=params["NILE_URL"])
 
     # ensure the instance folder exists
     try:
@@ -29,10 +58,6 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
-
-    # Initializing Nile client
-    from . import nile
-    nile._nile_client = nile.NileClient(app.config['NILE'])
 
     from . import auth, todo
     app.register_blueprint(auth.bp)

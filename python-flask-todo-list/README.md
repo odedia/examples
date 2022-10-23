@@ -33,6 +33,8 @@ python3 -m venv venv
 pip install Flask
 pip install PyJWT
 pip install urllib3
+pip install python-dotenv
+pip install nile-api
 
 export FLASK_ENV=development
 
