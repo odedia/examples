@@ -12,6 +12,7 @@
     <!--id, task_name, status, created, due_date-->
 <tr>
     <th>created</th>
+    <th>updated</th>
     <th>creator</th>
     <th>task name</th>
     <th>status</th>
@@ -23,10 +24,11 @@
   {% for todo in todos %}
   <tr>
       <td>{{ todo['created'] }}</td>
-      <td>{{ todo['creator'] }}</td>
-      <td>{{ todo['task_name'] }}</td>
-      <td>{{ todo['status'] }}</td>
-      <td>{{ todo['due_date'] }}</td>
+      <td>{{ todo['updated'] }}</td>
+      <td>{{ todo['properties']['creator'] }}</td>
+      <td>{{ todo['properties']['task_name'] }}</td>
+      <td>{{ todo['properties']['status'] }}</td>
+      <td>{{ todo['properties']['due_date'] }}</td>
       {% if session['token'] %}
         <td> <a class="action" href="{{ url_for('todo.update', id=todo['id']) }}">Edit</a></td>
       {% endif %}
