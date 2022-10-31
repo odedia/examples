@@ -10,9 +10,9 @@ jobs:
       matrix:
         include:
           - environment: prod
-            nile_url: ${{ NILE_URL_PROD }}
+            nile_url: ${{ secrets.NILE_URL_PROD }}
           - environment: dev
-            nile_url: ${{ NILE_URL_DEV }}
+            nile_url: ${{ secrets.NILE_URL_DEV }}
 
     runs-on: ubuntu-latest
 
