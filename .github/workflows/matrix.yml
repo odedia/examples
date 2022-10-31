@@ -23,7 +23,7 @@ jobs:
 
       - name: Make .env file
         uses: SpicyPizza/create-envfile@v1.3
-        if: ${{ secrets[matrix.environment }} == 'prod'
+        if: ${{ matrix.environment }} == 'prod'
         with:
           envkey_NILE_URL: ${{ secrets[matrix.nile_url] }}
           envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
@@ -36,7 +36,7 @@ jobs:
 
       - name: Make .env file
         uses: SpicyPizza/create-envfile@v1.3
-        if: ${{ secrets[matrix.environment }} == 'dev'
+        if: ${{ matrix.environment }} == 'dev'
         with:
           envkey_NILE_URL: ${{ secrets[matrix.nile_url] }}
           envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
