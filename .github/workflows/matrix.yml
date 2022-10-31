@@ -1,0 +1,58 @@
+name: examples
+
+on: [push]
+
+jobs:
+
+  quickstart:
+
+    strategy:
+      matrix:
+        include:
+          - environment: prod
+            nile_url: ${{ NILE_URL_PROD }}
+          - environment: dev
+            nile_url: ${{ NILE_URL_DEV }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: ${{ secrets[matrix.nile_url] }}
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ENTITY_NAME: DB
+          directory: quickstart
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: quickstart
+        run: yarn install --no-lockfile
+
+      - name: yarn nile-init
+        working-directory: quickstart
+        run: yarn nile-init
+
+      - name: yarn test-login
+        working-directory: quickstart
+        run: yarn test-login
+
+      - name: yarn start
+        working-directory: quickstart
+        run: yarn start
