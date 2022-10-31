@@ -25,7 +25,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         if: ${{ matrix.environment }} == 'prod'
         with:
-          envkey_NILE_URL: ${{ secrets[matrix.nile_url] }}
+          envkey_NILE_URL: ${{ secrets.NILE_URL_PROD }}
           envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
           envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
           envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
@@ -38,7 +38,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         if: ${{ matrix.environment }} == 'dev'
         with:
-          envkey_NILE_URL: ${{ secrets[matrix.nile_url] }}
+          envkey_NILE_URL: ${{ secrets.NILE_URL_DEV }}
           envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
           envkey_NILE_WORKSPACE_ACCESS_TOKEN: "garbage"
           envkey_NILE_ENTITY_NAME: DB
