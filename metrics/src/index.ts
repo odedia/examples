@@ -80,9 +80,10 @@ async function generateMetrics() {
   // Get metrics
   const TWENTY_FOUR_HOURS_AGO = new Date(now.getTime() - 24 * 60 * 60000);
   const metricFilter = {
-    name: metricName,
+    metricName: metricName,
     entityType: NILE_ENTITY_NAME,
     organizationId: orgID,
+    instanceId: oneInstance,
     startTime: TWENTY_FOUR_HOURS_AGO,
   };
   await nile.metrics.filterMetricsForEntityType({
