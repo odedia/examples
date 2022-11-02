@@ -31,12 +31,7 @@ async function produceMetrics() {
   // Login
   nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
-  // List entities
-  var myEntities =  await nile.entities.listEntities()
-  if (myEntities.find( ws => ws.name==NILE_ENTITY_NAME)) {
-      console.log(emoji.get('dart'), "Entity " + NILE_ENTITY_NAME + " exists");
-  } 
-
+  // Get first org ID
   const users = require(`../../usecases/${NILE_ENTITY_NAME}/init/users.json`);
   // Load first user only
   const index=0
@@ -44,7 +39,7 @@ async function produceMetrics() {
   let createIfNot = false;
   let orgID = await exampleUtils.maybeCreateOrg (nile, NILE_ORGANIZATION_NAME, false);
 
-  // Get one instance ID
+  // Get one instance ID for above org ID
   var oneInstance;
   await nile.entities.listInstances({
       type: NILE_ENTITY_NAME,
