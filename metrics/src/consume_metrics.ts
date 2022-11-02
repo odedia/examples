@@ -1,4 +1,4 @@
-import Nile, { NileApi, Measurement, Metric, MetricTypeEnum } from '@theniledev/js';
+import { MetricTypeEnum } from '@theniledev/js';
 
 var exampleUtils = require('../../utils-module-js/').exampleUtils;
 
