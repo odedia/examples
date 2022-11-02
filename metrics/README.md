@@ -53,13 +53,30 @@ yarn setup-nile
 
 ## Execute
 
-1. Produce a metric
+1. Produce a fake measurement
 
    ```
    yarn produce
    ```
 
-2. Consume a metric
+   This will generate one measurement that resembles:
+
+   ```json
+   [{
+     "name": "myMetric",
+     "type": "gauge",
+     "entityType": "DB",
+     "measurements": [
+       {
+         "timestamp": "2022-11-02T18:14:49.759Z",
+         "value": 11.8,
+         "instanceId": "inst_02rPXw8BAllTLlyPjYWK7k"
+       }
+     ]
+   }]
+   ```
+
+2. Consume a measurement. You should get at least one measurement that is what you sent in the previous step.
 
    ```
    yarn consume

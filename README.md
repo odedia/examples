@@ -9,6 +9,7 @@
   * [Multi-tenancy](#multi-tenancy)
   * [Data Plane](#data-plane)
   * [Authorization](#authorization)
+  * [Metrics](#metrics)
   * [Webapp](#webapp)
   * [Other](#other)
 * [Examples by Language](#examples-by-language)
@@ -115,11 +116,19 @@ You can configure these in the control plane so that they are aligned to your bu
 
 ![validate permissions](images/validate_permissions.png)
 
+### Metrics
+
+Nile provides metrics OOTB because it is critical for any SaaS to be able to measure and monitor consumption and do accurate usage-based billing.
+These metrics can be exposed externally to the end user as well as internally for business operations.
+
+- [Metrics with JS](metrics/) | JS SDK | Produce and consume mock metrics
+
+![metrics](images/metrics_billing_apis.png)
+
 ### Webapp
 
 Configure a front-end web application that is customizable on a per-tenant basis.
-The webapp includes Nile React components for metrics, because it is critical for any SaaS to be able to measure and monitor consumption and do accurate tenant billing.
-These metrics can be exposed externally to the end user as well as internally for business operations.
+The webapp includes Nile React components for metrics.
 
 - [Webapp](webapp/) | JS SDK | Builds a self-service frontend that integrates with Nile on the backend
 
