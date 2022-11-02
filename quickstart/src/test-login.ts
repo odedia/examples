@@ -40,6 +40,7 @@ async function loginDeveloper() {
     console.error(emoji.get('x'), ` Could not log into Nile.  Did you follow the instructions in https://github.com/TheNileDev/examples/blob/main/README.md#setup , create your Nile workspace, and set valid parameter values in a local .env file?`);
     process.exit(1);
   }
+  console.log(`token: ${nile.authToken}`);
 
 }
 

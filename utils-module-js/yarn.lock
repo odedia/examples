@@ -80,10 +80,10 @@
     rxjs "7.5.5"
     tslib "2.0.3"
 
-"@theniledev/js@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.19.1.tgz#91b72123b1f6bf50f988239418d958d1016c45df"
-  integrity sha512-V7CvRAQhQWTw+tzTY3H3zotsLddrD1rlw6GfTjmFm+iJglp15iegk0L8d96dzUCaco4UY6UqDhRqC+XG9uvhyg==
+"@theniledev/js@^0.28.2":
+  version "0.28.2"
+  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.28.2.tgz#a49db3b012e3e35ca2d7edcfb9232c48149feb78"
+  integrity sha512-3ncio2K5HMZ5qukQryDUO9mBZoG25N/q7ziPm5Kc6NFF/jhbfWZrnQ1l4oOMETiiKhcOnQYkC5savbYukC6sMw==
   dependencies:
     "@openapitools/openapi-generator-cli" "^2.5.2"
     es6-promise "^4.2.8"
