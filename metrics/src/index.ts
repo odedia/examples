@@ -37,9 +37,18 @@ async function generateMetrics() {
       console.log(emoji.get('dart'), "Entity " + NILE_ENTITY_NAME + " exists");
   } 
 
+  const users = require(`../../usecases/${NILE_ENTITY_NAME}/init/users.json`);
+  // Load first user only
+  const index=0
+  const NILE_ORGANIZATION_NAME = users[index].org;
+  let createIfNot = false;
+  let orgID = await exampleUtils.maybeCreateOrg (nile, NILE_ORGANIZATION_NAME, false);
+
+  // Get one instance ID
   var oneInstance;
-  await nile.entities.listInstancesInWorkspace({
+  await nile.entities.listInstances({
       type: NILE_ENTITY_NAME,
+      org: orgID,
     }).then((data) => {
       for (let i=0; i < data.length; i++) {
         console.log(`${data[i].id}`);
@@ -48,29 +57,42 @@ async function generateMetrics() {
     });
 
   // Produce one metric
+  const now = new Date();
   const metricName = "myMetric";
   const intervalTimeMs = 2000;
   const fakeMeasurement = {
-    timestamp: new Date(),
-    //timestamp: "2022-11-13T20:20:39Z",
+    timestamp: now,
     value: 11.8,
-    //instance_id: oneInstance,
     instanceId: oneInstance,
   };
 
   const metricData = {
     name: metricName,
     type: MetricTypeEnum.Gauge,
-    //entity_type: NILE_ENTITY_NAME,
     entityType: NILE_ENTITY_NAME,
     measurements: [fakeMeasurement],
   };
-
   console.log(`\n\nSending metric:\n[${JSON.stringify(metricData, null, 2)}]`);
-
   await nile.metrics.produceBatchOfMetrics({
     metric: [metricData],
   });
+
+  // Get metrics
+  const TWENTY_FOUR_HOURS_AGO = new Date(now.getTime() - 24 * 60 * 60000);
+  const metricFilter = {
+    name: metricName,
+    entityType: NILE_ENTITY_NAME,
+    organizationId: orgID,
+    startTime: TWENTY_FOUR_HOURS_AGO,
+  };
+  await nile.metrics.filterMetricsForEntityType({
+    entityType: NILE_ENTITY_NAME,
+    filter: metricFilter,
+  })
+  .then((data) => {
+    console.log(`Returned metrics: ${JSON.stringify(data, null, 2)}`);
+  })
+  .catch((error: any) => console.error(error));
 
 }
 
