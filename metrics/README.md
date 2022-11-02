@@ -53,7 +53,7 @@ yarn setup-nile
 
 ## Execute
 
-1. Produce a fake measurement
+1. Produce a fake measurement (refer to code [src/produce_metrics.ts](src/produce_metrics.ts)).
 
    ```
    yarn produce
@@ -78,7 +78,7 @@ yarn setup-nile
    ]
    ```
 
-2. Consume a measurement. You should get at least one measurement that is what you sent in the previous step.
+2. Consume a measurement (refer to code [src/consume_metrics.ts](src/consume_metrics.ts)). You should get at least one measurement that is what you sent in the previous step.
 
    ```
    yarn consume
