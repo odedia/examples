@@ -26,7 +26,7 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 var nile!;
 
-async function generateMetrics() {
+async function produceMetrics() {
 
   // Login
   nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
@@ -77,24 +77,6 @@ async function generateMetrics() {
     metric: [metricData],
   });
 
-  // Get metrics
-  const TWENTY_FOUR_HOURS_AGO = new Date(now.getTime() - 24 * 60 * 60000);
-  const metricFilter = {
-    metricName: metricName,
-    entityType: NILE_ENTITY_NAME,
-    organizationId: orgID,
-    instanceId: oneInstance,
-    startTime: TWENTY_FOUR_HOURS_AGO,
-  };
-  await nile.metrics.filterMetricsForEntityType({
-    entityType: NILE_ENTITY_NAME,
-    filter: metricFilter,
-  })
-  .then((data) => {
-    console.log(`Returned metrics: ${JSON.stringify(data, null, 2)}`);
-  })
-  .catch((error: any) => console.error(error));
-
 }
 
-generateMetrics();
+produceMetrics();

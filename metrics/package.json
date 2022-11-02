@@ -14,9 +14,11 @@
     "typescript": "^4.7.3"
   },
   "scripts": {
+    "setup-nile": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
+    "produce": "ts-node src/produce_metrics.ts",
+    "consume": "ts-node src/consume_metrics.ts",
     "prestart": "yarn --cwd ../utils-module-js/ install",
-    "start": "NILE_TENANT_MAX=true ts-node src/index.ts",
-    "test": "ts-node src/validate-multi-tenancy.ts"
+    "start": "yarn produce; yarn consume"
   },
   "engines": {
     "node": ">=18.0.0"
