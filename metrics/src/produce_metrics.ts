@@ -54,7 +54,6 @@ async function produceMetrics() {
   // Produce one metric
   const now = new Date();
   const metricName = "myMetric";
-  const intervalTimeMs = 2000;
   const fakeMeasurement = {
     timestamp: now,
     value: 11.8,
