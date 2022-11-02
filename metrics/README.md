@@ -1,4 +1,4 @@
-# Authorization
+# Metrics
 
 ![image](../images/Nile-text-logo.png)
 
@@ -16,7 +16,7 @@ These examples let you choose what kind of SaaS offering is provided, one of:
 - [YOLO](../usecases/README.md#yolo)
 
 For this service, you can use Nile's built-in metrics to produce and consume metrics about your instances.
-This example uses the NILE JS SDK to demonstrate authorization features in Nile in the following workflow:
+This example uses the NILE JS SDK to demonstrate metrics features in Nile.
 
 ## Install Dependencies
 
