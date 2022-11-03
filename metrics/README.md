@@ -108,7 +108,7 @@ yarn setup-nile
        "measurements": [
          {
            "timestamp": "2022-11-02T18:14:49.759Z",
-           "value": 11.8,
+           "value": 81.82,
            "instanceId": "inst_02rAXw7BAllTLlyPjYWK4k"
          }
        ]
