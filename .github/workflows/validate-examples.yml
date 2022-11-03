@@ -91,6 +91,44 @@ jobs:
         working-directory: quickstart
         run: yarn start
 
+  metrics:
+
+    needs: quickstart
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: https://prod.thenile.dev:443
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_WORKSPACE_ACCESS_TOKEN: ${{ secrets.NILE_WORKSPACE_ACCESS_TOKEN_PROD }}
+          envkey_NILE_ENTITY_NAME: DB
+          directory: metrics
+          file_name: .env
+          fail_on_empty: false
+
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: yarn install
+        working-directory: metrics
+        run: yarn install --no-lockfile
+
+      - name: yarn start
+        working-directory: metrics
+        run: yarn start
+
   quickstart-python:
 
     needs: nile-init
@@ -172,7 +210,6 @@ jobs:
       - name: yarn test
         working-directory: multi-tenancy
         run: yarn test
-
 
   data-plane-pulumi:
 
