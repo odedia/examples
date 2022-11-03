@@ -163,13 +163,13 @@ exports.getAnyValidInstance = async function (
       org: orgID,
     }).then((data) => {
       oneInstance = data[0].id;
-      return [oneInstance, orgID] as const;
     });
   if (!oneInstance) {
     console.error(emoji.get('x'), `Could not identify one instance in org ${orgName} (${orgID}). Did you run 'yarn setup-nile'? Please troubleshoot`);
     process.exit(1);
+  } else {
+    console.log(emoji.get('dart'), `Using instance ID ${oneInstance}`);
+    return [oneInstance, orgID] as const;
   }
-  console.log(emoji.get('dart'), `Using instance ID ${oneInstance}`);
-  return [oneInstance, orgID] as const;
 
 }
