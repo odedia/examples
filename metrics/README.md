@@ -4,6 +4,7 @@
 
 ## Overview
 
+This example uses the Nile JS SDK to produce and get metrics about your entity instances.
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
 
 ![image](../images/saas.png)
@@ -14,8 +15,6 @@ These examples let you choose what kind of SaaS offering is provided, one of:
 - [SkyNet as a Service](../usecases/SkyNet/)
 - [Banking as a Service](../usecases/Banking/)
 - [YOLO](../usecases/README.md#yolo)
-
-This example uses the Nile JS SDK to produce and get metrics about your entity instances.
 
 ## Install Dependencies
 
