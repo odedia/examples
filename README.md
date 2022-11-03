@@ -120,7 +120,7 @@ You can configure these in the control plane so that they are aligned to your bu
 
 Nile provides a metrics API out-of-the-box because it is critical for any SaaS to be able to measure and monitor consumption and do accurate usage-based billing.
 These metrics can be exposed externally to the end user as well as internally for business operations.
-(Read more on metrics and consumption-based billing in the blog post [Launching an Infrastructure SaaS Product, An Example Walkthrough](https://www.thenile.dev/blog/launch-infra-saas#metrics-and-consumption-based-billing).
+Read more on metrics and consumption-based billing in the blog post [Launching an Infrastructure SaaS Product, An Example Walkthrough](https://www.thenile.dev/blog/launch-infra-saas#metrics-and-consumption-based-billing).
 
 - [Metrics with JS](metrics/) | JS SDK | Produce and get mock metrics
 
