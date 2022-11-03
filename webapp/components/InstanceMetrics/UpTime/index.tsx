@@ -7,6 +7,7 @@ import { MetricTypeEnum } from '@theniledev/js';
 
 import { useMetricsGenerator, useProduceMetric } from '../hooks';
 import { generateValueRange } from '../../../utils';
+import { getMetrics } from '~/metrics';
 
 import Rect from './rect.svg';
 
@@ -24,7 +25,6 @@ const Tangle = ({ fill }: { fill: 'success' | 'danger' }) => (
   </Box>
 );
 
-const METRIC_NAME = 'uptime';
 const now = new Date();
 const TWENTY_FOUR_HOURS_AG0 = new Date(now.getTime() - 24 * 60 * 60000);
 const THIRTY_SECONDS = 30 * 1000;
@@ -37,6 +37,7 @@ export default function UpTimeLoader() {
   if (Object.keys(router.query).length === 0) {
     return null;
   }
+
   return (
     <UpTime
       instanceId={instanceId}
@@ -54,6 +55,10 @@ type Props = {
 function UpTime(props: Props) {
   const { instanceId, entityType, organizationId } = props;
   const produceMetric = useProduceMetric();
+
+  const { gaugeGraph } = getMetrics(entityType) ?? {};
+  const METRIC_NAME = gaugeGraph['metricName'];
+  const METRIC_TITLE = gaugeGraph['metricTitle'];
 
   const metricName = `${entityType}-${METRIC_NAME}`;
 
@@ -105,7 +110,7 @@ function UpTime(props: Props) {
   return (
     <Card variant="outlined" sx={{ overflow: 'scroll' }}>
       <Stack direction="row" sx={{ justifyContent: 'space-between', mb: 1 }}>
-        <Typography level="h4">Up time</Typography>
+        <Typography level="h4">{METRIC_TITLE}</Typography>
         <Typography level="body3">past 24 hours</Typography>
       </Stack>
       <Stack direction="row">

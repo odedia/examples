@@ -19,7 +19,8 @@
       "~/components/*": ["components/*"],
       "~/paths": ["paths"],
       "~/images/*": ["public/images/*"],
-      "~/form-fields": ["form-fields/index.ts"]
+      "~/form-fields": ["form-fields/index.ts"],
+      "~/metrics": ["metrics/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

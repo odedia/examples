@@ -7,7 +7,8 @@ import React from 'react';
 import { generateValueRange } from '../../../utils';
 import { useMetricsGenerator } from '../hooks';
 
-const METRIC_NAME = 'throughput';
+import { getMetrics } from '~/metrics';
+
 const FOUR_SECONDS = 1000 * 4;
 
 export default function ThroughputTotalLoader() {
@@ -39,7 +40,12 @@ function ThroughputTotal(props: Props) {
   const router = useRouter();
   const entity = String(router.query.entity);
   const [metricValue, setMetricValue] = React.useState('');
+
+  const { averageNum } = getMetrics(entityType) ?? {};
+  const METRIC_NAME = averageNum['metricName'];
+  const METRIC_TITLE = averageNum['metricTitle'];
   const metricName = `${entity}-${METRIC_NAME}`;
+
   useMetricsGenerator({
     metricName,
     intervalTimeMs: FOUR_SECONDS,
@@ -82,7 +88,7 @@ function ThroughputTotal(props: Props) {
   return (
     <Stack spacing={2}>
       <Card variant="outlined">
-        <Typography level="h4">Average write latency</Typography>
+        <Typography level="h4">{METRIC_TITLE}</Typography>
         <Typography level="body3">Last 60 seconds</Typography>
         <Stack
           direction="row"

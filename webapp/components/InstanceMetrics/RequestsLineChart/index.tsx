@@ -8,10 +8,11 @@ import { generateValueRange } from '../../../utils';
 import { useMetricsGenerator } from '../hooks';
 import { useTheme } from '../../../global-context/theme';
 
+import { getMetrics } from '~/metrics';
+
 const now = new Date();
 
 const TEN_MINUTES_AGO = new Date(now.getTime() - 0.5 * 60000);
-const METRIC_NAME = 'Queries per second (QPS)';
 
 export default function RequestLineChartLoader() {
   const router = useRouter();
@@ -39,6 +40,11 @@ function RequestLineChart(props: Props) {
   const color = useTheme();
   const router = useRouter();
   const entity = String(router.query.entity);
+
+  const { lineChart } = getMetrics(entity) ?? {};
+  const METRIC_NAME = lineChart['metricName'];
+  const METRIC_TITLE = lineChart['metricTitle'];
+
   const metricName = `${entity}-${METRIC_NAME}`;
   const { instanceId, entityType, organizationId } = props;
 
