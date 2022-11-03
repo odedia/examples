@@ -57,7 +57,7 @@ async function getMetrics() {
     .then((data) => {
       console.log(
         emoji.get('white_check_mark'),
-        `Returned metrics for "nile.system.DB.instance.created": ${JSON.stringify(
+        `Returned metrics for ${metricName}: ${JSON.stringify(
           data,
           null,
           2
@@ -85,7 +85,7 @@ async function getMetrics() {
     .then((data) => {
       console.log(
         emoji.get('white_check_mark'),
-        `Returned metrics for "custom.DB.instance.myMetric" (past 4 hours): ${JSON.stringify(
+        `Returned metrics for ${metricName} (past 4 hours): ${JSON.stringify(
           data,
           null,
           2
