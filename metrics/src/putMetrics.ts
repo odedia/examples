@@ -36,7 +36,7 @@ async function putMetrics() {
 
   // Produce one metric
   const now = new Date();
-  const metricName = "myMetric";
+  const metricName = "custom.DB.instance.myMetric";
   const fakeMeasurement = {
     timestamp: now,
     value: 11.8,

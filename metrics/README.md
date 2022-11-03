@@ -86,7 +86,7 @@ yarn setup-nile
    }
    ```
 
-2. Produce a fake measurement for a new metric type called `myMetric` (refer to code [src/putMetrics.ts](src/putMetrics.ts)).
+2. Produce a fake measurement for a new metric type called `custom.DB.instance.myMetric` (refer to code [src/putMetrics.ts](src/putMetrics.ts)).
 
    ```
    yarn put-metric
@@ -97,7 +97,7 @@ yarn setup-nile
    ```json
    [
      {
-       "name": "myMetric",
+       "name": "custom.DB.instance.myMetric",
        "type": "gauge",
        "entityType": "DB",
        "measurements": [
@@ -111,7 +111,7 @@ yarn setup-nile
    ]
    ```
 
-3. Get measurements from Nile (refer to code [src/getMetrics.ts](src/getMetrics.ts) which shows two different queries). You should get one measurement for when the instance was created (`nile.system.DB.instance.created`), and one that is what you sent in the previous step (`myMetric`).
+3. Get measurements from Nile (refer to code [src/getMetrics.ts](src/getMetrics.ts) which shows two different queries). You should get one measurement for when the instance was created (`nile.system.DB.instance.created`), and one that is what you sent in the previous step (`custom.DB.instance.myMetric`).
 
    ```
    yarn get-metric
@@ -136,9 +136,9 @@ yarn setup-nile
    ]
    ```
 
-   The output for the new metric `myMetric` should resemble what was posted in the previous step.
+   The output for the new metric `custom.DB.instance.myMetric` should resemble what was posted in the previous step.
 
-4. List the metric definitions again, which now includes `myMetric`.
+4. List the metric definitions again, which now includes `custom.DB.instance.myMetric`.
 
    ```
    yarn list-metrics
@@ -169,11 +169,11 @@ yarn setup-nile
          "type": "gauge",
          "entityType": "DB"
        },
-       {                          <<<<<<<<<<<<<<<
-         "name": "myMetric",      <<<<<<<<<<<<<<<
-         "type": "gauge",         <<<<<<<<<<<<<<<
-         "entityType": "DB"       <<<<<<<<<<<<<<<
-       }                          <<<<<<<<<<<<<<<
+       {                                         <<<<<<<<<<<<<<<
+         "name": "custom.DB.instance.myMetric",  <<<<<<<<<<<<<<<
+         "type": "gauge",                        <<<<<<<<<<<<<<<
+         "entityType": "DB"                      <<<<<<<<<<<<<<<
+       }                                         <<<<<<<<<<<<<<<
      ]
    }
    ```

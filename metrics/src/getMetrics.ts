@@ -51,8 +51,8 @@ async function getMetrics() {
   })
   .catch((error: any) => console.error(error));
 
-  // Get measurements for new metric "myMetric"
-  const metricName = "myMetric";
+  // Get measurements for new metric "custom.DB.instance.myMetric"
+  const metricName = "custom.DB.instance.myMetric";
   const now = new Date();
   const FOUR_HOURS_AGO = new Date(now.getTime() - 4 * 60 * 60000);
   const metricFilter = {
@@ -67,7 +67,7 @@ async function getMetrics() {
     filter: metricFilter,
   })
   .then((data) => {
-    console.log(emoji.get('white_check_mark'), `Returned metrics for "myMetric" (past 4 hours): ${JSON.stringify(data, null, 2)}`);
+    console.log(emoji.get('white_check_mark'), `Returned metrics for "custom.DB.instance.myMetric" (past 4 hours): ${JSON.stringify(data, null, 2)}`);
   })
   .catch((error: any) => console.error(error));
 
