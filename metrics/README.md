@@ -15,7 +15,7 @@ These examples let you choose what kind of SaaS offering is provided, one of:
 - [Banking as a Service](../usecases/Banking/)
 - [YOLO](../usecases/README.md#yolo)
 
-For this service, you can use Nile's built-in metrics to produce and consume metrics about your instances.
+For this service, you can use Nile's built-in metrics to produce and get metrics about your instances.
 This example uses the NILE JS SDK to demonstrate metrics features in Nile.
 
 ## Install Dependencies
@@ -53,7 +53,7 @@ yarn setup-nile
 
 ## Execute
 
-1. List the metric definitions that are available by default.
+1. List the metric definitions that are available by default (refer to code [src/listMetricDefinitions.ts](src/listMetricDefinitions.ts)).
 
    ```
    yarn list-metrics
@@ -106,14 +106,14 @@ yarn setup-nile
          {
            "timestamp": "2022-11-02T18:14:49.759Z",
            "value": 11.8,
-           "instanceId": "inst_02rPXw8BAllTLlyPjYWK7k"
+           "instanceId": "inst_02rAXw7BAllTLlyPjYWK4k"
          }
        ]
      }
    ]
    ```
 
-3. Consume measurements from Nile (refer to code [src/getMetrics.ts](src/getMetrics.ts) which shows two different queries). You should get one measurement for when the instance was created (`nile.system.DB.instance.created`), and one that is what you sent in the previous step (`myMetric`).
+3. Get measurements from Nile (refer to code [src/getMetrics.ts](src/getMetrics.ts) which shows two different queries). You should get one measurement for when the instance was created (`nile.system.DB.instance.created`), and one that is what you sent in the previous step (`myMetric`).
 
    ```
    yarn get-metric
@@ -131,7 +131,7 @@ yarn setup-nile
          {
            "timestamp": "2022-10-31T19:49:00.435Z",
            "value": 1,
-           "instanceId": "inst_02rOtB9uGvJTn4gNrPocfU"
+           "instanceId": "inst_02rAXw7BAllTLlyPjYWK4k"
          }
        ]
      }

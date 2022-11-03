@@ -121,7 +121,7 @@ You can configure these in the control plane so that they are aligned to your bu
 Nile provides metrics OOTB because it is critical for any SaaS to be able to measure and monitor consumption and do accurate usage-based billing.
 These metrics can be exposed externally to the end user as well as internally for business operations.
 
-- [Metrics with JS](metrics/) | JS SDK | Produce and consume mock metrics
+- [Metrics with JS](metrics/) | JS SDK | Produce and get mock metrics
 
 ![metrics](images/metrics_billing_apis.png)
 
