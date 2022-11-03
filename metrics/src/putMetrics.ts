@@ -26,30 +26,13 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 var nile!;
 
-async function produceMetrics() {
+async function putMetrics() {
 
   // Login
   nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
-  // Get first org ID
-  const users = require(`../../usecases/${NILE_ENTITY_NAME}/init/users.json`);
-  // Load first user only
-  const index=0
-  const NILE_ORGANIZATION_NAME = users[index].org;
-  let createIfNot = false;
-  let orgID = await exampleUtils.maybeCreateOrg (nile, NILE_ORGANIZATION_NAME, false);
-
-  // Get one instance ID for above org ID
-  var oneInstance;
-  await nile.entities.listInstances({
-      type: NILE_ENTITY_NAME,
-      org: orgID,
-    }).then((data) => {
-      for (let i=0; i < data.length; i++) {
-        console.log(`${data[i].id}`);
-        oneInstance = data[i].id;
-      }
-    });
+  // Get any valid instance ID and its orgID, where entity type is NILE_ENTITY_NAME
+  const [oneInstance, orgID] = await exampleUtils.getAnyValidInstance(nile, NILE_ENTITY_NAME);
 
   // Produce one metric
   const now = new Date();
@@ -66,11 +49,15 @@ async function produceMetrics() {
     entityType: NILE_ENTITY_NAME,
     measurements: [fakeMeasurement],
   };
-  console.log(`\n\nSending metric:\n[${JSON.stringify(metricData, null, 2)}]`);
   await nile.metrics.produceBatchOfMetrics({
     metric: [metricData],
-  });
+  })
+    .catch((error: any) => {
+      console.error(emoji.get('x'), `Error: cannot produce measurement: ${error}`);
+      process.exit(1);
+    });
+  console.log(emoji.get('white_check_mark'), `Produced one measurement:\n[${JSON.stringify(metricData, null, 2)}]`);
 
 }
 
-produceMetrics();
+putMetrics();

@@ -26,51 +26,51 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 var nile!;
 
-async function consumeMetrics() {
+async function getMetrics() {
 
   // Login
   nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
-  // Get first org ID
-  const users = require(`../../usecases/${NILE_ENTITY_NAME}/init/users.json`);
-  // Load first user only
-  const index=0
-  const NILE_ORGANIZATION_NAME = users[index].org;
-  let createIfNot = false;
-  let orgID = await exampleUtils.maybeCreateOrg (nile, NILE_ORGANIZATION_NAME, false);
+  // Get any valid instance ID and its orgID, where entity type is NILE_ENTITY_NAME
+  const [oneInstance, orgID] = await exampleUtils.getAnyValidInstance(nile, NILE_ENTITY_NAME);
 
-  // Get one instance ID for above org ID
-  var oneInstance;
-  await nile.entities.listInstances({
-      type: NILE_ENTITY_NAME,
-      org: orgID,
-    }).then((data) => {
-      for (let i=0; i < data.length; i++) {
-        console.log(`${data[i].id}`);
-        oneInstance = data[i].id;
-      }
-    });
-
-  // Get metrics
-  const metricName = "myMetric";
-  const now = new Date();
-  const TWENTY_FOUR_HOURS_AGO = new Date(now.getTime() - 24 * 60 * 60000);
+  // Get measurement for "nile.system.DB.instance.created"
+  const metricName = "nile.system.DB.instance.created";
   const metricFilter = {
     metricName: metricName,
     entityType: NILE_ENTITY_NAME,
     organizationId: orgID,
     instanceId: oneInstance,
-    startTime: TWENTY_FOUR_HOURS_AGO,
   };
   await nile.metrics.filterMetricsForEntityType({
     entityType: NILE_ENTITY_NAME,
     filter: metricFilter,
   })
   .then((data) => {
-    console.log(`Returned metrics: ${JSON.stringify(data, null, 2)}`);
+    console.log(emoji.get('white_check_mark'), `Returned metrics for "nile.system.DB.instance.created": ${JSON.stringify(data, null, 2)}`);
+  })
+  .catch((error: any) => console.error(error));
+
+  // Get measurements for new metric "myMetric"
+  const metricName = "myMetric";
+  const now = new Date();
+  const FOUR_HOURS_AGO = new Date(now.getTime() - 4 * 60 * 60000);
+  const metricFilter = {
+    metricName: metricName,
+    entityType: NILE_ENTITY_NAME,
+    organizationId: orgID,
+    instanceId: oneInstance,
+    startTime: FOUR_HOURS_AGO,
+  };
+  await nile.metrics.filterMetricsForEntityType({
+    entityType: NILE_ENTITY_NAME,
+    filter: metricFilter,
+  })
+  .then((data) => {
+    console.log(emoji.get('white_check_mark'), `Returned metrics for "myMetric" (past 4 hours): ${JSON.stringify(data, null, 2)}`);
   })
   .catch((error: any) => console.error(error));
 
 }
 
-consumeMetrics();
+getMetrics();

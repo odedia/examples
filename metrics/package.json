@@ -15,10 +15,11 @@
   },
   "scripts": {
     "setup-nile": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
-    "produce": "ts-node src/produce_metrics.ts",
-    "consume": "ts-node src/consume_metrics.ts",
+    "list-metrics": "ts-node src/listMetricDefinitions.ts",
+    "put-metric": "ts-node src/putMetrics.ts",
+    "get-metric": "ts-node src/getMetrics.ts",
     "prestart": "yarn --cwd ../utils-module-js/ install",
-    "start": "yarn produce; yarn consume"
+    "start": "yarn list-metrics; yarn put-metric; yarn get-metric; yarn list-metrics"
   },
   "engines": {
     "node": ">=18.0.0"

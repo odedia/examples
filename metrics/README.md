@@ -53,10 +53,45 @@ yarn setup-nile
 
 ## Execute
 
-1. Produce a fake measurement (refer to code [src/produce_metrics.ts](src/produce_metrics.ts)).
+1. List the metric definitions that are available by default.
 
    ```
-   yarn produce
+   yarn list-metrics
+   ```
+
+   Your output should resemble:
+
+   ```json
+   {
+     "metricDefinitions": [
+       {
+         "name": "nile.system.DB.instance.accessed",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.created",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.updated",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.deleted",
+         "type": "gauge",
+         "entityType": "DB"
+       }
+     ]
+   }
+   ```
+
+2. Produce a fake measurement for a new metric type called `myMetric` (refer to code [src/putMetrics.ts](src/putMetrics.ts)).
+
+   ```
+   yarn put-metric
    ```
 
    This will generate one measurement that resembles:
@@ -78,8 +113,69 @@ yarn setup-nile
    ]
    ```
 
-2. Consume a measurement (refer to code [src/consume_metrics.ts](src/consume_metrics.ts)). You should get at least one measurement that is what you sent in the previous step.
+3. Consume measurements from Nile (refer to code [src/getMetrics.ts](src/getMetrics.ts) which shows two different queries). You should get one measurement for when the instance was created (`nile.system.DB.instance.created`), and one that is what you sent in the previous step (`myMetric`).
 
    ```
-   yarn consume
+   yarn get-metric
+   ```
+
+   The output for the metric `nile.system.DB.instance.created` should resemble:
+
+   ```json
+   [
+     {
+       "name": "nile.system.DB.instance.created",
+       "type": "gauge",
+       "entityType": "DB",
+       "measurements": [
+         {
+           "timestamp": "2022-10-31T19:49:00.435Z",
+           "value": 1,
+           "instanceId": "inst_02rOtB9uGvJTn4gNrPocfU"
+         }
+       ]
+     }
+   ]
+   ```
+
+   The output for the new metric `myMetric` should resemble what was posted in the previous step.
+
+4. List the metric definitions again, which now includes `myMetric`.
+
+   ```
+   yarn list-metrics
+   ```
+
+   Your output should include what was shown before, plus the new metric:
+
+   ```json
+   {
+     "metricDefinitions": [
+       {
+         "name": "nile.system.DB.instance.accessed",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.created",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.updated",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {
+         "name": "nile.system.DB.instance.deleted",
+         "type": "gauge",
+         "entityType": "DB"
+       },
+       {                          <<<<<<<<<<<<<<<
+         "name": "myMetric",      <<<<<<<<<<<<<<<
+         "type": "gauge",         <<<<<<<<<<<<<<<
+         "entityType": "DB"       <<<<<<<<<<<<<<<
+       }                          <<<<<<<<<<<<<<<
+     ]
+   }
    ```

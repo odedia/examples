@@ -144,3 +144,32 @@ exports.getAdminForOrg = function (
   }
   return null;
 }
+
+exports.getAnyValidInstance = async function (
+  nile: nileAPI, entityType: string): Promise< [string, string] > {
+
+  // Get first org ID
+  const users = require(`../../usecases/${entityType}/init/users.json`);
+  // Load first user only
+  const index=0
+  const orgName = users[index].org;
+  let createIfNot = false;
+  let orgID = await this.maybeCreateOrg (nile, orgName, false);
+
+  // Get one instance ID for above org ID
+  var oneInstance;
+  await nile.entities.listInstances({
+      type: entityType,
+      org: orgID,
+    }).then((data) => {
+      oneInstance = data[0].id;
+      return [oneInstance, orgID] as const;
+    });
+  if (!oneInstance) {
+    console.error(emoji.get('x'), `Could not identify one instance in org ${orgName} (${orgID}). Did you run 'yarn setup-nile'? Please troubleshoot`);
+    process.exit(1);
+  }
+  console.log(emoji.get('dart'), `Using instance ID ${oneInstance}`);
+  return [oneInstance, orgID] as const;
+
+}
