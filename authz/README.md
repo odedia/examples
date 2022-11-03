@@ -16,7 +16,7 @@ These examples let you choose what kind of SaaS offering is provided, one of:
 - [YOLO](../usecases/README.md#yolo)
 
 For this service, you can use Nile's built-in entities to enforce access policies.
-This example uses the NILE JS SDK to demonstrate authorization features in Nile in the following workflow:
+This example uses the Nile JS SDK to demonstrate authorization features in Nile in the following workflow:
 
 - List the instances of `DB` entity type allowed to be read in a given organization by one of the predefined users from the [usecases](../usecases/)
 - Create a new policy that allows the user `read` permissions to instances of the type `DB` which have a property `environment=dev`. There is an implicit deny for all other instances.

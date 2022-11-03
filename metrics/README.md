@@ -15,8 +15,7 @@ These examples let you choose what kind of SaaS offering is provided, one of:
 - [Banking as a Service](../usecases/Banking/)
 - [YOLO](../usecases/README.md#yolo)
 
-For this service, you can use Nile's built-in metrics to produce and get metrics about your instances.
-This example uses the NILE JS SDK to demonstrate metrics features in Nile.
+This example uses the Nile JS SDK to produce and get metrics about your entity instances.
 
 ## Install Dependencies
 
