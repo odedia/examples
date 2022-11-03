@@ -128,7 +128,7 @@ Read more on metrics and consumption-based billing in the blog post [Launching a
 
 ### Webapp
 
-Configure a front-end web application that is customizable on a per-tenant basis.
+Launch a front-end web application that is customizable on a per-tenant basis.
 The webapp includes Nile React components for metrics.
 
 - [Webapp](webapp/) | JS SDK | Builds a self-service frontend that integrates with Nile on the backend
