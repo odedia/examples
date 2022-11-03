@@ -4,7 +4,12 @@
 
 ## Overview
 
+Nile provides a metrics API out-of-the-box because it is critical for any SaaS to be able to measure and monitor consumption and do accurate usage-based billing.
+These metrics can be exposed externally to the end user as well as internally for business operations.
+(Read more on metrics and consumption-based billing in the blog post [Launching an Infrastructure SaaS Product, An Example Walkthrough](https://www.thenile.dev/blog/launch-infra-saas#metrics-and-consumption-based-billing).
+
 This example uses the Nile JS SDK to produce and get metrics about your entity instances.
+
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
 
 ![image](../images/saas.png)
