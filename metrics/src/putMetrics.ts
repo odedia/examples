@@ -44,7 +44,9 @@ async function putMetrics() {
   // Produce one measurement for a new metric
   const now = new Date();
   const metricName = 'custom.DB.instance.myMetric';
-  const randomValue = parseFloat((Math.random() * (100.0 - 70.0) + 70.0).toFixed(2));
+  const randomValue = parseFloat(
+    (Math.random() * (100.0 - 70.0) + 70.0).toFixed(2)
+  );
   const fakeMeasurement = {
     timestamp: now,
     value: randomValue,
@@ -70,7 +72,7 @@ async function putMetrics() {
     });
   console.log(
     emoji.get('white_check_mark'),
-    `Produced one measurement:\n[${JSON.stringify(metricData, null, 2)}]`
+    `Produced one measurement:\n[ ${JSON.stringify(metricData, null, 2)} ]`
   );
 }
 
