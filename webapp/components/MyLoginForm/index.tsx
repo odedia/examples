@@ -70,7 +70,8 @@ export default function MyLoginForm() {
           <Stack spacing={2}>
             <Stack sx={{ alignItems: 'center' }}>
               <Logo width={300} />
-              <Typography level="h4">{NILE_WORKSPACE} SaaS</Typography>
+              <Typography level="h4">{NILE_ENTITY_NAME} SaaS</Typography>
+              <Typography level="h7">{NILE_WORKSPACE}</Typography>
             </Stack>
             {error && (
               <Chip

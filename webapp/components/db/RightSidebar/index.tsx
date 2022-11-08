@@ -137,9 +137,9 @@ export default function RightSidebar(props: Props) {
                 >
                   <Upgrade />
                 </Box>
-                <Typography component="strong">Upgrade to PRO</Typography>
+                <Typography component="strong">Upgrade to Pro</Typography>
                 <Typography level="body3" sx={{ textAlign: 'center' }}>
-                  Get access to larger databases, VPC peering and all other
+                  Get access to larger databases, VPC peering and many other
                   features
                 </Typography>
                 <Button sx={{ width: '80%' }}>Upgrade now</Button>

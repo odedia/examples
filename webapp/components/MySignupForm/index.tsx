@@ -17,7 +17,7 @@ export default function MySignUpForm() {
   const router = useRouter();
   const [error, setErrorMessage] = React.useState<null | string>(null);
   const { publicRuntimeConfig } = getConfig();
-  const { NILE_WORKSPACE } = publicRuntimeConfig;
+  const { NILE_ENTITY_NAME } = publicRuntimeConfig;
   return (
     <Sheet sx={{ height: '100vh' }}>
       <Stack direction="row" sx={{ height: '100%' }}>
@@ -31,7 +31,7 @@ export default function MySignUpForm() {
         >
           <Stack spacing={3} sx={{ width: '500px' }}>
             <Typography level="h4">
-              Get get started with <i>{NILE_WORKSPACE} SaaS</i>
+              Get started with <i>{NILE_ENTITY_NAME} SaaS</i>
             </Typography>
             <Stack direction="row" spacing={4} sx={{ alignItems: 'center' }}>
               <MoneyOffIcon sx={{ fontSize: 40, color: 'rgb(72 187 132)' }} />
@@ -153,7 +153,7 @@ export default function MySignUpForm() {
                   color: 'var(--mui-palette-primary-contrastText)',
                 }}
               >
-                Welcome to {NILE_WORKSPACE} SaaS
+                Welcome to {NILE_ENTITY_NAME} SaaS
               </Typography>
             </Stack>
             <Box

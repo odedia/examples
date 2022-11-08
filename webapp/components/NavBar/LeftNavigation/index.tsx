@@ -29,7 +29,7 @@ export default function LeftNavigation(props: Props) {
   const { publicRuntimeConfig } = getConfig();
   const [, , org] = useFirstOrg();
 
-  const { NILE_WORKSPACE } = publicRuntimeConfig;
+  const { NILE_ENTITY_NAME } = publicRuntimeConfig;
   return (
     <>
       <Sheet
@@ -109,7 +109,7 @@ export default function LeftNavigation(props: Props) {
                     WebkitTextFillColor: 'transparent',
                   }}
                 >
-                  {NILE_WORKSPACE}
+                  {NILE_ENTITY_NAME} SaaS
                 </Typography>
               </Stack>
               <Stack>
