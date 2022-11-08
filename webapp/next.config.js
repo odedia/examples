@@ -27,9 +27,10 @@ try {
 
     if (name === 'NILE_ENTITY_NAME') {
       // Copy logo.svg
-      fs.copyFile(
+      fs.copyFileSync(
         `./form-fields/${value}/logo.svg`,
         './public/images/logo.svg',
+        fs.constants.COPYFILE_FICLONE,
         (err) => {
           if (err) {
             console.log(
