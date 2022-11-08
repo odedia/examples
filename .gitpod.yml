@@ -1,8 +1,8 @@
 github:
   prebuilds:
     main: true
-    branches: true
-    pullRequests: true
+    branches: false
+    pullRequests: false
     addComment: false
     addCheck: false
 
