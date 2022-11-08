@@ -131,7 +131,7 @@ This example uses the [Apache Flink Operator](https://github.com/apache/flink-ku
 
 ```bash 
 helm repo add flink-operator-repo https://downloads.apache.org/flink/flink-kubernetes-operator-1.1.0
-helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator
+helm install flink-kubernetes-operator flink-operator-repo/flink-kubernetes-operator --set webhook.create=false
 ```
 
 2. You can verify the installation by running:
