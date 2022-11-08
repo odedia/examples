@@ -16,7 +16,7 @@
   * [Javascript](#javascript-javascript)
   * [Python](#python-python)
 * [Tests](#tests)
-* [Advanced Configuration](#advanced-configuration)
+* [Advanced](#advanced)
 * [Talk to us](#talk-to-us)
 
 ## Overview
@@ -174,7 +174,9 @@ For more details, view this repo's [workflow](.github/workflows/validate-example
 
 ![GitHub Actions workflow](images/gh-actions-workflow.png)
 
-## Advanced Configuration
+## Advanced
+
+### Change Entity Type
 
 The default scenario in these examples is a company that provides a database as SaaS. 
 But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file (see [Setup](#setup)) to change it to be any other type of service offering, one of:
@@ -184,6 +186,12 @@ But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file (see [Se
 - [Banking as a Service](usecases/Banking/): `NILE_ENTITY_NAME=Banking`
 - [Workload as a Service](usecases/Workload/): `NILE_ENTITY_NAME=Workload`
 - [YOLO](usecases/README.md#yolo)
+
+### Run in Gitpod (Experimental)
+
+Try out the examples in [Gitpod](https://gitpod.io/#https://github.com/theniledev/examples/tree/main).
+
+Known limitation: webapp won't work
 
 ## Talk to us
 

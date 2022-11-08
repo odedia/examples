@@ -1,0 +1,41 @@
+github:
+  prebuilds:
+    main: true
+    branches: true
+    pullRequests: true
+    addComment: false
+    addCheck: false
+
+#image: gitpod/workspace-full-vnc
+
+tasks:
+  - name: setup-nvm
+    before: |
+      nvm install 18.9.0
+      nvm use 18.9.0
+ 
+      # Does not work: Chrome cannot trust the certificate
+      #sudo echo "127.0.0.1 local.thenile.dev" >> /etc/hosts
+      #(cd webapp && mkdir -p .certificates && cd .certificates && \
+      #openssl req -x509 -out localhost.crt -keyout localhost.key \
+      #  -days 365 \
+      #  -newkey rsa:2048 -nodes -sha256 \
+      #  -subj '/CN=*.thenile.dev' -extensions EXT -config <( \
+      #  printf "[dn]\nCN=*.thenile.dev\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:*.thenile.dev\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth"))
+      #sudo cp webapp/.certificates/localhost.crt /etc/ca-certificates/.
+
+      (cd utils-module-js && yarn install)
+      
+      echo
+      echo "Almost there! Finish setting up your environment: copy .env.defaults to .env and edit the values in the .env file to match what you created in Nile."
+      echo "Then continue with the README.md to run the examples."
+
+
+#ports:
+# webapp
+#- port: 443
+#  onOpen: open-browser
+#  visibility: public
+#- port: 3000
+#  onOpen: open-browser
+#  visibility: public
