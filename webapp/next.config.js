@@ -25,27 +25,22 @@ try {
     }
     const [name, value] = line.split('=');
 
+    // webapp customizations depending on the entity type
     if (name === 'NILE_ENTITY_NAME') {
+
       // Copy logo.svg
+      const src = `./form-fields/${value}/logo.svg`;
+      const dst = './public/images/logo.svg';
       fs.copyFileSync(
-        `./form-fields/${value}/logo.svg`,
-        './public/images/logo.svg',
-        fs.constants.COPYFILE_FICLONE,
-        (err) => {
-          if (err) {
-            console.log(
-              `Error: could not copy ./form-fields/${value}/logo.svg to ./public/images/logo.svg: ${err}`
-            );
-            process.exit(0);
-          } else {
-            console.log(
-              `Success: copied ./form-fields/${value}/logo.svg to ./public/images/logo.svg`
-            );
-          }
-        }
+        src,
+        dst,
+        fs.constants.COPYFILE_FICLONE
+      );
+      console.log(
+        `Success: copied ${src} to ${dst}`
       );
 
-      // Print valid admins
+      // Print valid admins who can log in
       const admins = fs.readFileSync(
         `../usecases/${value}/init/admins.json`,
         'utf8'
@@ -54,7 +49,7 @@ try {
         `Login as any of these predefined admins, or signup a new one: \n${admins}`
       );
 
-      // Print valid users
+      // Print valid users who can log in
       const users = fs.readFileSync(
         `../usecases/${value}/init/users.json`,
         'utf8'
