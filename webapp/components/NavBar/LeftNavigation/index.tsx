@@ -10,6 +10,7 @@ import InstanceMetadata from './InstanceMetadata';
 import Logo from '~/components/Logo';
 import { useFirstOrg } from '~/components/EntityTable/hooks';
 import { CreateInstance } from '~/components/EntityTable/CreateInstance';
+import { AddUser } from '~/components/EntityTable/AddUser';
 
 const themeGetter = (theme: { shadow: { lg: string } }) => ({
   display: 'flex',
@@ -127,6 +128,7 @@ export default function LeftNavigation(props: Props) {
                 entity={entity}
               />
             )}
+            <AddUser key="add-user" org={org?.id} />
           </Stack>
         </Sheet>
         <Sheet

@@ -121,8 +121,10 @@ yarn dev
 
 5. Create a new instance.  If you are running the reconciler in a separate terminal window (see [Setup](#setup)), then observe the resources being provisioned and updating Nile with its status.
 
-6. As a Nile developer: Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
+6. Add a new user to the org, and then log out of the webapp and log in as the newly created user. Observe that the new user sees all the same instances in the org.
 
-7. From the dashboard, notice the multi-tenancy features, with tenants belonging to different organizations. Your dashboard should resemble below:
+7. As a Nile developer: Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) to see the control plane and entity instances.
+
+8. From the dashboard, notice the multi-tenancy features, with tenants belonging to different organizations. Your dashboard should resemble below:
 
    ![image](images/nad.png)
