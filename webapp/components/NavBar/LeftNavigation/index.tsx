@@ -1,5 +1,5 @@
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { Typography, Box, Sheet, Stack } from '@mui/joy';
+import { Typography, Box, Sheet, Stack, Link } from '@mui/joy';
 import IconButton from '@mui/joy/IconButton';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useRouter } from 'next/router';
@@ -11,6 +11,7 @@ import Logo from '~/components/Logo';
 import { useFirstOrg } from '~/components/EntityTable/hooks';
 import { CreateInstance } from '~/components/EntityTable/CreateInstance';
 import { AddUser } from '~/components/EntityTable/AddUser';
+import paths from '~/paths';
 
 const themeGetter = (theme: { shadow: { lg: string } }) => ({
   display: 'flex',
@@ -49,9 +50,11 @@ export default function LeftNavigation(props: Props) {
             }}
           >
             <IconButton variant="plain">
-              <Box sx={themeGetter}>
-                <HomeOutlinedIcon />
-              </Box>
+              <Link href={paths.entities(router.query).index}>
+                <Box sx={themeGetter}>
+                  <HomeOutlinedIcon />
+                </Box>
+              </Link>
             </IconButton>
             <IconButton variant="plain" onClick={() => router.push('/')}>
               <LogoutOutlinedIcon sx={{ color: 'white' }} />

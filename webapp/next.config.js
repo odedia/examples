@@ -27,18 +27,11 @@ try {
 
     // webapp customizations depending on the entity type
     if (name === 'NILE_ENTITY_NAME') {
-
       // Copy logo.svg
       const src = `./form-fields/${value}/logo.svg`;
       const dst = './public/images/logo.svg';
-      fs.copyFileSync(
-        src,
-        dst,
-        fs.constants.COPYFILE_FICLONE
-      );
-      console.log(
-        `Success: copied ${src} to ${dst}`
-      );
+      fs.copyFileSync(src, dst, fs.constants.COPYFILE_FICLONE);
+      console.log(`Success: copied ${src} to ${dst}`);
 
       // Print valid admins who can log in
       const admins = fs.readFileSync(
