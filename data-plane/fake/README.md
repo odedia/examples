@@ -18,17 +18,14 @@ the current state and then listening for new events.
 ![image](../../images/events-p2.png)
 
 Nile doesn't prescribe any particular data plane deployment solution, but here we'll
-use [Pulumi](https://app.pulumi.com/) to deploy objects into AWS. 
-Available examples in this repo include:
+use a fake data plane.  The reconciler pretends to talk to a data plane, but all it does is
+update instance properties with an `Up` status and random endpoint value.
+
+If you're using a real data plane, consider running other examples (or connect to your own by replacing the appropriate classes in these examples):
 
 - [Data Plane with Pulumi via JS](../../data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane
 - [Data Plane with Apache Flink and Kubernetes via JS](../../data-plane/k8s/) | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
 - [Data Plane with Apache Flink and Kubernetes via Python](../../data-plane-python/k8s/) | Python SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
-- [Fake Data Plane via JS](../../data-plane/fake/) | JS SDK | Synchronize your fake data plane and control plane (if you don't have a real data plane to test)
-
-If you're using another tool like Kubernetes or Terraform, replace
-the [`PulumiAwsDeployment`](./src/commands/reconcile/lib/pulumi/PulumiAwsDeployment.ts) 
-class in this example with your own deployment implementation.
 
 ## Contents
 
@@ -36,7 +33,6 @@ class in this example with your own deployment implementation.
 * [Prerequisites](#prerequisites)
 * [Setup](#setup)
 * [Configure the Control Plane](#configure-the-control-plane)
-* [Configure the Data Plane](#configure-the-data-plane)
 * [Run the reconciler](#run-the-reconciler)
 * [Explanation](#explanation)
 * [Add or remove instances](#add-or-remove-instances)
@@ -45,14 +41,8 @@ class in this example with your own deployment implementation.
 
 This example assumes you have:
 
-* [An AWS account](https://aws.amazon.com/free/)
-* [A Pulumi account](https://app.pulumi.com/signup) that's
-  [connected to your AWS account](https://www.pulumi.com/docs/get-started/aws/begin/)
-* [The Pulumi CLI installed](https://www.pulumi.com/docs/reference/cli/)
 * A Nile developer account
 * Validate your environment has the minimum required Node version v18.0.0 or higher. If you are running earlier versions, you may encounter errors such as `ReferenceError: fetch is not defined`. (If you use `nvm`, run `nvm use`).
-
-Note that this example creates real AWS resources so be sure to manually destroy all resources to avoid unexpected charges from AWS.
 
 ## Setup
 
@@ -103,69 +93,18 @@ yarn install && yarn build
 yarn setup-nile
 ```
 
-## Configure the Data Plane ##
-
-These instructions summarize how to get started with Pulumi on AWS.
-See the [Pulumi documentation](https://www.pulumi.com/docs/get-started/aws/begin/) for a more complete setup.
-
-1. Set up a new Pulumi project called `pulumi-clustify`:
-
-```bash
-mkdir pulumi-clustify && cd pulumi-clustify
-pulumi new aws-typescript
-```
-
-When prompted, accept the defaults:
-
-```
-project name: (pulumi-clustify)
-project description: (A minimal AWS TypeScript Pulumi program) 
-Created project 'pulumi-clustify'
-
-Please enter your desired stack name.
-To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`).
-stack name: (dev) 
-Created stack 'dev'
-
-aws:region: The AWS region to deploy into: (us-east-1)
-Saved config
-```
-
-2. Run `pulumi up` to validate that Pulumi is configured correctly. This will
-create a new Pulumi stack named `dev`. We won't be using this stack, but its
-presence verifies that you're ready to proceed.
-
-```bash
-pulumi up
-```
-
 ## Run the reconciler ##
 
-1. Ensure that the values in your `.env` file match the values used in the setup of the control plane.
-
-2. Decide which mode you want to run in:
-
-   - `NILE_RECONCILER_MODE=S3`: (default) great for kicking the tires, provision a fake "database" in AWS that is actually just an S3 bucket under the hood. In contrast to above, creating an S3 bucket is very quick.
-
-     ```bash
-     export NILE_RECONCILER_MODE=S3
-     ```
-
-   - `NILE_RECONCILER_MODE=DB`: provision a MySQL database in AWS, useful for realistic demos. AWS can take a few minutes to provision these resources.
-
-     ```bash
-     export NILE_RECONCILER_MODE=DB
-     ```
+First, ensure that the values in your `.env` file match the values used in the setup of the control plane.
 
 There are several ways to run the reconciler, each described in the following sections:
 
 - [Using yarn](#using-yarn)
 - [Executable binary](#executable-binary)
-- [Docker](#docker) 
 
 ### Using `yarn`
 
-1. Back up in the `data-plane/pulumi` directory, create the executable command binary with the following command
+1. Back up in the `data-plane/fake` directory, create the executable command binary with the following command
 
 ```bash
 yarn install && yarn build
@@ -179,7 +118,7 @@ yarn start
 
 ### Executable binary
 
-1. Back up in the `data-plane/pulumi` directory, create the executable command binary with the following command
+1. Back up in the `data-plane/fake` directory, create the executable command binary with the following command
 
 ```bash
 yarn install && yarn build
@@ -200,88 +139,17 @@ source .env
   --authToken $NILE_WORKSPACE_ACCESS_TOKEN
 ```
 
-### Docker
-
-1. Back up in the `data-plane/pulumi` directory, if you haven't setup your control plane yet, set it up now:
-
-```bash
-yarn setup-nile
-```
-
-2. Run the reconciler Docker image. Ensure that you have valid values for the three input parameters required to connect to AWS (`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`) and Pulumi (`PULUMI_ACCESS_TOKEN`):
-
-```bash
-docker run --init --rm \
-  --env-file .env \
-  -e NILE_RECONCILER_MODE=S3 \
-  -e AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
-  -e AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
-  -e PULUMI_ACCESS_TOKEN=$PULUMI_ACCESS_TOKEN \
-  theniledev/reconciler:v0.5
-```
-
 ## Explanation
 
 The reconciler will immediately find the newly instantiated DB instance in the Nile
-control plane and create a Pulumi stack that represents it.
-The Pulumi API creates these resources in AWS with public access.
+control plane and act on it.  It skips doing anything with a data plane and just updates the status of the instance to `Up` and sets a fake endpoint value.
 The reconciler will also log the instance properties and update the instance in the Nile control plane with its status and connection information.
-
-### Modes
-
-As mentioned earlier, there are two modes:
-
-1. `NILE_RECONCILER_MODE=S3`: (default) fake "database" in AWS S3 bucket created by [`pulumiS3.ts`](./src/commands/reconcile/lib/pulumi/pulumiS3.ts). Runs faster.
-
-
-```bash
- +  aws:s3:BucketObject index created 
-
- +  pulumi:pulumi:Stack pulumi-clustify-inst_02r9hCo4dxhwqkHHDwfRGg created 
-
-Outputs:
-
-    ....
-    websiteUrl  : "https://nile-demo-0f0f150.s3.us-east-2.amazonaws.com/index.html"
-
-Resources:
-    + 4 created
-
-Duration: 5s
-```
-
-![image](images/aws-s3.jpg)
-
-Coolness! You can now view this page by navigating to `websiteUrl` from your browser.
-
-2. `NILE_RECONCILER_MODE=DB`: MySQL database in AWS created by [`pulumiDB.ts`](./src/commands/reconcile/lib/pulumi/pulumiDB.ts). Runs slower.
-
-```bash
- +  aws:rds:Instance nile-demo created 
-
- +  pulumi:pulumi:Stack pulumi-clustify-inst_02r9iq53n2fvsNjJQBr91m created 
- 
-
-Outputs:
-    address : "nile-demoa9f81e9.clrb45fomzui.us-east-2.rds.amazonaws.com"
-    endpoint: "nile-demoa9f81e9.clrb45fomzui.us-east-2.rds.amazonaws.com:3306"
-
-Resources:
-    + 2 created
-
-Duration: 4m8s
-```
-
-![image](images/aws-rds.jpg)
-
-Coolness! You can now connect to this database (e.g. with a local MySQL client or Docker `docker run -it --rm mysql mysql -h${address} -ufoo -ppassword` or your preferred means) and then run `show databases;` to see your newly created database. If you have problems connecting, doublecheck that the AWS security group is properly configured.
 
 ## Add or Remove Instances ##
 
 While the reconciler is running, in the [Nile Admin Dashboard](https://nad.thenile.dev/), add one or
 more new DB instances. This will trigger events that the
-reconciler receives and the data plane will synchronize accordingly. Deleting an instance in the
-control plane will result in destruction of the corresponding Pulumi stack.
+reconciler receives and the data plane will synchronize accordingly. 
 
 With the current implementation of the [reconciler example](src/commands/reconcile/index.ts), if the reconciler stops running for a period of time and then restarts, the events that occurred during the down time are handled as follows:
 

@@ -15,13 +15,19 @@ plane and control plane in real time.
 
 ![image](../../images/events-p2.png)
 
-Nile doesn't prescribe any particular data plane deployment solution. Here we'll be
-using [Apache Flink's Operator](https://github.com/apache/flink-kubernetes-operator) to deploy objects into Kubernetes. 
+Nile doesn't prescribe any particular data plane deployment solution, but here we'll
+use [Apache Flink's Operator](https://github.com/apache/flink-kubernetes-operator) to deploy objects into Kubernetes.
 Note: this example runs only with `NILE_ENTITY_NAME=FlinkDeployment`.
+Available examples in this repo include:
 
-> If your data plane is something other than Flink jobs or does not use Kubernetes, replace 
-> the [`FlinkDeploymentService`](./src/service/FlinkDeploymentService.ts) 
-> class in this example with your own deployment implementation.
+- [Data Plane with Pulumi via JS](../../data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane
+- [Data Plane with Apache Flink and Kubernetes via JS](../../data-plane/k8s/) | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
+- [Data Plane with Apache Flink and Kubernetes via Python](../../data-plane-python/k8s/) | Python SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
+- [Fake Data Plane via JS](../../data-plane/fake/) | JS SDK | Synchronize your fake data plane and control plane (if you don't have a real data plane to test)
+
+If you're using another tool like Terraform, Pulumi, or otherwise, replace
+the [`FlinkDeploymentService`](./src/service/FlinkDeploymentService.ts)
+class in this example with your own deployment implementation.
 
 ### Credit
 This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](https://goldsky.com/). The Nile team appreciates all their help and feedback.

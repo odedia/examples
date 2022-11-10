@@ -91,8 +91,13 @@ Then, run the following command to preconfigure the Nile control plane with an e
    yarn setup-nile
    ```
 
-(Optional) If you want to hook up your Nile control plane to a data plane and provision real resources, run the reconciler to synchronize events between the control plane and data plane (e.g. if you use the webapp to create new entity instances). Follow the instructions in the [Pulumi example](../data-plane/pulumi/) and start the reconciler in a separate terminal window.  If you skip this step, the instances in your webapp will not go to `status=Up`.
+(Optional) If you want to hook up your Nile control plane to a data plane, run the reconciler to synchronize events between the control plane and data plane (e.g. if you use the webapp to create new entity instances). If you skip this step, the instances in your webapp will not go to `status=Up`.  Follow the instructions in one of the following examples, running them in a separate terminal window:
 
+  - [Data Plane with Pulumi via JS](data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane
+  - [Data Plane with Apache Flink and Kubernetes via JS](data-plane/k8s/) | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
+  - [Data Plane with Apache Flink and Kubernetes via Python](data-plane-python/k8s/) | Python SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
+  - [Fake Data Plane via JS](data-plane/fake/) | JS SDK | Synchronize your fake data plane and control plane (if you don't have a real data plane to test)
+  
 ## Run the webapp
 
 Run the following command from the `webapp` directory.  It starts the web server locally and produces metrics to Nile that are rendered in charts in the webapp.
