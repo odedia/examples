@@ -138,9 +138,6 @@ const makeTheme = (color: string) => {
             ...grey,
           },
           divider: 'var(--mui-palette-divider)',
-          text: {
-            tertiary: 'rgba(0 0 0 / 0.56)',
-          },
         },
       },
       dark: {

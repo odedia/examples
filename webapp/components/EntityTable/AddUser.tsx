@@ -1,8 +1,8 @@
 import React from 'react';
 import { Alert, Button, Modal, ModalClose, Sheet, Stack } from '@mui/joy';
-import { SignUpForm } from '@theniledev/react';
+import { Queries, SignUpForm } from '@theniledev/react';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNile } from '@theniledev/react';
 
 export function AddUser(props: { org: string; setReRender?: () => void }) {
@@ -12,6 +12,9 @@ export function AddUser(props: { org: string; setReRender?: () => void }) {
 
   const nile = useNile();
 
+  const { data: orgs = [] } = useQuery(Queries.ListOrganizations, () =>
+    nile.organizations.listOrganizations()
+  );
   const addUserToOrg = React.useCallback(
     (email: string) => {
       return nile.organizations.addUserToOrg({
@@ -85,16 +88,15 @@ export function AddUser(props: { org: string; setReRender?: () => void }) {
           />
         </Sheet>
       </Modal>
-      <Button
-        sx={{ justifyContent: 'flex-start' }}
-        style={{
-          backgroundColor: '#21b6ae',
-        }}
-        startDecorator={<AddCircleOutlineOutlinedIcon />}
-        onClick={() => setOpen(true)}
-      >
-        Add new user to org
-      </Button>
+      {orgs.length > 0 && (
+        <Button
+          sx={{ justifyContent: 'flex-start' }}
+          startDecorator={<AddCircleOutlineOutlinedIcon />}
+          onClick={() => setOpen(true)}
+        >
+          Add new user to org
+        </Button>
+      )}
     </Stack>
   );
 }

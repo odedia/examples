@@ -19,7 +19,7 @@ export default function MySignUpForm() {
   const { publicRuntimeConfig } = getConfig();
   const { NILE_ENTITY_NAME } = publicRuntimeConfig;
   return (
-    <Sheet sx={{ height: '100vh' }}>
+    <Sheet>
       <Stack direction="row" sx={{ height: '100%' }}>
         <Stack
           sx={{
@@ -102,9 +102,7 @@ export default function MySignUpForm() {
                 onError={(error) => {
                   // for demo purposes only
                   if (/workspace .* not found/.test(error.message)) {
-                    setErrorMessage(
-                      'Double check your workspace name in pages/_app.tsx'
-                    );
+                    setErrorMessage("We're unable to find the workspace");
                   } else {
                     setErrorMessage(error.message);
                   }
@@ -164,7 +162,6 @@ export default function MySignUpForm() {
                 right: 0,
                 top: 0,
                 bottom: 0,
-                height: '100vh',
                 overflow: 'hidden',
               }}
             >
