@@ -11,18 +11,11 @@ The mock scenario in these examples is a company that provides SaaS.
 
 ![image](../images/saas.png)
 
-These examples let you choose what kind of SaaS offering is provided, one of:
+Want to view a hosted version of this example SaaS app that is built on Nile?  Checkout https://demo-db-saas.thenile.dev (login as one of the predefined [users](../usecases/DB/init/users.json)).
 
-- [Database as a Service](../usecases/DB/) (same as in the Nile Quickstart)
-- [SkyNet as a Service](../usecases/SkyNet/)
-- [Banking as a Service](../usecases/Banking/)
-- [Workload as a Service](../usecases/Workload/)
-- [YOLO](../usecases/README.md#yolo)
-
-Everything you need to run this example is in one of the folders above.
-Once a developer initializes their control plane in Nile with their service's entity schema, they can capture events as end users create new instances to reconcile Nile with their data plane, get built-in multi-tenancy and authorization policies, and show metrics to users for consumption and billing using Nile's metrics API and matching UI components.
+Want to run this example yourself?  Keep reading.
 This webapp demonstrates a sample frontend for their SaaS application that integrates with the control plane using Nile React components for [Next.js](https://nextjs.org/).
-It provides self-service workflows for user signup/login, org creation, and instance management.
+It provides self-service workflows for user signup/login, org creation, and instance management, with metrics API for serving up metrics about the user instances, and can be run with a reconciler to synchronize the control plane and data plane.
 
 ![image](../images/webapp.png)
 
@@ -33,6 +26,7 @@ It provides self-service workflows for user signup/login, org creation, and inst
 * [Setup](#setup)
 * [Run the web server locally](#run-the-web-server-locally)
 * [Playbook](#playbook)
+* [Advanced](#advanced)
 
 ## Prerequisites
 
@@ -133,3 +127,16 @@ yarn dev
 8. From the dashboard, notice the multi-tenancy features, with tenants belonging to different organizations. Your dashboard should resemble below:
 
    ![image](images/nad.png)
+
+## Advanced
+
+### Change Entity Type
+
+The default scenario in these examples is a company that provides a database as SaaS.
+But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file (see [Setup](#setup)) to change it to be any other type of service offering, one of:
+
+- [Database as a Service](../usecases/DB/) (same as in the Nile Quickstart): `NILE_ENTITY_NAME=DB`
+- [SkyNet as a Service](../usecases/SkyNet/): `NILE_ENTITY_NAME=SkyNet`
+- [Banking as a Service](../usecases/Banking/): `NILE_ENTITY_NAME=Banking`
+- [Workload as a Service](../usecases/Workload/): `NILE_ENTITY_NAME=Workload`
+- [YOLO](../usecases/README.md#yolo)

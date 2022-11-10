@@ -58,14 +58,17 @@ async function execute(metricName: string) {
 
   let measurements = [];
   for (let i=0; i < instances.length; i++) {
-    let now = new Date();
-    let randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
-    let fakeMeasurement = {
-      timestamp: now,
-      value: randomValue,
-      instanceId: instances[i].id,
-    };
-    measurements[i] = fakeMeasurement;
+    let status = instances[i].properties.status;
+    if (status === undefined || status === 'Up') {
+      let now = new Date();
+      let randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
+      let fakeMeasurement = {
+        timestamp: now,
+        value: randomValue,
+        instanceId: instances[i].id,
+      };
+      measurements[i] = fakeMeasurement;
+    }
   }
 
   let metricData = {

@@ -5,7 +5,7 @@
   "scripts": {
     "setup-nile": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
     "start-server": "node server.mjs",
-    "start-metrics": "concurrently \"yarn --cwd ../metrics/ generate-gaugeGraph\" \"yarn --cwd ../metrics/ generate-lineChart\" \"yarn --cwd ../metrics/ generate-averageNum\"",
+    "start-metrics": "yarn --cwd ../metrics/ generate-all-metrics",
     "dev": "concurrently \"yarn start-server\" \"yarn start-metrics\"",
     "build": "next build",
     "start": "next start",
@@ -27,7 +27,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.8.5",
+    "@types/node": "16.18.1",
     "@types/react": "18.0.21",
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "18.0.6",
@@ -42,8 +42,5 @@
     "eslint-plugin-storybook": "^0.6.6",
     "prettier": "^2.7.1",
     "typescript": "4.8.4"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

@@ -2,6 +2,7 @@
   "dependencies": {
     "@theniledev/js": "^0.28.2",
     "@types/node": "^18.0.0",
+    "concurrently": "^7.5.0",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
     "node-docker-api": "^1.1.22",
@@ -22,7 +23,8 @@
     "start": "yarn list-metrics; yarn produce-metrics; yarn filter-metrics; yarn list-metrics",
     "generate-gaugeGraph": "ts-node src/generate_metrics_gaugeGraph.ts",
     "generate-lineChart": "ts-node src/generate_metrics_lineChart.ts",
-    "generate-averageNum": "ts-node src/generate_metrics_averageNum.ts"
+    "generate-averageNum": "ts-node src/generate_metrics_averageNum.ts",
+    "generate-all-metrics": "concurrently \"yarn generate-gaugeGraph\" \"yarn generate-lineChart\" \"yarn generate-averageNum\""
   },
   "engines": {
     "node": ">=18.0.0"

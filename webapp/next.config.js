@@ -6,17 +6,20 @@ const path = require('path');
 const envPath = './.env';
 let runtimeConfig = {};
 
-// Validate user has taken the step to setup certificates
-const certificateDir = './.certificates';
-if (!fs.existsSync(certificateDir)) {
-  console.log(
-    `Error: directory ${certificateDir} does not exist. Did you forget to setup your local certificates? Refer to the README.md for instructions`
-  );
-  process.exit(1);
+// Local webapp only: validate user has taken the step to setup certificates
+const isVercel = process.env.VERCEL === '1' || false;
+if (!isVercel) {
+  const certificateDir = './.certificates';
+  if (!fs.existsSync(certificateDir)) {
+    console.log(
+      `Error: directory ${certificateDir} does not exist. Did you forget to setup your local certificates? Refer to the README.md for instructions`
+    );
+    process.exit(1);
+  }
 }
 
 // reads from .env to expose values to the client
-try {
+function readVarsFile() {
   const file = fs.readFileSync(envPath, 'utf8');
   const lines = file.split('\n');
   runtimeConfig = lines.reduce((accum, line) => {
@@ -26,7 +29,7 @@ try {
     const [name, value] = line.split('=');
 
     // webapp customizations depending on the entity type
-    if (name === 'NILE_ENTITY_NAME') {
+    if (name.includes('NILE_ENTITY_NAME')) {
       // Copy logo.svg
       const src = `./form-fields/${value}/logo.svg`;
       const dst = './public/images/logo.svg';
@@ -55,18 +58,46 @@ try {
     accum[name] = value;
     return accum;
   }, {});
+}
+
+try {
+  readVarsFile();
 } catch (err) {
-  console.log('err: ', err);
-  console.warn(
-    '[ERROR] local .env file missing. This must be configured before the demo can be run. '
-  );
-  process.exit(0);
+  let envParams = [
+    'NEXT_PUBLIC_NILE_URL',
+    'NEXT_PUBLIC_NILE_WORKSPACE',
+    'NEXT_PUBLIC_NILE_ENTITY_NAME',
+  ];
+  envParams.forEach((key) => {
+    if (!process.env[key]) {
+      console.error(
+        `Error: missing .env file for local testing, or missing environment variable ${key} for Vercel`
+      );
+      process.exit(1);
+    }
+  });
+  let data = `
+NILE_URL=${process.env.NEXT_PUBLIC_NILE_URL}
+NILE_WORKSPACE=${process.env.NEXT_PUBLIC_NILE_WORKSPACE}
+NILE_ENTITY_NAME=${process.env.NEXT_PUBLIC_NILE_ENTITY_NAME}
+NEXT_PUBLIC_NILE_URL=${process.env.NEXT_PUBLIC_NILE_URL}
+NEXT_PUBLIC_NILE_WORKSPACE=${process.env.NEXT_PUBLIC_NILE_WORKSPACE}
+NEXT_PUBLIC_NILE_ENTITY_NAME=${process.env.NEXT_PUBLIC_NILE_ENTITY_NAME}
+`;
+  fs.writeFileSync(envPath, data);
+  readVarsFile();
 }
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   publicRuntimeConfig: runtimeConfig,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.svg$/i,
