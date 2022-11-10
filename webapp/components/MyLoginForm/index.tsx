@@ -101,9 +101,7 @@ export default function MyLoginForm() {
               onError={(error) => {
                 // for demo purposes only
                 if (/workspace .* not found/.test(error.message)) {
-                  setErrorMessage(
-                    'Double check your workspace name in pages/_app.tsx'
-                  );
+                  setErrorMessage("We're unable to find the workspace.");
                 } else {
                   setErrorMessage(error.message);
                 }

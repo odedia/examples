@@ -5,6 +5,8 @@ import '../styles/globals.css';
 import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useColorScheme } from '@mui/joy/styles';
+import { Mode } from '@mui/system/cssVars/useCurrentColorScheme';
 
 import { useTheme, Provider as ColorProvider } from '../global-context/theme';
 import theme from '../styles/theme';
@@ -14,6 +16,11 @@ import Footer from '~/components/Footer';
 
 function WorkspaceChecker(props: React.PropsWithChildren) {
   const { children } = props;
+  const { setMode, systemMode } = useColorScheme();
+  React.useEffect(() => {
+    setMode(systemMode as Mode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const nile = useNile();
   /**
    * Delete the code block and component after you've updated the workspace name
@@ -47,6 +54,7 @@ function PostColorizor(props: { children: JSX.Element }) {
   const { NILE_WORKSPACE, NILE_URL } = publicRuntimeConfig;
   const color = useTheme();
   const { children } = props;
+
   return (
     <NileProvider
       basePath={NILE_URL}
