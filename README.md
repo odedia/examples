@@ -203,10 +203,10 @@ For more details, view this repo's [workflow](.github/workflows/validate-example
 
 ## Community
 
-1. Join the [Slack community for SaaS developers](https://saas-community.github.io), who are learning from each other to build spectacular services in the cloud.  
+1. Join the [Slack community for SaaS developers](https://saas-community.github.io) who are learning from and sharing with each other advice on how to build spectacular services in the cloud.  
 
-2. Subscribe to the [SaaS Developer Community Youtube channel](https://www.youtube.com/channel/UCZuLNqvV4oUMVyNq70mFF0g) to learn from experts in the field.
+2. Subscribe to the [SaaS Developer Community Youtube channel](https://www.youtube.com/channel/UCZuLNqvV4oUMVyNq70mFF0g) to hear experts in the field talk about how they solve SaaS problems.
 
-3. Learn more about the SaaS space from the [Nile blog](https://www.thenile.dev/blog)
+3. Learn more about the SaaS space from the [Nile blog](https://www.thenile.dev/blog).
 
 4. If you have any questions, go to the [Nile website](https://thenile.dev) and reach out to us!
