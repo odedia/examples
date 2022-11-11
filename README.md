@@ -1,40 +1,47 @@
-![image](images/Nile-text-logo.png)
+![nile](images/Nile-text-logo.png)
 
 ### Table of Contents
 
-* [Overview](#overview)
-* [Setup](#setup)
-* [Quickstart](#quickstart)
+* [What is Nile](#what-is-nile)
+* [Getting started](#getting-started)
 * [Examples by Feature](#examples-by-feature)
-  * [Multi-tenancy](#multi-tenancy)
-  * [Data Plane](#data-plane)
-  * [Authorization](#authorization)
-  * [Metrics](#metrics)
-  * [Webapp](#webapp)
-  * [Other](#other)
 * [Examples by Language](#examples-by-language)
-  * [Javascript](#javascript-javascript)
-  * [Python](#python-python)
-* [Tests](#tests)
 * [Advanced](#advanced)
-* [Talk to us](#talk-to-us)
+* [Community](#community)
 
-## Overview
+## What is Nile
 
-Nile provides a tenant-aware, serverless database that is used to build control planes, which enables companies to iterate quickly and deliver their product to the market as quickly as possible.
+Developing a SaaS product can have a lot of complexity in lifecycle management and codifying best practices.
+These SaaS architectures have to address really hard problems, including:
+
+- [Multi-tenant control plane](#multi-tenancy)
+- Event handling, e.g. [reconciling the data plane](#data-plane) with the control plane for infrastructure SaaS
+- [Metrics and consumption-based billing](#metrics)
+- [Control plane access control](#authorization)
+- Consistent user experience for [webapp UIs](#webapp) and APIs
+
+Nile provides a tenant-aware, serverless database that is used to build SaaS control planes and solves a lot of these problems out of the box.
+Think about all the problems above, and how they all lie just under the surface of a SaaS webapp front-end.
+Check out https://demo-db-saas.thenile.dev (login as one of the predefined [users](../usecases/DB/init/users.json)), whish is a mocked example of a SaaS that we built on top of Nile to demonstrate the ease with which you can deliver a SaaS infrastructure service (see [webapp](#webapp) for the source code).
+
+![control plane nile](images/nile-control-plane-solid.png)
+
 This collection of examples demonstrates how to use Nile in a variety of ways.
+The examples can also be run sequentially to build on top of one another, in which case, we recommend running them in the order presented here to build up your SaaS as you go.
+Or jump to the [webapp](#webapp) to run an end-to-end example for multi-tenancy, event handling, a metrics API, and a front-end for self-service provisioning.
 
-### Getting started
+## Getting started
 
-To get started, [setup](#setup) your Nile workspace and environment, and then run the [Quickstart](#quickstart) to configure a minimal control plane in Nile.
+To get started:
 
-You can then follow on with any of the other modules for different use cases.
-The modules can also be run sequentially to build on top of one another, in which case, we recommend running them in the order presented here to build up your SaaS as you go.
-Don't forget to run the webapp example which builds on the control plane which showcases a front-end for self-service provisioning, where a user can log in to view and create new entity instances, and view metrics for each of their instances:
+1. [Setup your Nile workspace and environment](#setup)
+2. [Run the Quickstart](#quickstart) to configure a minimal control plane in Nile.
 
-## Setup
+You can then follow on with any of the other examples for different use cases.
 
-### Nile workspace and developer credentials
+### Setup
+
+#### Nile workspace and developer credentials
 
 - ✅ Log into Nile Admin Dashboard
 
@@ -48,7 +55,7 @@ Don't forget to run the webapp example which builds on the control plane which s
 
   From the dashboard, get your [workspace access token](https://www.thenile.dev/docs/current/quick-start-ui#more-examples).  This token enables you to programmatically run the examples in this repo.
 
-### Your local environment
+#### Your local environment
 
 - ✅ Clone the GitHub repository
 
@@ -72,7 +79,7 @@ Don't forget to run the webapp example which builds on the control plane which s
 
   For the Javascript examples, validate your environment has the minimum required Node version v18.0.0 or higher. If you are running earlier versions, you may encounter errors such as `ReferenceError: fetch is not defined`. (If you use `nvm`, run `nvm use`).
    
-## Quickstart
+### Quickstart
 
 Start with the quickstart to configure a base Nile control plane.
 This provides a simple setup to learn the concepts but also serves as the foundation for the other examples below.
@@ -168,13 +175,6 @@ These examples use the [nile-py](https://github.com/TheNileDev/nile-py) SDK.
 - [Authorization with Python](authz-python/) | Python SDK | Use ABAC to grant and revoke permissions to resources
 - [Python + Flask Todo List Webapp](python-flask-todo-list/) | Python REST | Take a basic Todo List webapp written in Python and Flask and turn it to a PLG SaaS product with Nile APIs
 
-## Tests
-
-The examples are validated via GitHub Actions, a flexible CI/CD tool that executes the examples against Nile.
-For more details, view this repo's [workflow](.github/workflows/validate-examples.yml).
-
-![GitHub Actions workflow](images/gh-actions-workflow.png)
-
 ## Advanced
 
 ### Change Entity Type
@@ -194,7 +194,19 @@ Try out the examples in [Gitpod](https://gitpod.io/#https://github.com/thenilede
 
 Known limitation: webapp won't work
 
-## Talk to us
+### Testing
 
-If you have any questions, reach out to us from the [Nile website](https://thenile.dev).
-Enter your email address, and click `Talk to us`, then someone from Nile will contact you.
+The examples are validated via GitHub Actions, a flexible CI/CD tool that executes the examples against Nile.
+For more details, view this repo's [workflow](.github/workflows/validate-examples.yml).
+
+![GitHub Actions workflow](images/gh-actions-workflow.png)
+
+## Community
+
+1. Join the [Slack community for SaaS developers](https://saas-community.github.io) who are learning from and sharing with each other advice on how to build spectacular services in the cloud.  
+
+2. Subscribe to the [SaaS Developer Community Youtube channel](https://www.youtube.com/channel/UCZuLNqvV4oUMVyNq70mFF0g) to hear experts in the field talk about how they solve SaaS problems.
+
+3. Learn more about the SaaS space from the [Nile blog](https://www.thenile.dev/blog).
+
+4. If you have any questions, go to the [Nile website](https://thenile.dev) and reach out to us!
