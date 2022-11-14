@@ -162,6 +162,7 @@ These examples use the [nile-js](https://github.com/TheNileDev/nile-js) SDK.
 - [Multi-tenancy](multi-tenancy/) | JS SDK | Setup the Nile control plane with multiple tenants and users
 - [Data Plane with Pulumi via JS](data-plane/pulumi/) | JS SDK | Synchronize your data plane and control plane
 - [Data Plane with Apache Flink and Kubernetes via JS](data-plane/k8s/) | JS SDK | Synchronize a control plane built with Nile with data plane that uses Apache Flink and Kubernetes
+- [Fake Data Plane via JS](data-plane/fake/) | JS SDK | Synchronize your fake data plane and control plane (if you don't have a real data plane to test)
 - [Authorization with JS](authz/) | JS SDK | Use ABAC to grant and revoke permissions to resources
 - [Authorization App Backend with JS](authz-be/) | JS SDK | Authorize users against Nile control plane for your backend applications
 - [Webapp](webapp/) | JS SDK | Builds a self-service frontend that integrates with Nile on the backend
