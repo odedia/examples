@@ -145,6 +145,18 @@ The reconciler will immediately find the newly instantiated DB instance in the N
 control plane and act on it.  It skips doing anything with a data plane and just updates the status of the instance to `Up` and sets a fake endpoint value.
 The reconciler will also log the instance properties and update the instance in the Nile control plane with its status and connection information.
 
+The output resembles:
+
+```
+🔔 inst_02rAXw7BAllTLlyPjYWK4k: received an event for instance
+🎯 inst_02rAXw7BAllTLlyPjYWK4k: instance is in org org_03rWn4tuHEETZ50QTBp81v
+✅ inst_02rAXw7BAllTLlyPjYWK4k: event analyzed, change is actionable
+⌛ inst_02rAXw7BAllTLlyPjYWK4k: pretending to create new instance
+✅ inst_02rAXw7BAllTLlyPjYWK4k: updated properties: status=Provisioning, connection=-
+✅ inst_02rAXw7BAllTLlyPjYWK4k: fake created an instance in the data plane (noop)
+✅ inst_02rAXw7BAllTLlyPjYWK4k: updated properties: status=Up, connection=server-874100:3306
+```
+
 ## Add or Remove Instances ##
 
 While the reconciler is running, in the [Nile Admin Dashboard](https://nad.thenile.dev/), add one or
