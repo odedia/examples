@@ -161,10 +161,4 @@ If you started this webapp locally, then you can log into Nile Admin Dashboard t
 ### Change Entity Type
 
 The default scenario in these examples is a company that provides a database as SaaS.
-But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file (see [Setup](#setup)) to change it to be any other type of service offering, one of:
-
-- [Database as a Service](../usecases/DB/) (same as in the Nile Quickstart): `NILE_ENTITY_NAME=DB`
-- [SkyNet as a Service](../usecases/SkyNet/): `NILE_ENTITY_NAME=SkyNet`
-- [Banking as a Service](../usecases/Banking/): `NILE_ENTITY_NAME=Banking`
-- [Workload as a Service](../usecases/Workload/): `NILE_ENTITY_NAME=Workload`
-- [YOLO](../usecases/README.md#yolo)
+But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file to change it to be any other type of service offering (see [Advanced](../README.md#advanced)).

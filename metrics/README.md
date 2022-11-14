@@ -14,12 +14,8 @@ As described in the [top-level README](../README.md), the mock scenario in these
 
 ![image](../images/saas.png)
 
-These examples let you choose what kind of SaaS offering is provided, one of:
-
-- [Database as a Service](../usecases/DB/) (same as in the Nile Quickstart)
-- [SkyNet as a Service](../usecases/SkyNet/)
-- [Banking as a Service](../usecases/Banking/)
-- [YOLO](../usecases/README.md#yolo)
+The default scenario in these examples is a company that provides a database as SaaS.
+But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file to change it to be any other type of service offering (see [Advanced](../README.md#advanced)).
 
 ## Install Dependencies
 
