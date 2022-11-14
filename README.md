@@ -22,7 +22,7 @@ These SaaS architectures have to address really hard problems, including:
 
 Nile provides a tenant-aware, serverless database that is used to build SaaS control planes and solves a lot of these problems out of the box.
 Think about all the problems above, and how they all lie just under the surface of a SaaS webapp front-end.
-Check out https://demo-db-saas.thenile.dev (login as one of the predefined [users](../usecases/DB/init/users.json)), whish is a mocked example of a SaaS that we built on top of Nile to demonstrate the ease with which you can deliver a SaaS infrastructure service (see [webapp](#webapp) for the source code).
+Check out https://demo-db-saas.thenile.dev (login as one of the predefined [users](../usecases/DB/init/users.json)), which is a mocked example of a SaaS that we built on top of Nile to demonstrate the ease with which you can deliver a SaaS infrastructure service (follow the [webapp playbook](webapp/README.md#playbook) for details).
 
 ![control plane nile](images/nile-control-plane-solid.png)
 
