@@ -25,6 +25,10 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 let nile!: NileApi;
 
+const ERROR_COUNT_LIMIT = 20;
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+var errorCount = 0;
+
 async function putMetrics() {
   // Login
   nile = await exampleUtils.loginAsDev(
@@ -36,32 +40,43 @@ async function putMetrics() {
     process.env.NILE_WORKSPACE_ACCESS_TOKEN
   );
 
-  // Produce metrics for the lineChart
-  const FOUR_SECONDS = 4 * 1000;
-  const { lineChart } = require(`../../webapp/metrics/${NILE_ENTITY_NAME}/index.ts`);
-  const METRIC_NAME = lineChart['metricName'];
+  // Produce metrics for the averageNum
+  const FIVE_SECONDS = 1000 * 5;
+  const THIRTY_SECONDS = 1000 * 30;
+  const { averageNum, gaugeGraph, lineChart } = require(`../../webapp/metrics/${NILE_ENTITY_NAME}/index.ts`);
 
-  // Execute first time without delay
-  await execute(METRIC_NAME);
-
-  // Loop
-  var interval = setInterval(async function() {
-      await execute(METRIC_NAME);
-    }, FOUR_SECONDS);
+  var currTime = 0;
+  while(true) { 
+    await execute('averageNum', averageNum['metricName']);
+    await execute('lineChart', lineChart['metricName']);
+    currTime += FIVE_SECONDS;
+    if (currTime >= THIRTY_SECONDS) {
+      await execute('gaugeGraph', gaugeGraph['metricName']);
+      currTime = 0;
+    }
+    await delay(FIVE_SECONDS);
+  }
 }
 
-async function execute(metricName: string) {
+async function execute(metricType: string, metricName: string) {
 
   var instances = await nile.entities.listInstancesInWorkspace({
       type: NILE_ENTITY_NAME,
     });
 
+  let randomValue;
   let measurements = [];
   for (let i=0; i < instances.length; i++) {
     let status = instances[i].properties.status;
     if (status === undefined || status === 'Up') {
       let now = new Date();
-      let randomValue = (Math.random() * (432.0 - 35.0) + 35.0).toFixed(1);
+      if (metricType === 'averageNum') {
+        randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
+      } else if (metricType === 'lineChart') {
+        randomValue = (Math.random() * (432.0 - 35.0) + 35.0).toFixed(1);
+      } else {
+        randomValue = (Math.random() * (1 - 0)) >= 0.1 ? 1 : 0;
+      }
       let fakeMeasurement = {
         timestamp: now,
         value: randomValue,
@@ -77,21 +92,30 @@ async function execute(metricName: string) {
     entityType: NILE_ENTITY_NAME,
     measurements: measurements,
   };
-  await nile.metrics
-    .produceBatchOfMetrics({
-      metric: [metricData],
-    })
-    .catch((error: any) => {
+  try {
+    await nile.metrics
+      .produceBatchOfMetrics({
+        metric: [metricData],
+      });
+    console.log(
+      emoji.get('white_check_mark'),
+        `Produced measurements:\n[ ${JSON.stringify(metricData, null, 2)} ]`
+    );
+    errorCount = 0;
+  } catch (error) {
+    errorCount++;
+    console.error(
+      emoji.get('x'),
+      `Warning ${errorCount} (${now}): cannot produce measurements: ${error}`
+    );
+    if (errorCount >= ERROR_COUNT_LIMIT) {
       console.error(
         emoji.get('x'),
-        `Error: cannot produce measurements: ${error}`
+        `Error: Could not produce ${ERROR_COUNT_LIMIT} consecutive batch of metrics. Exiting`
       );
       process.exit(1);
-    });
-  console.log(
-    emoji.get('white_check_mark'),
-      `Produced measurements:\n[ ${JSON.stringify(metricData, null, 2)} ]`
-  );
+    }
+  }
 }
 
-putMetrics();
+putMetrics().catch(console.error);

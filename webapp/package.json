@@ -5,7 +5,7 @@
   "scripts": {
     "setup-nile": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
     "start-server": "node server.mjs",
-    "start-metrics": "yarn --cwd ../metrics/ generate-all-metrics",
+    "start-metrics": "yarn --cwd ../metrics/ generate-metrics",
     "dev": "concurrently \"yarn start-server\" \"yarn start-metrics\"",
     "build": "next build",
     "start": "next start",
