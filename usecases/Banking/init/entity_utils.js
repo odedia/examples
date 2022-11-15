@@ -28,7 +28,7 @@ exports.instanceName = "accountID";
 
 exports.setDataPlaneReturnProp = "accountID";
 
-exports.getDataPlaneReturnValue = function () {
+exports.getDataPlaneReturnValue = function (instance) {
   min = Math.ceil(100000000);
   max = Math.floor(999999999);
   return (String(Math.floor(Math.random() * (max - min + 1)) + min));

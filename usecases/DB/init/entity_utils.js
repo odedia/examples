@@ -29,7 +29,7 @@ exports.instanceName = "dbName";
 
 exports.setDataPlaneReturnProp = "connection";
 
-exports.getDataPlaneReturnValue = function () {
+exports.getDataPlaneReturnValue = function (instance) {
   min = Math.ceil(100);
   max = Math.floor(999);
   return (String("server-" + Math.floor(Math.random() * (max - min + 1)) + min) + ":3306");

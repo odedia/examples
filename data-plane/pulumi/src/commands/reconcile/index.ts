@@ -204,7 +204,7 @@ export default class Reconcile extends Command {
       const { setDataPlaneReturnProp } = require(`../../../../../usecases/${entityType}/init/entity_utils.js`);
       if (setDataPlaneReturnProp != null) {
         const { getDataPlaneReturnValue } = require(`../../../../../usecases/${entityType}/init/entity_utils.js`);
-        endpoint = getDataPlaneReturnValue();
+        endpoint = getDataPlaneReturnValue(instance);
       } else {
         endpoint = "Unknown";
       }
@@ -373,7 +373,7 @@ export default class Reconcile extends Command {
           const { setDataPlaneReturnProp } = require(`../../../../../usecases/${entityType}/init/entity_utils.js`);
           if (setDataPlaneReturnProp != null) {
             const { getDataPlaneReturnValue } = require(`../../../../../usecases/${entityType}/init/entity_utils.js`);
-            properties[setDataPlaneReturnProp] = getDataPlaneReturnValue();
+            properties[setDataPlaneReturnProp] = getDataPlaneReturnValue(data);
           }
        }
 
