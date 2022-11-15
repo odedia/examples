@@ -1,7 +1,17 @@
-import { Stack, Typography, CircularProgress } from '@mui/joy';
+import { Stack, Typography, CircularProgress, Link } from '@mui/joy';
 import { Queries, useNile } from '@theniledev/react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+
+function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === 'http:' || url.protocol === 'https:';
+}
 
 export default function InstanceMetadata() {
   const nile = useNile();
@@ -36,7 +46,13 @@ export default function InstanceMetadata() {
           >
             <Typography>{prop}</Typography>
             <Typography level="body2" sx={{ textAlign: 'right' }}>
-              {value}
+              {isValidHttpUrl(value) ? (
+                <Link href={value} target="_blank">
+                  {value}
+                </Link>
+              ) : (
+                value
+              )}
             </Typography>
           </Stack>
         );
