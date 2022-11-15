@@ -1,0 +1,1 @@
+./../../../webapp/metrics/QRcode/index.ts

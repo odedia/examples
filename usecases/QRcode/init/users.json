@@ -1,0 +1,26 @@
+[
+  {
+    "email": "lisa@demo.io",
+    "password": "password",
+    "org": "Marketing Biz",
+    "role": "RW"
+  },
+  {
+    "email": "bryan@demo.io",
+    "password": "password",
+    "org": "Marketing Biz",
+    "role": "RO"
+  },
+  {
+    "email": "sanu@demo.io",
+    "password": "password",
+    "org": "Power Ads",
+    "role": "deny"
+  },
+  {
+    "email": "angela@demo.io",
+    "password": "password",
+    "org": "Power Ads",
+    "role": "RO"
+  }
+]

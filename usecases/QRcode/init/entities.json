@@ -1,0 +1,19 @@
+[
+  {
+    "//comment": "DO NOT MODIFY",
+    "campaignName": "campaign-nola",
+    "targetPage": "https://www.thenile.dev/blog/?demo-campaign-nola",
+    "org": "Marketing Biz"
+  },
+  {
+    "//comment": "DO NOT MODIFY",
+    "campaignName": "vCard-mj",
+    "targetPage": "https://www.thenile.dev/blog/?demo-campaign-mj",
+    "org": "Power Ads"
+  },
+  {
+    "campaignName": "campaign-nyc",
+    "targetPage": "https://www.thenile.dev/blog/?demo-campaign-nyc",
+    "org": "Marketing Biz"
+  }
+]

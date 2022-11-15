@@ -1,0 +1,25 @@
+{
+  "name": "QRcode",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "campaignName": {
+        "type": "string"
+      },
+      "targetPage": {
+        "type": "string"
+      },
+      "generatedQRCode": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Submitted", "Provisioning", "Up", "Deleted"]
+      }
+    },
+    "required": [
+      "campaignName",
+      "targetPage"
+    ]
+  }
+}

@@ -12,6 +12,7 @@ This repo provides a few sample "service offerings" that you can use to run thes
 - [SkyNet as a Service](SkyNet/)
 - [Banking as a Service](Banking/)
 - [Workload as a Service](Workload/)
+- [QRcode as a Service](QRcode/)
 
 ## YOLO
 
