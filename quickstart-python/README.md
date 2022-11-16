@@ -5,9 +5,10 @@
 ## Contents
 
 * [Overview](#overview)
-* [Install Dependencies](#install-dependencies)
+* [Prerequisites](#prerequisites)
 * [Setup](#setup)
 * [Run](#run)
+* [Next steps](#next-steps)
 
 ## Overview
 
@@ -24,24 +25,26 @@ By the end of this quick start, you will have:
 - an organization (a tenant) with one user (end customer) in that organization
 - an entity instance (logical instance of the MySQL database) in that organization
 
-## Install Dependencies
+## Prerequisites
 
-Run the following command:
+1. Your environment should have python3 installed.
 
-```
-python3 -m venv venv && venv/bin/python3 -m pip install -r requirements.txt
-```
+2. Run the following command from the `quickstart-python` directory:
 
-Your output should resemble:
+   ```
+   python3 -m venv venv && venv/bin/python3 -m pip install -r requirements.txt
+   ```
 
-```bash
-Collecting anyio==3.6.2
-  Using cached anyio-3.6.2-py3-none-any.whl (80 kB)
-Collecting attrs==22.1.0
-  Using cached attrs-22.1.0-py2.py3-none-any.whl (58 kB)
-...
-Successfully installed anyio-3.6.2 attrs-22.1.0 certifi-2022.9.24 emoji-2.1.0 h11-0.12.0 httpcore-0.15.0 httpx-0.23.0 idna-3.4 nile-api-0.2.3 python-dateutil-2.8.2 python-dotenv-0.21.0 rfc3986-1.5.0 six-1.16.0 sniffio-1.3.0
-```
+   Your output should resemble:
+
+   ```bash
+   Collecting anyio==3.6.2
+     Using cached anyio-3.6.2-py3-none-any.whl (80 kB)
+   Collecting attrs==22.1.0
+     Using cached attrs-22.1.0-py2.py3-none-any.whl (58 kB)
+   ...
+   Successfully installed anyio-3.6.2 attrs-22.1.0 certifi-2022.9.24 emoji-2.1.0 h11-0.12.0 httpcore-0.15.0 httpx-0.23.0 idna-3.4 nile-api-0.2.3 python-dateutil-2.8.2 python-dotenv-0.21.0 rfc3986-1.5.0 six-1.16.0 sniffio-1.3.0
+   ```
 
 ## Setup
 
@@ -100,3 +103,7 @@ Your dashboard should resemble below:
 ![image](../quickstart/images/nad.png)
 
 Nile automatically generates the OpenAPI spec for the new entity, see the `OPENAPI` tab in the dashboard.
+
+## Next Steps
+
+Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
