@@ -37,7 +37,7 @@ idna==3.4
     #   rfc3986
 kubernetes==24.2.0
     # via -r requirements.in
-nile-api==0.2.3
+nile-api==0.2.8
     # via -r requirements.in
 oauthlib==3.2.2
     # via requests-oauthlib

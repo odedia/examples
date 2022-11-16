@@ -39,7 +39,7 @@ for name, value in params.items():
 def run():
     response = login_developer.sync(
         client=Client(base_url=params["NILE_URL"]),
-        info=LoginInfo(
+        json_body=LoginInfo(
             email=params["NILE_DEVELOPER_EMAIL"],
             password=params["NILE_DEVELOPER_PASSWORD"],
         ),

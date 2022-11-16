@@ -24,7 +24,7 @@ idna==3.4
     # via
     #   anyio
     #   rfc3986
-nile-api==0.1.1
+nile-api==0.2.8
     # via -r requirements.in
 python-dateutil==2.8.2
     # via nile-api

@@ -58,7 +58,7 @@ def run():
     )
     if organization is not None:
         org_id = organization.id
-        print(f"{GOOD} Organization {organization.name!r} exists with id {organization.id}")
+        print(f"{GOOD} Organization {organization.name!r} exists with id {org_id}")
     else:
         print(f"{BAD} Cannot get orgID from {org_name}")
         sys.exit(1)

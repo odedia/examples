@@ -56,7 +56,7 @@ else:
 async def run():
     token = await login_developer.asyncio(
         client=Client(base_url=params["NILE_URL"]),
-        info=LoginInfo(
+        json_body=LoginInfo(
             email=params["NILE_DEVELOPER_EMAIL"],
             password=params["NILE_DEVELOPER_PASSWORD"],
         ),

@@ -46,7 +46,7 @@ def run():
         else:
             token = login_developer.sync(
                 client=Client(base_url=params["NILE_URL"]),
-                info=LoginInfo(
+                json_body=LoginInfo(
                     email=os.environ.get("NILE_DEVELOPER_EMAIL"),
                     password=os.environ.get("NILE_DEVELOPER_PASSWORD"),
                 ),
