@@ -46,13 +46,6 @@ export default class Reconcile extends Command {
 
       console.log("\n" + emoji.get('arrow_right'), ` ${instanceID}: detected instance to reconcile`);
 
-      // Get orgID
-      let orgID = await this.getOrgIDFromInstanceID(instanceID, entity);
-      if (!orgID) {
-        console.log("orgID is undefined?");
-        process.exit(1);
-      }
-
       // Fake data plane, nothing to really do
 
       // Update status=Up and fake endpoint value
@@ -64,6 +57,7 @@ export default class Reconcile extends Command {
       } else {
         endpoint = "Unknown";
       }
+      var orgID = instances[instanceID].org;
       await this.updateInstance(orgID, entity, instanceID, "Up", endpoint);
 
     };
@@ -98,13 +92,6 @@ export default class Reconcile extends Command {
 
       console.log("\n" + emoji.get('arrow_right'), ` ${instanceID}: detected instance to reconcile`);
 
-      // Get orgID
-      let orgID = await this.getOrgIDFromInstanceID(instanceID, entityType);
-      if (!orgID) {
-        console.log("orgID is undefined?");
-        process.exit(1);
-      }
-
       var endpoint;
       const { setDataPlaneReturnProp } = require(`../../../../../usecases/${entityType}/init/entity_utils.js`);
       if (setDataPlaneReturnProp != null) {
@@ -113,6 +100,7 @@ export default class Reconcile extends Command {
       } else {
         endpoint = "Unknown";
       }
+      var orgID = instances[instanceID].org;
       await this.updateInstance(orgID, entityType, instanceID, "Up", endpoint);
 
     };
@@ -171,11 +159,7 @@ export default class Reconcile extends Command {
         if (e.after) {
           console.log("\n");
           console.log(emoji.get('bell'), `${e.after.id}: received an event for instance`);
-          let orgID = await this.getOrgIDFromInstanceID(e.after.id, entityType);
-          if (!orgID) {
-            console.log("orgID is undefined?");
-            process.exit(1);
-          }
+          var orgID = e.after.org;
           if (e.after.deleted) {
             // Detected delete instance
             if (await this.isChangeActionable(orgID, entityType, e.after.id, "Deleted")) {
@@ -232,37 +216,6 @@ export default class Reconcile extends Command {
     } else {
       return null
     }
-  }
-
-
-  /**
-   * looks up the organization ID from the organization name
-   * @param orgName name of organization to lookup
-   * @returns orgID ID of organization; or null if name not found
-   */
-  private async getOrgIDFromInstanceID(
-    instanceID: String,
-    entityType: string ): Promise< string | null > {
-
-    // Search through all instances in all orgs to find which org an instance belongs to
-    var organizations = await this.nile.organizations.listOrganizations();
-    for (let i=0; i < organizations.length; i++) {
-      let orgID = organizations[i].id;
-      let instances = await this.nile.entities.listInstances({
-          org: orgID,
-          type: entityType,
-      });
-      if (instances.find( instance => instance.id==instanceID)) {
-        console.log(emoji.get('dart'), `${instanceID}: instance is in org ${orgID}`);
-        return orgID;
-      }
-    }
-
-    console.error(emoji.get('x'), `${instanceID}: could not determine org this instance`);
-    process.exit(1);
-
-    return "dummy";
-
   }
 
   /**

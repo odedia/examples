@@ -787,13 +787,14 @@
   resolved "https://registry.yarnpkg.com/@pulumi/query/-/query-0.3.0.tgz#f496608e86a18c3dd31b6c533408e2441c29071d"
   integrity sha512-xfo+yLRM2zVjVEA4p23IjQWzyWl1ZhWOGobsBqRpIarzLvwNH/RAGaoehdxlhx4X92302DrpdIFgTICMN4P38w==
 
-"@theniledev/js@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.19.1.tgz#91b72123b1f6bf50f988239418d958d1016c45df"
-  integrity sha512-V7CvRAQhQWTw+tzTY3H3zotsLddrD1rlw6GfTjmFm+iJglp15iegk0L8d96dzUCaco4UY6UqDhRqC+XG9uvhyg==
+"@theniledev/js@^0.30.2":
+  version "0.30.2"
+  resolved "https://registry.yarnpkg.com/@theniledev/js/-/js-0.30.2.tgz#967fd97172a9bb5d71c4d9db1be22ee2557c74ed"
+  integrity sha512-p8v8B6ytiefn53gHfq8EXjHpl/AS29Fn4o3Al/Az5shX3w4ByqdOUzRqYnYsfgwLAFT36EhpKxERk0MM4B0ZXw==
   dependencies:
     "@openapitools/openapi-generator-cli" "^2.5.2"
     es6-promise "^4.2.8"
+    js-yaml "^4.1.0"
     node-fetch "^3.2.10"
     sade "^1.8.1"
 

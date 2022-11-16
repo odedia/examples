@@ -14,7 +14,7 @@
     "@pulumi/aws": "^5.10.0",
     "@pulumi/awsx": "^0.40.0",
     "@pulumi/pulumi": "^3.36.0",
-    "@theniledev/js": "^0.19.1",
+    "@theniledev/js": "^0.30.2",
     "@types/node-fetch": "^2.6.2",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",

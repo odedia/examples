@@ -137,11 +137,7 @@ export default class Reconcile extends Command {
     // create any stacks that should exist
     for (const spec of plan.creationSpecs) {
       console.log("\n" + emoji.get('arrow_right'), ` ${spec.id}: detected instance to reconcile`);
-      let orgID = await this.getOrgIDFromInstanceID(spec.id, entityType);
-      if (!orgID) {
-        console.log("orgID is undefined?");
-        process.exit(1);
-      }
+      var orgID = spec.org;
       // Get Instance from the instance ID
       let myI = await this.getInstanceFromInstanceID(orgID, spec.id, entityType);
       if (!myI) {
@@ -167,11 +163,7 @@ export default class Reconcile extends Command {
         if (e.after) {
           console.log("\n");
           console.log(emoji.get('bell'), `${e.after.id}: received an event for instance`);
-          let orgID = await this.getOrgIDFromInstanceID(e.after.id, entityType);
-          if (!orgID) {
-            console.log("orgID is undefined?");
-            process.exit(1);
-          }
+          var orgID = e.after.org;
           if (e.after.deleted) {
             // Detected delete instance
             if (await this.isChangeActionable(orgID, entityType, e.after.id, "Deleted")) {
@@ -236,36 +228,6 @@ export default class Reconcile extends Command {
     }
   }
 
-
-  /**
-   * looks up the organization ID from the organization name
-   * @param orgName name of organization to lookup
-   * @returns orgID ID of organization; or null if name not found
-   */
-  private async getOrgIDFromInstanceID(
-    instanceID: String,
-    entityType: string ): Promise< string | null > {
-
-    // Search through all instances in all orgs to find which org an instance belongs to
-    var organizations = await this.nile.organizations.listOrganizations();
-    for (let i=0; i < organizations.length; i++) {
-      let orgID = organizations[i].id;
-      let instances = await this.nile.entities.listInstances({
-          org: orgID,
-          type: entityType,
-      });
-      if (instances.find( instance => instance.id==instanceID)) {
-        console.log(emoji.get('dart'), `${instanceID}: instance is in org ${orgID}`);
-        return orgID;
-      }
-    }
-
-    console.error(emoji.get('x'), `${instanceID}: could not determine org this instance`);
-    process.exit(1);
-
-    return "dummy";
-
-  }
 
   /**
    * returns an Instance from the instanceID

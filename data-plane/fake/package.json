@@ -11,7 +11,7 @@
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.0.1",
-    "@theniledev/js": "^0.19.1",
+    "@theniledev/js": "^0.30.2",
     "@types/node-fetch": "^2.6.2",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
