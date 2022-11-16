@@ -25,9 +25,30 @@ const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_ENTITY_NAME = process.env.NILE_ENTITY_NAME!;
 let nile!: NileApi;
 
+const { averageNum, gaugeGraph, lineChart } = require(`../../webapp/metrics/${NILE_ENTITY_NAME}/index.ts`);
 const ERROR_COUNT_LIMIT = 20;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 var errorCount = 0;
+var measurements = [];
+resetMeasurements();
+
+function resetMeasurements() {
+  measurements[averageNum['metricName']] = []
+  measurements[lineChart['metricName']] = []
+  measurements[gaugeGraph['metricName']] = []
+}
+
+async function refreshInstanceList() : Promise< Instance[] | null > {
+  var instances = await nile.entities.listInstancesInWorkspace({
+      type: NILE_ENTITY_NAME,
+    });
+  console.log("\n");
+  console.log(emoji.get('hammer_and_wrench'), ` Generating metrics for instance type ${NILE_ENTITY_NAME} where status === undefined || status === 'Up':`);
+  var upInstances = instances.filter(instance => { return (instance.properties.status === undefined || instance.properties.status === 'Up') } );
+  upInstances.forEach((instance, index) => console.log(instance.id));
+  console.log("\n");
+  return upInstances;
+}
 
 async function putMetrics() {
   // Login
@@ -43,33 +64,58 @@ async function putMetrics() {
   // Produce metrics for the averageNum
   const FIVE_SECONDS = 1000 * 5;
   const THIRTY_SECONDS = 1000 * 30;
-  const { averageNum, gaugeGraph, lineChart } = require(`../../webapp/metrics/${NILE_ENTITY_NAME}/index.ts`);
+  const SIXTY_SECONDS = 1000 * 60;
+
+  // Produce some metrics quickly
+  var instances = await refreshInstanceList();
+  await concatMeasurements(instances, 'averageNum', averageNum['metricName']);
+  await concatMeasurements(instances, 'lineChart', lineChart['metricName']);
+  await concatMeasurements(instances, 'gaugeGraph', gaugeGraph['metricName']);
+  await bulkProduceMeasurements(averageNum['metricName']);
+  await bulkProduceMeasurements(lineChart['metricName']);
+  await bulkProduceMeasurements(gaugeGraph['metricName']);
+  resetMeasurements();
 
   var currTime = 0;
+  var produceBulkTime = 0;
   while(true) { 
-    await execute('averageNum', averageNum['metricName']);
-    await execute('lineChart', lineChart['metricName']);
+
+    // Gather these metrics every FIVE_SECONDS
+    await concatMeasurements(instances, 'averageNum', averageNum['metricName']);
+    await concatMeasurements(instances, 'lineChart', lineChart['metricName']);
+
     currTime += FIVE_SECONDS;
+
+    // Gather these metrics every THIRTY_SECONDS
     if (currTime >= THIRTY_SECONDS) {
-      await execute('gaugeGraph', gaugeGraph['metricName']);
+      await concatMeasurements(instances, 'gaugeGraph', gaugeGraph['metricName']);
       currTime = 0;
+    }
+
+    // Bulk produce measurements to Nile once every SIXTY_SECONDS
+    produceBulkTime += FIVE_SECONDS;
+    if (produceBulkTime >= SIXTY_SECONDS) {
+      await bulkProduceMeasurements(averageNum['metricName']);
+      await bulkProduceMeasurements(lineChart['metricName']);
+      await bulkProduceMeasurements(gaugeGraph['metricName']);
+      resetMeasurements();
+      produceBulkTime = 0;
+      // Get instances again in case there are new ones
+      instances = await refreshInstanceList();
     }
     await delay(FIVE_SECONDS);
   }
 }
 
-async function execute(metricType: string, metricName: string) {
-
-  var instances = await nile.entities.listInstancesInWorkspace({
-      type: NILE_ENTITY_NAME,
-    });
-
+async function concatMeasurements(instances: Instance[], metricType: string, metricName: string) {
+ 
   let randomValue;
-  let measurements = [];
+  var tempMeasurements = [];
+  let now = new Date();
   for (let i=0; i < instances.length; i++) {
     let status = instances[i].properties.status;
     if (status === undefined || status === 'Up') {
-      let now = new Date();
+      now = new Date();
       if (metricType === 'averageNum') {
         randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
       } else if (metricType === 'lineChart') {
@@ -82,24 +128,31 @@ async function execute(metricType: string, metricName: string) {
         value: randomValue,
         instanceId: instances[i].id,
       };
-      measurements[i] = fakeMeasurement;
+      tempMeasurements[i] = fakeMeasurement;
     }
   }
+  measurements[metricName] = measurements[metricName].concat(tempMeasurements);
+  console.log(`${now} Storing up measurements for ${metricName}`);
+}
+
+async function bulkProduceMeasurements(metricName) {
 
   let metricData = {
     name: metricName,
     type: MetricTypeEnum.Gauge,
     entityType: NILE_ENTITY_NAME,
-    measurements: measurements,
+    measurements: measurements[metricName],
   };
+
   try {
     await nile.metrics
       .produceBatchOfMetrics({
         metric: [metricData],
       });
+    let now = new Date();
     console.log(
       emoji.get('white_check_mark'),
-        `Produced measurements:\n[ ${JSON.stringify(metricData, null, 2)} ]`
+        `${now} Produced measurements:\n[ ${JSON.stringify(metricData, null, 2)} ]`
     );
     errorCount = 0;
   } catch (error) {
