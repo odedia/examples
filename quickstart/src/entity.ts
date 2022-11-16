@@ -30,6 +30,7 @@ const entityDefinition: CreateEntityRequest = EntityDefinition;
 
 async function loginDeveloper() {
 
+  // Login could be via the workspace access token for SSO users or developer email/password
   if (!process.env.NILE_WORKSPACE_ACCESS_TOKEN) {
     if (!process.env.NILE_DEVELOPER_EMAIL || !process.env.NILE_DEVELOPER_PASSWORD) {
       console.error(emoji.get('x'), `Error: please provide NILE_WORKSPACE_ACCESS_TOKEN or {NILE_DEVELOPER_EMAIL and NILE_DEVELOPER_PASSWORD} in .env .  See .env.defaults for more info and copy it to .env with your values`);

@@ -34,7 +34,6 @@ async function loginDeveloper() {
 
   nile = await Nile({
     basePath: NILE_URL,
-    workspace: NILE_WORKSPACE,
   });
 
   await nile.developers.loginDeveloper({
@@ -51,7 +50,7 @@ async function loginDeveloper() {
   if (nile.authToken) {
     console.log("\n" + emoji.get('arrow_right'), ` Logged into Nile as developer`);
   } else {
-    console.error(emoji.get('x'), ` Could not log into Nile.  Did you follow the instructions in https://github.com/TheNileDev/examples/blob/main/README.md#setup , create your Nile workspace, and set valid parameter values in a local .env file?`);
+    console.error(emoji.get('x'), ` Could not log into Nile.  Did you follow the instructions in https://github.com/TheNileDev/examples/blob/main/README.md#setup , and set valid parameter values in a local .env file?`);
     process.exit(1);
   }
 
@@ -70,6 +69,7 @@ async function createWorkspace() {
         createWorkspaceRequest: { name: NILE_WORKSPACE },
       }).then( (ws) => { if (ws != null)  console.log(emoji.get('white_check_mark'), "Created workspace: " + ws.name)})
         .catch((error:any) => {
+          // This could happen because workspaces are globally unique but `listWorkspaces()` shows only the ones belonging to this developer
           if (error.message == "workspace already exists") {
             console.error(emoji.get('x'), `Error: workspace ${NILE_WORKSPACE} already exists (workspace names are globally unique)`);
           } else {

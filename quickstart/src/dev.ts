@@ -8,7 +8,6 @@ dotenv.config({ override: true })
 
 let envParams = [
   "NILE_URL",
-  "NILE_WORKSPACE",
   "NILE_DEVELOPER_EMAIL",
   "NILE_DEVELOPER_PASSWORD",
 ]
@@ -20,20 +19,18 @@ envParams.forEach( (key: string) => {
 });
 
 const NILE_URL = process.env.NILE_URL!;
-const NILE_WORKSPACE = process.env.NILE_WORKSPACE!;
 const NILE_DEVELOPER_EMAIL = process.env.NILE_DEVELOPER_EMAIL!;
 const NILE_DEVELOPER_PASSWORD = process.env.NILE_DEVELOPER_PASSWORD!;
 const nile!;
 
-// Workflow for the Nile developer
+// Create a new Nile developer account using the values for
+// NILE_DEVELOPER_EMAIL and NILE_DEVELOPER_PASSWORD provided in the .env file
 async function createDeveloper() {
 
   nile = await Nile({
     basePath: NILE_URL,
-    workspace: NILE_WORKSPACE,
   });
 
-  // Signup developer
   try {
     await nile.developers.createDeveloper({
       createUserRequest : {
