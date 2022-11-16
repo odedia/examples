@@ -2,6 +2,14 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run](#run)
+* [Next steps](#next-steps)
+
 ## Overview
 
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
@@ -17,7 +25,7 @@ It sets up the following control plane in Nile:
 - Create two organizations with users
 - Create 2 entity instance in one organization and 1 entity instance in other organization, with a value that matches the schema defined earlier
 
-## Install Dependencies
+## Prerequisites
 
 Run the following command:
 
@@ -44,9 +52,9 @@ You must do all the steps in the [Setup section](../README.md#setup) of the top-
 
 :stop_sign: **STOP** :stop_sign: Do not proceed until you have done the above setup :heavy_exclamation_mark:
 
-## Execute
+## Run
 
-To execute the workflow, run the following command:
+To execute the workflow, run the following command (refer to code [src/index.ts](src/index.ts)).
 
 ```
 yarn start
@@ -56,7 +64,7 @@ yarn start
 
 1. Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
 
-![image](images/nad.png)
+![Nile Admin Dashboard](images/nad.png)
 
 2. Validate tenant isolation by running the command below. For example, if you used the `Database as a Service` use case, at first user polina@demo.io cannot see the organization `Indus Systems` nor any instances in it, but after adding polina@demo.io to `Indus Systems`, polina@demo.io can see all the instances in `Indus Systems` that frank@demo.io can see.
 
@@ -64,4 +72,8 @@ yarn start
 yarn test
 ```
 
-![image](../images/multi-tenancy-users.png)
+## Next Steps
+
+Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
+
+![metrics](../webapp/images/metrics.png)

@@ -2,6 +2,18 @@
 
 ![image](../../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Configure the Control Plane](#configure-the-control-plane)
+* [Configure the Data Plane](#configure-the-data-plane)
+* [Run the reconciler](#run-the-reconciler)
+* [Explanation](#Explanation)
+* [Add or remove instances](#add-or-remove-instances)
+* [Next steps](#next-steps)
+
 ## Overview
 
 As described in the [top-level README](../../README.md), the mock scenario in these examples is a company that provides SaaS.
@@ -25,17 +37,6 @@ Note: this example runs only with `NILE_ENTITY_NAME=FlinkDeployment`.
 
 ### Credit
 This example was contributed by Yaroslav Tkachenko (@sap1ens) and [Goldsky](https://goldsky.com/). The Nile team appreciates all their help and feedback.
-
-## Contents
-
-* [Overview](#overview)
-* [Prerequisites](#prerequisites)
-* [Setup](#setup)
-* [Configure the Control Plane](#configure-the-control-plane)
-* [Configure the Data Plane](#configure-the-data-plane)
-* [Run the reconciler](#run-the-reconciler)
-* [Explanation](#Explanation)
-* [Add or remove instances](#add-or-remove-instances)
 
 ## Prerequisites ##
 
@@ -281,3 +282,10 @@ With the current implementation of the [reconciler example](src/index.ts), if th
 - _New_ entity instances that were created will be reconciled in the data plane
 - _Old_ entity instances that were deleted will be reconciled in the data plane
 - _Existing_ entity instances that were updated will not be automatically reconciled in the data plane because the current example just compares instance IDs. It is left to the developer to apply their own logic to detect the change and to determine what action to take to update the data plane, if any.
+
+## Next Steps
+
+Run the [webapp](../../webapp), a self-service frontend that integrates with Nile on the backend.
+Use this reconciler in conjunction with the webapp to see how the Nile control plane and dataplane can be stitched together.
+
+![metrics](../../webapp/images/metrics.png)

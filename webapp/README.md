@@ -2,6 +2,15 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run the web server locally](#run-the-web-server-locally)
+* [Playbook](#playbook)
+* [Advanced](#advanced)
+
 ## Overview
 
 This example shows a SaaS service integrated with [Nile](https://thenile.dev/). 
@@ -18,15 +27,6 @@ This webapp demonstrates a sample frontend for their SaaS application that integ
 It provides self-service workflows for user signup/login, org creation, and instance management, with metrics API for serving up metrics about the user instances, and can be run with a reconciler to synchronize the control plane and data plane.
 
 ![image](../images/webapp.png)
-
-## Contents
-
-* [Overview](#overview)
-* [Prerequisites](#prerequisites)
-* [Setup](#setup)
-* [Run the web server locally](#run-the-web-server-locally)
-* [Playbook](#playbook)
-* [Advanced](#advanced)
 
 ## Prerequisites
 
@@ -84,6 +84,10 @@ Then, run the following command to preconfigure the Nile control plane with an e
    ```bash
    yarn setup-nile
    ```
+
+   Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
+   
+   ![Nile Admin Dashboard](../multi-tenancy/images/nad.png)
 
 (Optional) If you want to hook up your Nile control plane to a data plane, run the reconciler to synchronize events between the control plane and data plane (e.g. if you use the webapp to create new entity instances). If you skip this step, the instances in your webapp will not go to `status=Up`.  Follow the instructions in one of the following examples, running them in a separate terminal window:
 

@@ -2,6 +2,14 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run](#run)
+* [Next steps](#next-steps)
+
 ## Overview
 
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
@@ -36,7 +44,7 @@ This example uses the Nile Python SDK to demonstrate authorization features in N
 - Delete the policy
 
 
-## Install Dependencies
+## Prerequisites
 
 Verify you are running Python version 3.7 or newer (check with `python --version`)
 
@@ -55,10 +63,14 @@ You must do all the steps in the [Setup section](../README.md#setup) of the top-
 Then, run the following command to preconfigure the Nile control plane with an entity, organizations, users, and entity instances for the mock usecase, so that you're not starting from scratch.
 
 ```
-yarn --cwd ../quickstart/ install && yarn --cwd ../quickstart/ start
+yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start
 ```
 
-## Execute
+Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
+
+![image](../multi-tenancy/images/nad.png)
+
+## Run
 
 To execute the workflow, run the following command:
 
@@ -71,3 +83,9 @@ To delete access policies, run the following command:
 ```
 venv/bin/python delete_all_policies.py
 ```
+
+## Next Steps
+
+Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
+
+![metrics](../webapp/images/metrics.png)

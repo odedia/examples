@@ -2,6 +2,14 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run](#run)
+* [Next steps](#next-steps)
+
 ## Overview
 
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
@@ -17,7 +25,7 @@ It starts with an application that does just basic user authentication and then 
 
 Credit: the base example of the webapp is heavily borrowed from this [authentication guide](https://github.com/LoginRadius/engineering-blog-samples/tree/master/NodeJs/NodejsAuthenticationGuide).
 
-## Install Dependencies
+## Prerequisites
 
 1. Run the following command:
 
@@ -58,7 +66,7 @@ Then, run the following command to preconfigure the Nile control plane with an e
 yarn setup-nile
 ```
 
-## Execute
+## Run
 
 1. First run the [application](server-without-authz.js) without Nile authorization:
 
@@ -86,7 +94,7 @@ diff server.js server-without-authz.js
 4. View the example [Nile authorization code](middleware/authz-nile.ts).
 
 
-## Validate
+### Validate
 
 1. Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
 
@@ -98,7 +106,7 @@ But if `shaun@demo.io` tries to view `myDB-analytics`(=page2) which belongs to a
 
 ![image](images/deny.png)
 
-## MongoDB cheatsheet
+### MongoDB cheatsheet
 
 Run `mongosh` to connect to your local database, here are some useful commands:
 
@@ -121,3 +129,9 @@ This script will drop those tables and drop ALL policies for those organizations
 ```
 yarn clean
 ```
+
+## Next Steps
+
+Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
+
+![metrics](../webapp/images/metrics.png)

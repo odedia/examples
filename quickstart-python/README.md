@@ -12,10 +12,6 @@
 
 ## Overview
 
-As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
-
-![image](../images/saas.png)
-
 The mock scenario in these examples is a company that provides a [Database as a Service](../usecases/DB/)
 This quickstart programmatically setups up your [Nile](https://thenile.dev/) control plane similar to what is done in the Nile quickstart documentation.
 By the end of this quick start, you will have:
@@ -107,3 +103,5 @@ Nile automatically generates the OpenAPI spec for the new entity, see the `OPENA
 ## Next Steps
 
 Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
+
+![metrics](../webapp/images/metrics.png)

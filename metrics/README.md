@@ -2,6 +2,14 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run](#run)
+* [Next steps](#next-steps)
+
 ## Overview
 
 Nile provides a metrics API and matching UI components.
@@ -17,7 +25,7 @@ As described in the [top-level README](../README.md), the mock scenario in these
 The default scenario in these examples is a company that provides a database as SaaS.
 But you can modify the `NILE_ENTITY_NAME` parameter in your `.env` file to change it to be any other type of service offering (see [Advanced](../README.md#advanced)).
 
-## Install Dependencies
+## Prerequisites
 
 Run the following command:
 
@@ -50,7 +58,11 @@ Then, run the following command to preconfigure the Nile control plane with an e
 yarn setup-nile
 ```
 
-## Execute
+Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
+
+![Nile Admin Dashboard](../multi-tenancy/images/nad.png)
+
+## Run
 
 Note: the outputs below assume that `NILE_ENTITY_NAME=DB`.  If you are running the example with another entity type, your output may differ.
 
@@ -185,3 +197,5 @@ Note: the outputs below assume that `NILE_ENTITY_NAME=DB`.  If you are running t
 
 Run the [webapp](../webapp/) which demonstrates a sample frontend for a SaaS application that integrates with the control plane using Nile React components.
 You can see how end users can visualize these metrics for consumption and billing, use a self-serve workflow to create and manage instances, and get built-in multi-tenancy and authorization policies.
+
+![metrics](../webapp/images/metrics.png)

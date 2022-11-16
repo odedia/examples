@@ -2,6 +2,14 @@
 
 ![image](../images/Nile-text-logo.png)
 
+## Contents
+
+* [Overview](#overview)
+* [Prerequisites](#prerequisites)
+* [Setup](#setup)
+* [Run](#run)
+* [Next steps](#next-steps)
+
 ## Overview
 
 As described in the [top-level README](../README.md), the mock scenario in these examples is a company that provides SaaS.
@@ -33,7 +41,7 @@ This example uses the Nile JS SDK to demonstrate authorization features in Nile 
 - List the `DB` instances allowed to be read by the user in a given organization
 
 
-## Install Dependencies
+## Prerequisites
 
 Run the following command:
 
@@ -66,10 +74,20 @@ Then, run the following command to preconfigure the Nile control plane with an e
 yarn setup-nile
 ```
 
-## Execute
+Login to the [Nile Admin Dashboard](https://nad.thenile.dev/) via SSO to see the control plane and entity instances (If your developer account is not SSO, enter the `NILE_DEVELOPER_EMAIL` and `NILE_DEVELOPER_PASSWORD` values you specified in the `.env` file).
 
-To execute the workflow, run the following command:
+![Nile Admin Dashboard](../multi-tenancy/images/nad.png)
+
+## Run
+
+To execute the authz workflow, run the following command:
 
 ```
 yarn start
 ```
+
+## Next Steps
+
+Run the [webapp](../webapp), a self-service frontend that integrates with Nile on the backend
+
+![metrics](../webapp/images/metrics.png)
