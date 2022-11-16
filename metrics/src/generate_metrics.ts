@@ -45,7 +45,7 @@ async function refreshInstanceList() : Promise< Instance[] | null > {
   console.log("\n");
   console.log(emoji.get('hammer_and_wrench'), ` Generating metrics for instance type ${NILE_ENTITY_NAME} where status === undefined || status === 'Up':`);
   var upInstances = instances.filter(instance => { return (instance.properties.status === undefined || instance.properties.status === 'Up') } );
-  upInstances.forEach((instance, index) => console.log(instance.id));
+  upInstances.forEach((instance) => console.log(instance.id));
   console.log("\n");
   return upInstances;
 }
@@ -113,23 +113,20 @@ async function concatMeasurements(instances: Instance[], metricType: string, met
   var tempMeasurements = [];
   let now = new Date();
   for (let i=0; i < instances.length; i++) {
-    let status = instances[i].properties.status;
-    if (status === undefined || status === 'Up') {
-      now = new Date();
-      if (metricType === 'averageNum') {
-        randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
-      } else if (metricType === 'lineChart') {
-        randomValue = (Math.random() * (432.0 - 35.0) + 35.0).toFixed(1);
-      } else {
-        randomValue = (Math.random() * (1 - 0)) >= 0.1 ? 1 : 0;
-      }
-      let fakeMeasurement = {
-        timestamp: now,
-        value: randomValue,
-        instanceId: instances[i].id,
-      };
-      tempMeasurements[i] = fakeMeasurement;
+    now = new Date();
+    if (metricType === 'averageNum') {
+      randomValue = (Math.random() * (83.0 - 23.0) + 23.0).toFixed(1);
+    } else if (metricType === 'lineChart') {
+      randomValue = (Math.random() * (432.0 - 35.0) + 35.0).toFixed(1);
+    } else {
+      randomValue = (Math.random() * (1 - 0)) >= 0.1 ? 1 : 0;
     }
+    let fakeMeasurement = {
+      timestamp: now,
+      value: randomValue,
+      instanceId: instances[i].id,
+    };
+    tempMeasurements[i] = fakeMeasurement;
   }
   measurements[metricName] = measurements[metricName].concat(tempMeasurements);
   console.log(`${now} Storing up measurements for ${metricName}`);
