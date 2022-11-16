@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@theniledev/js": "^0.19.1",
+    "@theniledev/js": "^0.30.2",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",

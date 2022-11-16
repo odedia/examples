@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@theniledev/js": "^0.28.2",
+    "@theniledev/js": "^0.30.2",
     "@types/node": "^18.0.0",
     "node-emoji": "^1.11.0",
     "yarn": "^1.22.19"
