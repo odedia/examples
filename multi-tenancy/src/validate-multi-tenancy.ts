@@ -36,8 +36,6 @@ async function getInstances(
   orgName: string
 ): Promise<{ [key: string]: string }> {
 
-  console.log(`\nLogging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as tenant ${tenantEmail}`)
-
   // Login tenant
   nile = await exampleUtils.loginAsUser(nile, tenantEmail, "password");
 
@@ -71,16 +69,13 @@ async function addTenant(
   orgName: string
 ) {
 
-  console.log(`Logging into Nile at ${NILE_URL}, workspace ${NILE_WORKSPACE}, as developer, to add ${tenantEmail} to ${orgName}`);
-
+  // Login
   nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
   // Get orgID
   let createIfNot = false;
   let orgID = await exampleUtils.maybeCreateOrg (nile, orgName, false);
-  if (orgID) {
-    console.log(emoji.get('white_check_mark'), "Org " + orgName + " exists in org id " + orgID);
-  } else {
+  if (!orgID) {
     console.error(emoji.get('x'), `Error: organization ${orgName} for tenant ${tenantEmail} should have already been configured`);
     process.exit(1);
   }
@@ -89,7 +84,105 @@ async function addTenant(
   // Add user to organization
   await exampleUtils.maybeAddUserToOrg(nile, tenantEmail, orgID);
 
+  await listUsersInOrg(orgName, tenantEmail, true);
+
 }
+
+
+async function listUsersInOrg(orgName: string, userToValidate: string, expectedPresent: boolean) {
+
+  nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
+
+  // Get orgID
+  let createIfNot = false;
+  let orgID = await exampleUtils.maybeCreateOrg (nile, orgName, false);
+  if (!orgID) {
+    console.error(emoji.get('x'), `Error: organization ${orgName} should already exist`);
+    process.exit(1);
+  }
+
+  var userFound = false;
+  console.log(`Users found in org ${orgName} (${orgID}): `);
+  const body = {
+    org: orgID,
+  };
+  var users = await nile.organizations.listUsersInOrg(body);
+  for (let i=0; i < users.length; i++) {
+    console.log(`${JSON.stringify(users[i].email, null, 2)}`);
+    if (userToValidate !== undefined && users[i].email === userToValidate) {
+      userFound = true;
+    }
+  }
+
+  // Check presence of user
+  if (userToValidate !== undefined && expectedPresent !== undefined) {
+    if (userFound && expectedPresent === true) {
+      console.log(emoji.get('white_check_mark'), `Expected and found ${userToValidate} in ${orgName}`);
+    } else if (!userFound && expectedPresent === false) {
+      console.log(emoji.get('white_check_mark'), `Did not expect and did not find ${userToValidate} in ${orgName}`);
+    } else if (userFound && expectedPresent === false) {
+      console.error(emoji.get('x'), `Did not expect but found ${userToValidate} in ${orgName}`);
+    } else {
+      console.error(emoji.get('x'), `Expected but did not find ${userToValidate} in ${orgName}`);
+      process.exit(1);
+    }
+  }
+}
+
+
+async function removeTenant(
+  tenantEmail: string,
+  orgName: string
+) {
+
+  // Login tenant
+  await exampleUtils.loginAsUser(nile, tenantEmail, "password");
+
+  // get user ID
+  var userID;
+  await nile.users
+    .me()
+    .then((data) => {
+       userID = data.id;
+    })
+    .catch((error: any) => console.error(error));
+
+  // get organization ID
+  let createIfNot = false;
+  let orgID = await exampleUtils.maybeCreateOrg (nile, orgName, false);
+  if (!orgID) {
+    console.error(emoji.get('x'), `Error: organization ${orgName} for tenant ${tenantEmail} should exist`);
+    process.exit(1);
+  }
+
+  // Remove the user from the organization
+  const body = {
+    org: orgID,
+    user: userID,
+  };
+  await nile.organizations
+    .removeUserFromOrg(body)
+    .then(() => {
+      console.log(emoji.get('white_check_mark'), `Removed user ${tenantEmail} (${userID}) from org ${orgID}`);
+    })
+    .catch((error:any) => console.error(error));
+
+  // Delete the user from the workspace
+  /*
+  await nile.users
+    .deleteUser({
+       id: userID,
+      })
+    .then(() => {
+      console.log(emoji.get('white_check_mark'), `Deleted user ${tenantEmail} (${userID}) from the workspace`);
+    })
+    .catch((error: any) => console.error(error));
+  */
+
+  await listUsersInOrg(orgName, tenantEmail, false);
+
+}
+
 
 function getDifference<T>(a: T[], b: T[]): T[] {
   return a.filter((element) => {
@@ -97,20 +190,34 @@ function getDifference<T>(a: T[], b: T[]): T[] {
   });
 }
 
+
 async function run() {
 
-  const users = require(`../../usecases/${NILE_ENTITY_NAME}/init/users.json`);
-  const NILE_ORGANIZATION_NAME1 = users[0].org;
-  const NILE_ORGANIZATION_NAME2 = users[1].org;
-  const NILE_TENANT1_EMAIL = users[0].email;
-  const NILE_TENANT2_EMAIL = users[1].email;
-  const NILE_TENANT_PASSWORD = users[0].password;
+  const admins = require(`../../usecases/${NILE_ENTITY_NAME}/init/admins.json`);
+
+  const NILE_ORGANIZATION_NAME1 = admins[0].org;
+  console.log("\n", emoji.get('small_red_triangle_down'), `Initial state in ${NILE_ORGANIZATION_NAME1}`);
+  await listUsersInOrg(NILE_ORGANIZATION_NAME1);
+
+  const NILE_TENANT1_EMAIL = "newuser1@demo.io";
+  const NILE_TENANT_PASSWORD = "password";
+  console.log("\n", emoji.get('small_red_triangle_down'), `Add ${NILE_TENANT1_EMAIL} to ${NILE_ORGANIZATION_NAME1}`);
+  await exampleUtils.maybeCreateUser(nile, NILE_TENANT1_EMAIL, NILE_TENANT_PASSWORD, "RO");
+  await addTenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME1}`);
+
+  const NILE_ORGANIZATION_NAME2 = admins[1].org;
+  console.log("\n", emoji.get('small_red_triangle_down'), `Initial state in ${NILE_ORGANIZATION_NAME2}`);
+  await listUsersInOrg(NILE_ORGANIZATION_NAME2);
+
+  const NILE_TENANT2_EMAIL = "newuser2@demo.io";
+  console.log("\n", emoji.get('small_red_triangle_down'), `Add ${NILE_TENANT2_EMAIL} to ${NILE_ORGANIZATION_NAME2}`);
+  await exampleUtils.maybeCreateUser(nile, NILE_TENANT2_EMAIL, NILE_TENANT_PASSWORD, "RO");
+  await addTenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
 
   // Get instances for NILE_TENANT1_EMAIL
   const instances2a = await getInstances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
 
-  // Add tenant1 to tenant2's organization
-  console.log(`\nAdding ${NILE_TENANT1_EMAIL} to ${NILE_ORGANIZATION_NAME2}\n`);
+  console.log("\n", emoji.get('small_red_triangle_down'), `Add ${NILE_TENANT1_EMAIL} to ${NILE_ORGANIZATION_NAME2}`);
   await addTenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
 
   // Get instances for NILE_TENANT1_EMAIL
@@ -119,7 +226,8 @@ async function run() {
   // Get instances for NILE_TENANT2_EMAIL
   const instances2c = await getInstances(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
 
-  console.log(`\n-->BEFORE ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME2} could read:   ${instances2a}`);
+  console.log("\n", emoji.get('small_red_triangle_down'), `Results`);
+  console.log(`-->BEFORE ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME2} could read:   ${instances2a}`);
   console.log(`-->AFTER  ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME2} can now read: ${instances2b}`);
   console.log(`-->Compare ${NILE_TENANT2_EMAIL} in ${NILE_ORGANIZATION_NAME2} can read:    ${instances2c}`, "\n");
 
@@ -136,7 +244,17 @@ async function run() {
     console.log(emoji.get('white_check_mark'), `No difference between instances seen by ${NILE_TENANT1_EMAIL} and ${NILE_TENANT2_EMAIL}`);
   }
 
-  // Note: at this time there is no interface to delete a user from an organization
+  // Remove tenant from orgs
+  console.log("\n", emoji.get('small_red_triangle_down'), `Remove ${NILE_TENANT1_EMAIL} and ${NILE_TENANT2_EMAIL} from the orgs`);
+  await removeTenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME1}`);
+  await removeTenant(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
+  await removeTenant(NILE_TENANT2_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
+
+  // Get instances for NILE_TENANT1_EMAIL
+  const instances2d = await getInstances(NILE_TENANT1_EMAIL, `${NILE_ORGANIZATION_NAME2}`);
+
+  console.log("\n", emoji.get('small_red_triangle_down'), `Final test for ${NILE_TENANT1_EMAIL}`);
+  console.log(`-->AFTER REMOVAL ${NILE_TENANT1_EMAIL} in ${NILE_ORGANIZATION_NAME2} can now read: ${instances2d}`);
 
 }
 

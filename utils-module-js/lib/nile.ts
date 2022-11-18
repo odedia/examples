@@ -134,7 +134,7 @@ exports.maybeAddUserToOrg = async function (
         console.log(emoji.get('white_check_mark'), `Added tenant ${email} to orgID ${orgID}`);
       }).catch((error:any) => {
         if (error.message.startsWith('User is already in org')) {
-          console.log(emoji.get('dart'), `User ${email} exists in orgID ${orgID}`);
+          console.log(emoji.get('dart'), `User ${email} already exists in orgID ${orgID}`);
         } else {
           console.error(error)
           process.exit(1);

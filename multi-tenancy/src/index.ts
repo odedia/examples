@@ -66,6 +66,8 @@ async function addAdmin(admin: string, nile: nileApi) {
   let role = admin.role;
   let org = admin.org;
 
+  console.log("\n", emoji.get('small_red_triangle_down'), `Adding admin ${email} to ${org}`);
+
   // user (admin) is org creator
   await exampleUtils.maybeCreateUser(nile, email, password, role);
   nile = await exampleUtils.loginAsUser(nile, email, password);
@@ -80,6 +82,8 @@ async function addUser(user: string, nile: nileApi, admins: string) {
   let org = user.org;
   let admin = exampleUtils.getAdminForOrg(admins, org);
 
+  console.log("\n", emoji.get('small_red_triangle_down'), `Adding user ${email} to ${org}`);
+
   // user is not org creator; let admin user create and add the user into the org
   nile = await exampleUtils.loginAsUser(nile, admin.email, admin.password);
   await exampleUtils.maybeCreateUser(nile, email, password, role);
@@ -91,6 +95,8 @@ async function addUser(user: string, nile: nileApi, admins: string) {
 async function addEntity(entity: string, nile: nileApi, admins: string) {
   let org = entity.org;
   let admin = exampleUtils.getAdminForOrg(admins, org);
+
+  console.log("\n", emoji.get('small_red_triangle_down'), `Adding entity ${org}`);
 
   // Get orgID
   nile = await exampleUtils.loginAsUser(nile, admin.email, admin.password);
@@ -139,6 +145,7 @@ async function setupControlPlane() {
     nile = await exampleUtils.loginAsUser(nile, email, password);
 
     let org = admins[index].org;
+    console.log("\n", emoji.get('small_red_triangle_down'), `The following entity instances exist in org ${org}:`);
     let createIfNot = false;
     let orgID = await exampleUtils.maybeCreateOrg (nile, org, createIfNot);
 
@@ -147,7 +154,7 @@ async function setupControlPlane() {
       org: orgID,
       type: entityDefinition.name
     }).then((entity_instances) => {
-      console.log(`The following entity instances exist in orgID ${orgID}\n`, entity_instances);
+      console.log(entity_instances);
     });
   }
 
