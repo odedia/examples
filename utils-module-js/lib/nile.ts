@@ -17,7 +17,8 @@ exports.loginAsDev = async function (
     workspace: workspace,
   }).connect(token ?? { email: email, password: password});
 
-  console.log("\n" + emoji.get('arrow_right'), ` Connected into Nile as developer`);
+  console.log(emoji.get('arrow_right'), ` Connected into Nile as developer`);
+  //console.log(`export NILE_ACCESS_TOKEN=${nile.authToken}`);
 
   return nile;
 }
@@ -38,7 +39,7 @@ exports.loginAsUser = async function (
 
   // Get the JWT token
   nile.authToken = nile.users.authToken;
-  console.log("\n" + emoji.get('arrow_right'), ` Logged into Nile as user ${email}`);
+  console.log(emoji.get('arrow_right'), ` Logged into Nile as user ${email}`);
   //console.log(`export NILE_ACCESS_TOKEN=${nile.authToken}`);
 
   return nile;
@@ -47,11 +48,16 @@ exports.loginAsUser = async function (
 exports.maybeCreateUser = async function (
   nile: nileAPI, email: string, password: string, role: string): Promise< string | null > {
 
-  // Check if tenant exists, create if not
-  var myUsers = await nile.users.listUsers()
-  if (myUsers.find( usr => usr.email==email)) {
-      console.log(emoji.get('dart'), "User " + email + " exists");
-  } else {
+  // Check if user exists, create if not
+  try {
+    await nile.users.loginUser({
+      loginInfo: {
+        email: email,
+        password: password,
+      },
+      });
+    console.log(emoji.get('dart'), "User with email " + email + " already exists");
+  } catch {
     await nile.users.createUser({
       createUserRequest : {
         email : email,
@@ -62,12 +68,8 @@ exports.maybeCreateUser = async function (
       if (usr != null)
         console.log(emoji.get('white_check_mark'), "Created User: " + usr.email);
     }).catch((error:any) => {
-      if (error.message == "user already exists") {
-        console.log("User with email " + email + " already exists");
-      } else {
-        console.error(error);
-        process.exit(1);
-      }
+      console.error(error);
+      process.exit(1);
     })
   }
 }
@@ -112,25 +114,33 @@ exports.maybeCreateOrg = async function (
 exports.maybeAddUserToOrg = async function (
   nile: nileAPI, email: String, orgID: string): Promise< null > {
 
-  // Add user to organization
-  const body = {
-    org: orgID,
-    addUserToOrgRequest: {
-      email: email,
-    },
-  };
-  await nile.organizations
-    .addUserToOrg(body)
-    .then((data) => {
-      console.log(emoji.get('white_check_mark'), `Added tenant ${email} to orgID ${orgID}`);
-    }).catch((error:any) => {
-      if (error.message.startsWith('User is already in org')) {
-        console.log(emoji.get('dart'), `User ${email} exists in orgID ${orgID}`);
-      } else {
-        console.error(error)
-        process.exit(1);
-      }
-    });
+  // Check if user already exists in the org, add if not
+  var myUsers = await nile.organizations
+    .listUsersInOrg({
+      org: orgID});
+  if (myUsers.find( user => user.email==email)) {
+      console.log(emoji.get('dart'), "User " + email + " exists in org " + orgID);
+  } else {
+    // Add user to organization
+    const body = {
+      org: orgID,
+      addUserToOrgRequest: {
+        email: email,
+      },
+    };
+    await nile.organizations
+      .addUserToOrg(body)
+      .then((data) => {
+        console.log(emoji.get('white_check_mark'), `Added tenant ${email} to orgID ${orgID}`);
+      }).catch((error:any) => {
+        if (error.message.startsWith('User is already in org')) {
+          console.log(emoji.get('dart'), `User ${email} exists in orgID ${orgID}`);
+        } else {
+          console.error(error)
+          process.exit(1);
+        }
+      });
+  }
 }
 
 exports.getAdminForOrg = function (

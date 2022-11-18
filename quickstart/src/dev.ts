@@ -27,9 +27,14 @@ const nile!;
 // NILE_DEVELOPER_EMAIL and NILE_DEVELOPER_PASSWORD provided in the .env file
 async function createDeveloper() {
 
+  // Try to login
   nile = await Nile({
     basePath: NILE_URL,
-  });
+  }).connect({ email: process.env.NILE_DEVELOPER_EMAIL, password: process.env.NILE_DEVELOPER_PASSWORD });
+  if (nile.developers.authToken) {
+    console.log(emoji.get('dart'), `Developer ${NILE_DEVELOPER_EMAIL} already exists`);
+    process.exit(0);
+  }
 
   try {
     await nile.developers.createDeveloper({

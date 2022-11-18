@@ -26,26 +26,31 @@ async function setupUser() {
     workspace: NILE_WORKSPACE,
   });
 
-  // Create new user
+  // Check if user exists, create if not
   let email = "shaun@colton.demo"
   let password = "password"
-  await nile.users.createUser({
-    createUserRequest : {
-      email : email,
-      password : password,
-    }
-  }).then ( (usr) => {
-    if (usr != null)
-      console.log(emoji.get('white_check_mark'), "Created User: " + usr.email);
-  }).catch((error:any) => {
-    if (error.message == "user already exists") {
-      console.log(emoji.get('dart'), "User with email " + email + " already exists");
-    } else {
+  try {
+    await nile.users.loginUser({
+      loginInfo: {
+        email: email,
+        password: password,
+      },
+      });
+    console.log(emoji.get('dart'), "User with email " + email + " already exists");
+  } catch {
+    await nile.users.createUser({
+      createUserRequest : {
+        email : email,
+        password : password,
+      }
+    }).then ( (usr) => {
+      if (usr != null)
+        console.log(emoji.get('white_check_mark'), "Created User: " + usr.email);
+    }).catch((error:any) => {
       console.error(error);
       process.exit(1);
-    }
-  })
-
+    })
+  }
 }
 
 setupUser();

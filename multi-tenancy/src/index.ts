@@ -66,7 +66,7 @@ async function addAdmin(admin: string, nile: nileApi) {
   let role = admin.role;
   let org = admin.org;
 
-  // user is org creator
+  // user (admin) is org creator
   await exampleUtils.maybeCreateUser(nile, email, password, role);
   nile = await exampleUtils.loginAsUser(nile, email, password);
   let createIfNot = true;
@@ -80,7 +80,7 @@ async function addUser(user: string, nile: nileApi, admins: string) {
   let org = user.org;
   let admin = exampleUtils.getAdminForOrg(admins, org);
 
-  // user is not org creator; let admin user create and add them into the org
+  // user is not org creator; let admin user create and add the user into the org
   nile = await exampleUtils.loginAsUser(nile, admin.email, admin.password);
   await exampleUtils.maybeCreateUser(nile, email, password, role);
   let createIfNot = false;
