@@ -3,11 +3,11 @@
 ### Table of Contents
 
 * [What is Nile](#what-is-nile)
+* [Community](#community)
 * [Getting started](#getting-started)
 * [Examples by Feature](#examples-by-feature)
 * [Examples by Language](#examples-by-language)
 * [Advanced](#advanced)
-* [Community](#community)
 
 ## What is Nile
 
@@ -18,7 +18,8 @@ These SaaS architectures have to address really hard problems, including:
 - Event handling, e.g. [reconciling the data plane](#data-plane) with the control plane for infrastructure SaaS
 - [Metrics and consumption-based billing](#metrics)
 - [Control plane access control](#authorization)
-- Consistent user experience for [webapp UIs](#webapp) and APIs
+- Consistent user experience for [webapp UIs](#webapp), REST APIs, SDKs ([nile-js](https://github.com/TheNileDev/nile-js), [nile-py](https://github.com/TheNileDev/nile-py))
+- GUI for initial setup and management ([Nile Admin Dashboard](https://nad.thenile.dev/))
 
 Nile provides a tenant-aware, serverless database that is used to build SaaS control planes and solves a lot of these problems out of the box.
 Think about all the problems above, and how they all lie just under the surface of a SaaS webapp front-end.
@@ -29,6 +30,16 @@ Check out https://demo-db-saas.thenile.dev (login as one of the predefined [user
 This collection of examples demonstrates how to use Nile in a variety of ways.
 The examples can also be run sequentially to build on top of one another, in which case, we recommend running them in the order presented here to build up your SaaS as you go.
 Or jump to the [webapp](#webapp) to run an end-to-end example for multi-tenancy, event handling, a metrics API, and a front-end for self-service provisioning.
+
+## Community
+
+1. Join the [Slack community for SaaS developers](https://saas-community.github.io) who are learning from and sharing with each other advice on how to build spectacular services in the cloud.  
+
+2. Subscribe to the [SaaS Developer Community Youtube channel](https://www.youtube.com/channel/UCZuLNqvV4oUMVyNq70mFF0g) to hear experts in the field talk about how they solve SaaS problems.
+
+3. Learn more about the SaaS space from the [Nile blog](https://www.thenile.dev/blog).
+
+4. If you have any questions, go to the [Nile website](https://thenile.dev) and reach out to us!
 
 ## Getting started
 
@@ -201,13 +212,3 @@ The examples are validated via GitHub Actions, a flexible CI/CD tool that execut
 For more details, view this repo's [workflow](.github/workflows/validate-examples.yml).
 
 ![GitHub Actions workflow](images/gh-actions-workflow.png)
-
-## Community
-
-1. Join the [Slack community for SaaS developers](https://saas-community.github.io) who are learning from and sharing with each other advice on how to build spectacular services in the cloud.  
-
-2. Subscribe to the [SaaS Developer Community Youtube channel](https://www.youtube.com/channel/UCZuLNqvV4oUMVyNq70mFF0g) to hear experts in the field talk about how they solve SaaS problems.
-
-3. Learn more about the SaaS space from the [Nile blog](https://www.thenile.dev/blog).
-
-4. If you have any questions, go to the [Nile website](https://thenile.dev) and reach out to us!
