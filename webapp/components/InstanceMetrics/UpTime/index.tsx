@@ -3,6 +3,7 @@ import { Box, Card, Stack, Typography } from '@mui/joy';
 import { useFilter } from '@theniledev/react';
 import { Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
+import { Measurement } from '@theniledev/js';
 
 import Rect from './rect.svg';
 
@@ -22,9 +23,8 @@ const Tangle = ({ fill }: { fill: 'success' | 'danger' }) => (
   </Box>
 );
 
-const now = new Date();
-const TWENTY_FOUR_HOURS_AGO = new Date(now.getTime() - 24 * 60 * 60000);
 const THIRTY_SECONDS = 30 * 1000;
+const NINETY_SECONDS = 150000;
 
 export default function UpTimeLoader() {
   const router = useRouter();
@@ -60,8 +60,8 @@ function UpTime(props: Props) {
     entityType,
     METRIC_NAME,
     organizationId,
-    startTime: TWENTY_FOUR_HOURS_AGO,
     instanceId: instanceId,
+    startTime: new Date(new Date().getTime() - NINETY_SECONDS),
   };
 
   const { metrics, isLoading } = useFilter({
@@ -79,8 +79,8 @@ function UpTime(props: Props) {
         <Typography level="h4">{METRIC_TITLE}</Typography>
         <Typography level="body3">past 24 hours</Typography>
       </Stack>
-      <Stack direction="row">
-        {metrics.map((metric, idx) => {
+      <Stack direction="row" sx={{ overflow: 'hidden' }}>
+        {metrics.map((metric: Measurement, idx: number) => {
           if (metric.value === 0) {
             return (
               <Tooltip key={idx} title={"🤪 Oh nooo! It's broked 🤪"}>

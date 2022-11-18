@@ -1,15 +1,17 @@
 import React from 'react';
-import { Card, Typography } from '@mui/joy';
-import { MetricsLineChart } from '@theniledev/react';
+import { Card, Stack, Typography } from '@mui/joy';
+import {
+  AggregateMetricsRequest,
+  AggregationType,
+  MetricsLineChart,
+  UpdateInterval,
+} from '@theniledev/react';
 import { useRouter } from 'next/router';
+import { BucketBucketSizeEnum } from '@theniledev/js';
 
 import { useTheme } from '../../../global-context/theme';
 
 import { getMetrics } from '~/metrics';
-
-const now = new Date();
-
-const TEN_MINUTES_AGO = new Date(now.getTime() - 0.5 * 60000);
 
 export default function RequestLineChartLoader() {
   const router = useRouter();
@@ -28,6 +30,7 @@ export default function RequestLineChartLoader() {
     />
   );
 }
+
 type Props = {
   instanceId: string;
   entityType: string;
@@ -45,46 +48,45 @@ function RequestLineChart(props: Props) {
   const metricName = METRIC_NAME;
   const { instanceId, entityType, organizationId } = props;
 
-  const [timestamp] = React.useState(TEN_MINUTES_AGO);
-
-  const metricFilter = React.useMemo(
+  const metricFilter = React.useMemo<AggregateMetricsRequest>(
     () => ({
-      entityType,
       metricName,
-      organizationId,
-      startTime: timestamp,
-      instanceId: instanceId,
+      aggregationType: AggregationType.Avg,
+      aggregationRequest: {
+        entityType,
+        metricName,
+        bucketSize: BucketBucketSizeEnum._10m,
+        organizationId,
+        numberOfBuckets: 400,
+        instanceId: instanceId,
+      },
     }),
-    [entityType, metricName, organizationId, timestamp, instanceId]
+    [entityType, metricName, organizationId, instanceId]
   );
 
+  console.log(metricFilter);
   return (
     <Card variant="outlined">
       <Typography level="h4">{METRIC_TITLE}</Typography>
       <MetricsLineChart
-        updateInterval={3000}
-        filter={metricFilter}
-        timeFormat="HH:mm:ss"
+        emptyState={
+          <Stack
+            sx={{
+              minHeight: '200px',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography>Metrics may take up to an hour to populate.</Typography>
+          </Stack>
+        }
+        updateInterval={UpdateInterval.FiveMinutes}
+        aggregation={metricFilter}
         dataset={{
           tension: 0.3,
           pointRadius: 0,
+          borderWidth: 1,
           borderColor: color.primary,
-        }}
-        chartOptions={{
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          animation: {
-            duration: 400,
-          },
-          scales: {
-            y: {
-              suggestedMin: 35,
-              suggestedMax: 432,
-            },
-          },
         }}
       />
     </Card>

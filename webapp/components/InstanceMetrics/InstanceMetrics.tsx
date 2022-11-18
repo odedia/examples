@@ -1,5 +1,5 @@
 import { Box, IconButton, Link, Stack, Typography } from '@mui/joy';
-import { Queries, useNile } from '@theniledev/react';
+import { Queries, useNile, StartTime } from '@theniledev/react';
 import { useQuery } from '@tanstack/react-query';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
@@ -56,19 +56,22 @@ export default function InstanceMetrics() {
           <Typography level="body4">{instance?.id}</Typography>
         </Stack>
       </Stack>
-      <UpTime />
-      <Stack
-        sx={{
-          gap: 2,
-          flexWrap: 'wrap',
-          mt: 2,
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-        }}
-        direction="row"
-      >
-        <RequestLineChart />
-        <ThroughputTotal />
+      <Stack spacing={2}>
+        <StartTime />
+        <UpTime />
+        <Stack
+          sx={{
+            gap: 2,
+            flexWrap: 'wrap',
+            mt: 2,
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+          direction="row"
+        >
+          <RequestLineChart />
+          <ThroughputTotal />
+        </Stack>
       </Stack>
     </NavBar>
   );

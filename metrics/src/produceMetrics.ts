@@ -27,7 +27,6 @@ let nile!: NileApi;
 async function produceMetrics() {
   // Login
   nile = await exampleUtils.loginAsDev(
-    nile,
     NILE_URL,
     NILE_WORKSPACE,
     process.env.NILE_DEVELOPER_EMAIL,
@@ -66,7 +65,7 @@ async function produceMetrics() {
     .catch((error: any) => {
       console.error(
         emoji.get('x'),
-        `Error: cannot produce measurement: ${error}`
+        `Error: cannot produce metrics: ${error}`
       );
       process.exit(1);
     });

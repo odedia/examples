@@ -1,3 +1,5 @@
-var exampleUtils = require('./lib/nile');
+import * as exampleUtils from './lib/nile';
 
-exports.exampleUtils = exampleUtils;
+export {
+  exampleUtils
+};

@@ -26,7 +26,6 @@ let nile!: NileApi;
 async function listMetricDefinitions() {
   // Login
   nile = await exampleUtils.loginAsDev(
-    nile,
     NILE_URL,
     NILE_WORKSPACE,
     process.env.NILE_DEVELOPER_EMAIL,

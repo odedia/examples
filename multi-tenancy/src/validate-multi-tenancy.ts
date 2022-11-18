@@ -70,7 +70,7 @@ async function addTenant(
 ) {
 
   // Login
-  nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
+  nile = await exampleUtils.loginAsDev(NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
   // Get orgID
   let createIfNot = false;
@@ -91,7 +91,7 @@ async function addTenant(
 
 async function listUsersInOrg(orgName: string, userToValidate: string, expectedPresent: boolean) {
 
-  nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
+  nile = await exampleUtils.loginAsDev(NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
   // Get orgID
   let createIfNot = false;

@@ -1,9 +1,9 @@
-import Nile from "@theniledev/js";
+import Nile, { NileApi } from "@theniledev/js";
 
 var emoji = require('node-emoji');
 
-exports.loginAsDev = async function (
-  nile: nileAPI, url: string, workspace: string, email: string, password: string, token: string): Promise< null > {
+export const loginAsDev = async function (
+  url: string, workspace: string, email: string, password: string, token: string): Promise<NileApi> {
 
   if (!token) {
     if (!email || !password) {
@@ -12,19 +12,20 @@ exports.loginAsDev = async function (
     }
   }
 
-  nile = await Nile({
+  const instance = await Nile({
     basePath: url,
     workspace: workspace,
   }).connect(token ?? { email: email, password: password});
-
   console.log(emoji.get('arrow_right'), ` Connected into Nile as developer`);
   //console.log(`export NILE_ACCESS_TOKEN=${nile.authToken}`);
 
-  return nile;
+  return instance;
 }
 
-exports.loginAsUser = async function (
-  nile: nileAPI, email: string, password: string): Promise< null > {
+export const loginAsUser = async function(
+  nile: NileApi,
+  email: string, 
+  password: string): Promise<NileApi> {
 
   // Login user
   await nile.users.loginUser({
@@ -45,8 +46,8 @@ exports.loginAsUser = async function (
   return nile;
 }
 
-exports.maybeCreateUser = async function (
-  nile: nileAPI, email: string, password: string, role: string): Promise< string | null > {
+export const maybeCreateUser = async function (
+  nile: NileApi, email: string, password: string, role: string) {
 
   // Check if user exists, create if not
   try {
@@ -74,8 +75,8 @@ exports.maybeCreateUser = async function (
   }
 }
 
-exports.maybeCreateOrg = async function (
-  nile: nileAPI, orgName: String, createIfNot: boolean): Promise< string | null > {
+export const maybeCreateOrg = async function (
+  nile: NileApi, orgName: String, createIfNot: boolean): Promise< string | undefined> {
 
   // Check if organization exists
   var myOrgs = await nile.organizations.listOrganizations();
@@ -103,21 +104,18 @@ exports.maybeCreateOrg = async function (
         process.exit(1);
       }
     })
-    //console.log(`export NILE_ORGANIZATION_ID=${orgID}`);
     return(orgID);
-  } else {
-    return null;
-  }
-  return null;
+  } 
 }
 
-exports.maybeAddUserToOrg = async function (
-  nile: nileAPI, email: String, orgID: string): Promise< null > {
+export const maybeAddUserToOrg = async function (
+  nile: NileApi, email: String, orgID: string) {
 
   // Check if user already exists in the org, add if not
-  var myUsers = await nile.organizations
-    .listUsersInOrg({
-      org: orgID});
+  var myUsers = await nile.organizations.listUsersInOrg({
+      org: orgID
+  });
+
   if (myUsers.find( user => user.email==email)) {
       console.log(emoji.get('dart'), "User " + email + " exists in org " + orgID);
   } else {
@@ -128,7 +126,7 @@ exports.maybeAddUserToOrg = async function (
         email: email,
       },
     };
-    await nile.organizations
+    nile.organizations
       .addUserToOrg(body)
       .then((data) => {
         console.log(emoji.get('white_check_mark'), `Added tenant ${email} to orgID ${orgID}`);
@@ -143,7 +141,7 @@ exports.maybeAddUserToOrg = async function (
   }
 }
 
-exports.getAdminForOrg = function (
+export const getAdminForOrg = function (
   admins: string, orgID: string) {
 
   for (let index = 0; index < admins.length ; index++) {
@@ -155,11 +153,11 @@ exports.getAdminForOrg = function (
   return null;
 }
 
-exports.getAnyValidInstance = async function (
-  nile: nileAPI, entityType: string): Promise< [string, string] > {
+export const getAnyValidInstance = async function (
+  nile: NileApi, entityType: string): Promise<void | [string, string]>  {
 
   // Get first org ID
-  const users = require(`../../usecases/${entityType}/init/users.json`);
+  const users = await import(`../../usecases/${entityType}/init/users.json`);
   // Load first user only
   const index=0
   const orgName = users[index].org;
@@ -172,7 +170,7 @@ exports.getAnyValidInstance = async function (
 
   // Get one instance ID for above org ID
   var oneInstance;
-  await nile.entities.listInstances({
+  nile.entities.listInstances({
       type: entityType,
       org: orgID,
     }).then((data) => {
@@ -183,7 +181,7 @@ exports.getAnyValidInstance = async function (
     process.exit(1);
   } else {
     console.log(emoji.get('dart'), `Using instance ID ${oneInstance}`);
-    return [oneInstance, orgID] as const;
+    return [oneInstance, orgID];
   }
 
 }

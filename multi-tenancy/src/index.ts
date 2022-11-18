@@ -44,7 +44,7 @@ const entityDefinition: CreateEntityRequest = EntityDefinition;
 async function setupEntity() {
 
   // Login
-  nile = await exampleUtils.loginAsDev(nile, NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
+  nile = await exampleUtils.loginAsDev(NILE_URL, NILE_WORKSPACE, process.env.NILE_DEVELOPER_EMAIL, process.env.NILE_DEVELOPER_PASSWORD, process.env.NILE_WORKSPACE_ACCESS_TOKEN);
 
   // Check if entity exists, create if not
   var myEntities =  await nile.entities.listEntities()

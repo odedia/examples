@@ -1,5 +1,5 @@
 import { Card, Stack, Typography } from '@mui/joy';
-import { useFilter } from '@theniledev/react';
+import { UpdateInterval, useFilter } from '@theniledev/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -40,22 +40,21 @@ function ThroughputTotal(props: Props) {
 
   const metricPayload = React.useMemo(
     () => ({
-      updateInterval: 5000,
+      updateInterval: UpdateInterval.ThirtySeconds,
       filter: {
-        startTime: new Date(),
         metricName,
         entityType,
         organizationId,
         instanceId,
+        startTime: new Date(new Date().getTime() - 3.6e6), // an hour ago
       },
     }),
     [entityType, metricName, organizationId, instanceId]
   );
   const { metrics } = useFilter(metricPayload);
 
-  const [metric] = metrics ?? [];
-
   React.useEffect(() => {
+    const metric = metrics?.pop();
     if (metric) {
       const metricVal = parseFloat(metric.value.toFixed(1));
       if (String(metricVal).split('.').length === 1) {
@@ -64,7 +63,7 @@ function ThroughputTotal(props: Props) {
         setMetricValue(String(metricVal));
       }
     }
-  }, [metric]);
+  }, [metrics]);
 
   return (
     <Stack spacing={2}>
