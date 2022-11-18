@@ -1,10 +1,12 @@
 {
-  "name": "authz-nile",
-  "version": "1.0.0",
-  "description": "User Role Authz with Nile",
-  "main": "server.js",
-  "author": "",
-  "license": "ISC",
+  "name": "@theniledev/authz-be",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNileDev/examples/"
+  },
   "dependencies": {
     "@theniledev/js": "^0.30.2",
     "@types/node": "^18.0.0",

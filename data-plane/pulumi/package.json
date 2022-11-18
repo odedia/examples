@@ -1,9 +1,12 @@
 {
-  "name": "@theniledev/data-plane-with-pulumi",
-  "description": "reconcile nile instances with pulumi deployment",
+  "name": "@theniledev/data-plane-pulumi",
   "version": "0.1.0",
-  "author": "nile",
+  "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNileDev/examples/"
+  },
   "bin": {
     "nile": "./bin/run"
   },

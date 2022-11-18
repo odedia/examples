@@ -1,4 +1,12 @@
 {
+  "name": "@theniledev/quickstart",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNileDev/examples/"
+  },
   "dependencies": {
     "@theniledev/js": "^0.30.2",
     "@types/node": "^18.0.0",

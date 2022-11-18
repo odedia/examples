@@ -1,7 +1,12 @@
 {
-  "name": "@theniledev/nextjs",
+  "name": "@theniledev/webapp",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNileDev/examples/"
+  },
   "scripts": {
     "setup-nile": "yarn --cwd ../multi-tenancy/ install && yarn --cwd ../multi-tenancy/ start",
     "start-server": "node server.mjs",

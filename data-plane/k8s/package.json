@@ -1,4 +1,12 @@
 {
+  "name": "@theniledev/data-plane-k8s",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNileDev/examples/"
+  },
   "dependencies": {
     "@kubernetes/client-node": "^0.17.0",
     "@theniledev/js": "^0.30.2",
