@@ -1,0 +1,60 @@
+{
+  "name": "ETL",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "src_type": {
+        "type": "string",
+        "enum": ["confluentcloud"]
+      },
+      "src_bootstrapServers": {
+        "type": "string"
+      },
+      "src_apiKey": {
+        "type": "string"
+      },
+      "src_apiSecret": {
+        "type": "string"
+      },
+      "src_topic": {
+        "type": "string"
+      },
+      "src_dataformat": {
+        "type": "string",
+        "enum": ["json", "string"]
+      },
+      "dst_type": {
+        "type": "string",
+        "enum": ["snowflake"]
+      },
+      "dst_url": {
+        "type": "string"
+      },
+      "dst_user": {
+        "type": "string"
+      },
+      "dst_key": {
+        "type": "string"
+      },
+      "dst_db": {
+        "type": "string"
+      },
+      "dst_schema": {
+        "type": "string"
+      },
+      "job": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Submitted", "Provisioning", "Up", "Deleted"]
+      }
+    },
+    "required": [
+      "name"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "email": "viktor@demo.io",
+    "password": "password",
+    "org": "Warehouse Ops",
+    "role": "RW"
+  },
+  {
+    "email": "sammy@demo.io",
+    "password": "password",
+    "org": "Warehouse Ops",
+    "role": "RO"
+  },
+  {
+    "email": "erin@demo.io",
+    "password": "password",
+    "org": "Biz Ops",
+    "role": "deny"
+  },
+  {
+    "email": "patrick@demo.io",
+    "password": "password",
+    "org": "Biz Ops",
+    "role": "RO"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "//comment": "This user must be org creator for first org",
+    "email": "tim@demo.io",
+    "password": "password",
+    "org": "Warehouse Ops",
+    "role": "admin"
+  },
+  {
+    "//comment": "This user must be org creator for second org",
+    "email": "ashley@demo.io",
+    "password": "password",
+    "org": "Biz Ops",
+    "role": "admin"
+  }
+]

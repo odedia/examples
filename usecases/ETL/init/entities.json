@@ -1,0 +1,38 @@
+[
+  {
+    "//comment": "DO NOT MODIFY",
+    "name": "Inventory",
+    "src_type": "confluentcloud",
+    "src_bootstrapServers": "xyz.us-central1.gcp.confluent.cloud:9092",
+    "src_apiKey": "myKey1",
+    "src_apiSecret": "mySecret1",
+    "src_topic": "inventory",
+    "src_dataformat": "json",
+    "dst_type": "snowflake",
+    "dst_url": "https://abc.us-central1.gcp.snowflakecomputing.com:443",
+    "dst_user": "myUser1",
+    "dst_key": "myKey1",
+    "dst_db": "myDB1",
+    "dst_schema": "mySchema1",
+    "job": "job-111",
+    "org": "Warehouse Ops"
+  },
+  {
+    "//comment": "DO NOT MODIFY",
+    "name": "Orders",
+    "src_type": "confluentcloud",
+    "src_bootstrapServers": "abc.us-central1.gcp.confluent.cloud:9092",
+    "src_apiKey": "myKey2",
+    "src_apiSecret": "mySecret2",
+    "src_topic": "orders",
+    "src_dataformat": "json",
+    "dst_type": "snowflake",
+    "dst_url": "https://def.us-central1.gcp.snowflakecomputing.com:443",
+    "dst_user": "myUser2",
+    "dst_key": "myKey2",
+    "dst_db": "myDB2",
+    "dst_schema": "mySchema2",
+    "job": "job-222",
+    "org": "Biz Ops"
+  }
+]
