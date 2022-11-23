@@ -141,15 +141,15 @@ def run():
     instance_id = instance.id
     instance_properties = instance.properties
 
-    # Update instance with source properties (all except credentials)
-    src_type = 'confluentcloud'
-    src_bootstrapServers = 'xyz.us-central1.gcp.confluent.cloud:9092'
-    src_topic = 'myKafkaTopicRocks'
-    src_dataformat = 'json'
-    instance_properties.additional_properties.update({ "src_type" : src_type })
-    instance_properties.additional_properties.update({ "src_bootstrapServers" : src_bootstrapServers })
-    instance_properties.additional_properties.update({ "src_topic" : src_topic })
-    instance_properties.additional_properties.update({ "src_dataformat" : src_dataformat })
+    # Update instance with destination properties (all except credentials)
+    dst_type = 'snowflake'
+    dst_url = 'https://abc.us-central1.gcp.snowflakecomputing.com:443'
+    dst_db = 'myDB1'
+    dst_schema = 'mySchema1'
+    instance_properties.additional_properties.update({ "dst_type" : dst_type })
+    instance_properties.additional_properties.update({ "dst_url" : dst_url })
+    instance_properties.additional_properties.update({ "dst_db" : dst_db })
+    instance_properties.additional_properties.update({ "dst_schema" : dst_schema })
     data = UpdateInstanceRequest(properties = instance_properties)
     response = update_instance.sync(
         org=org_id,
@@ -163,10 +163,10 @@ def run():
     print(f"{GOOD} Updated entity instance {instance_id}")
 
     # Save credentials to local keyring
-    src_apiKey = 'myapiKeyTest'
-    src_apiSecret = 'myapikeysecretTest'
-    set_secret(instance_id, 'src_apiKey', src_apiKey);
-    set_secret(instance_id, 'src_apiSecret', src_apiSecret);
+    dst_user = 'myUser1'
+    dst_key = 'myKey1'
+    set_secret(instance_id, 'dst_user', dst_user);
+    set_secret(instance_id, 'dst_key', dst_key);
 
     # Show values
     # Get Nile instance info
@@ -180,8 +180,8 @@ def run():
     print(f"{GOOD} Instance: {json.dumps(instance.to_dict(), indent=2)}")
     # Get secrets
     print(f"{GOOD} Secrets: {get_secret(instance_id, 'src_apiKey')}, {get_secret(instance_id, 'src_apiSecret')}")
-    #print(get_secret(instance_id, 'src_apiKey'));
-    #print(get_secret(instance_id, 'src_apiSecret'));
+    #print(get_secret(instance_id, 'dst_user'));
+    #print(get_secret(instance_id, 'dst_key'));
 
 
 if __name__ == "__main__":
