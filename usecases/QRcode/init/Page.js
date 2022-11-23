@@ -5,11 +5,7 @@ const PageSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
-<<<<<<< HEAD
   targetPage: {
-=======
-  email: {
->>>>>>> 1770cf1 (feat: new entity type QRcode)
     type: String,
     required: true,
   },
