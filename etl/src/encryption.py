@@ -31,5 +31,5 @@ def test_set_get():
     print(SECRET_NAME, get_secret(INSTANCE_ID, SECRET_NAME))
 
 
-#test_set_get()
-#sys.exit(0)
+if __name__ == "__main__":
+    test_set_get()

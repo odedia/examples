@@ -139,12 +139,17 @@ def run():
         sys.exit(1)
 
     instance_id = instance.id
+    instance_properties = instance.properties
 
     # Update instance with source properties (all except credentials)
     src_type = 'confluentcloud'
     src_bootstrapServers = 'xyz.us-central1.gcp.confluent.cloud:9092'
     src_topic = 'myKafkaTopicRocks'
     src_dataformat = 'json'
+    instance_properties.additional_properties.update({ "src_type" : src_type })
+    instance_properties.additional_properties.update({ "src_bootstrapServers" : src_bootstrapServers })
+    instance_properties.additional_properties.update({ "src_topic" : src_topic })
+    instance_properties.additional_properties.update({ "src_dataformat" : src_dataformat })
     data = UpdateInstanceRequest(properties = JsonSchemaInstance.from_dict(
         dict(
             src_type = src_type,
@@ -153,7 +158,8 @@ def run():
             src_dataformat = src_dataformat,
         ),
     ))
-    update_instance.sync(
+    data = UpdateInstanceRequest(properties = instance_properties)
+    response = update_instance.sync(
         org=org_id,
         workspace=params["NILE_WORKSPACE"],
         type=NILE_ENTITY_NAME,
@@ -161,7 +167,8 @@ def run():
         id=instance_id,
         json_body=data,
     )
-    print(f"{GOOD} Updated entity instance {instance_id}")
+    print(response)
+    print(f"{GOOD} Updated entity instance {instance_id} with body {json.dumps(data.to_dict(), indent=2)}")
 
     # Save credentials to local keyring
     src_apiKey = 'myapiKeyTest'
