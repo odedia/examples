@@ -29,6 +29,9 @@ params = {
     for param in [
         "NILE_URL",
         "NILE_WORKSPACE",
+        "ETL_CONFLUENT_KAFKA_CLUSTER",
+        "ETL_CONFLUENT_API_KEY",
+        "ETL_CONFLUENT_API_SECRET",
     ]
 }
 NILE_ENTITY_NAME = "ETL"
@@ -143,7 +146,8 @@ def run():
 
     # Update instance with source properties (all except credentials)
     src_type = 'confluentcloud'
-    src_bootstrapServers = 'xyz.us-central1.gcp.confluent.cloud:9092'
+    #src_bootstrapServers = 'xyz.us-central1.gcp.confluent.cloud:9092'
+    src_bootstrapServers = params["ETL_CONFLUENT_KAFKA_CLUSTER"]
     src_topic = 'myKafkaTopicRocks'
     src_dataformat = 'json'
     instance_properties.additional_properties.update({ "src_type" : src_type })
@@ -163,8 +167,10 @@ def run():
     print(f"{GOOD} Updated entity instance {instance_id}")
 
     # Save credentials to local keyring
-    src_apiKey = 'myapiKeyTest'
-    src_apiSecret = 'myapikeysecretTest'
+    #src_apiKey = 'myapiKeyTest'
+    #src_apiSecret = 'myapikeysecretTest'
+    src_apiKey = params["ETL_CONFLUENT_API_KEY"]
+    src_apiSecret = params["ETL_CONFLUENT_API_SECRET"]
     set_secret(instance_id, 'src_apiKey', src_apiKey);
     set_secret(instance_id, 'src_apiSecret', src_apiSecret);
 

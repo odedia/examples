@@ -29,6 +29,8 @@ params = {
     for param in [
         "NILE_URL",
         "NILE_WORKSPACE",
+        "ETL_SNOWFLAKE_URL",
+        "ETL_SNOWFLAKE_KEY",
     ]
 }
 NILE_ENTITY_NAME = "ETL"
@@ -143,11 +145,11 @@ def run():
 
     # Update instance with destination properties (all except credentials)
     dst_type = 'snowflake'
-    dst_url = 'https://abc.us-central1.gcp.snowflakecomputing.com:443'
-    dst_db = 'myDB1'
-    dst_schema = 'mySchema1'
+    dst_user = 'confluent'
+    dst_db = 'MYDB3'
+    dst_schema = 'PUBLIC'
     instance_properties.additional_properties.update({ "dst_type" : dst_type })
-    instance_properties.additional_properties.update({ "dst_url" : dst_url })
+    instance_properties.additional_properties.update({ "dst_user" : dst_user })
     instance_properties.additional_properties.update({ "dst_db" : dst_db })
     instance_properties.additional_properties.update({ "dst_schema" : dst_schema })
     data = UpdateInstanceRequest(properties = instance_properties)
@@ -163,9 +165,11 @@ def run():
     print(f"{GOOD} Updated entity instance {instance_id}")
 
     # Save credentials to local keyring
-    dst_user = 'myUser1'
-    dst_key = 'myKey1'
-    set_secret(instance_id, 'dst_user', dst_user);
+    #dst_url = 'https://abc.us-central1.gcp.snowflakecomputing.com:443'
+    #dst_key = 'myKey1'
+    dst_url = params["ETL_SNOWFLAKE_URL"]
+    dst_key = params["ETL_SNOWFLAKE_KEY"]
+    set_secret(instance_id, 'dst_url', dst_url);
     set_secret(instance_id, 'dst_key', dst_key);
 
     # Show values
