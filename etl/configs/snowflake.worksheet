@@ -1,0 +1,29 @@
+DROP USER confluent;
+
+CREATE USER confluent RSA_PUBLIC_KEY='<MYPUBLICKEY>';
+GRANT ROLE SYSADMIN TO USER confluent;
+
+// Use a role that can create and manage roles and privileges:
+use role securityadmin;
+
+// Create a Snowflake role with the privileges to work with the connector
+drop role kafka_connector_role;
+create role kafka_connector_role;
+
+// Grant privileges on the database:
+grant usage on database MYDB to role kafka_connector_role;
+
+// Grant privileges on the schema:
+grant usage on schema MYDB.PUBLIC to role kafka_connector_role;
+grant create table on schema MYDB.PUBLIC to role kafka_connector_role;
+grant create stage on schema MYDB.PUBLIC to role kafka_connector_role;
+grant create pipe on schema MYDB.PUBLIC to role kafka_connector_role;
+
+// Grant the custom role to an existing user:
+grant role kafka_connector_role to user confluent;
+
+// Make the new role the default role:
+alter user confluent set default_role=kafka_connector_role;
+
+// For Data Preview to work
+grant role kafka_connector_role to role sysadmin;

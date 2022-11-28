@@ -1,0 +1,88 @@
+{
+  "connector": {
+    "name": "SnowflakeSinkConnector_0",
+    "id": "lcc-5w8kj2",
+    "status": "PAUSED",
+    "type": "sink"
+  },
+  "tasks": [
+    {
+      "task_id": 0,
+      "state": "STOPPED"
+    }
+  ],
+  "configs": [
+    {
+      "config": "kafka.endpoint",
+      "value": "SASL_SSL://xyz.us-central1.gcp.confluent.cloud:9092"
+    },
+    {
+      "config": "snowflake.url.name",
+      "value": "https://abc.us-east4.gcp.snowflakecomputing.com"
+    },
+    {
+      "config": "cloud.provider",
+      "value": "gcp"
+    },
+    {
+      "config": "connector.class",
+      "value": "SnowflakeSink"
+    },
+    {
+      "config": "kafka.api.key",
+      "value": "****************"
+    },
+    {
+      "config": "kafka.api.secret",
+      "value": "****************"
+    },
+    {
+      "config": "snowflake.user.name",
+      "value": "confluent"
+    },
+    {
+      "config": "input.data.format",
+      "value": "JSON"
+    },
+    {
+      "config": "kafka.auth.mode",
+      "value": "KAFKA_API_KEY"
+    },
+    {
+      "config": "name",
+      "value": "SnowflakeSinkConnector_0"
+    },
+    {
+      "config": "topics",
+      "value": "myKafkaTopicRocks"
+    },
+    {
+      "config": "snowflake.private.key.passphrase",
+      "value": ""
+    },
+    {
+      "config": "snowflake.schema.name",
+      "value": "PUBLIC"
+    },
+    {
+      "config": "tasks.max",
+      "value": "1"
+    },
+    {
+      "config": "cloud.environment",
+      "value": "prod"
+    },
+    {
+      "config": "kafka.region",
+      "value": "us-east4"
+    },
+    {
+      "config": "snowflake.database.name",
+      "value": "MYDB"
+    },
+    {
+      "config": "snowflake.private.key",
+      "value": "****************"
+    }
+  ]
+}
