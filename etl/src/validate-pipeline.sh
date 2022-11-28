@@ -17,7 +17,7 @@ select RECORD_CONTENT:orderid from ${ETL_CONFLUENT_KAFKA_TOPIC_NAME} where RECOR
 "
 
 # Write the new record
-echo "\nWrite new record to Confluent Cloud with orderid $randomValue"
+echo "\nWrite new record with orderid $randomValue to Confluent Cloud Kafka topic ${ETL_CONFLUENT_KAFKA_TOPIC_NAME}"
 echo "$record" | confluent kafka topic produce ${ETL_CONFLUENT_KAFKA_TOPIC_NAME}
 echo "Sleeping 60s" && sleep 60
 
