@@ -18,7 +18,7 @@ venv/bin/python src/entity_instance_job.py
 # Submit connector
 source .env
 confluent connect create -vvv --config <(eval "cat <<EOF
-$(<configs/confluentcloud_snowflake_sink_connector.json)
+$(<configs/confluentcloud/snowflake_sink_connector.json)
 EOF
 ")
 
