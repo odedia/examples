@@ -150,31 +150,15 @@ def run():
           jq -r -e 'map(select(.name == "'{connectorName}'")) | .[].id'
           """,
           shell=True, check=True, text=True, capture_output=True)
-        print(result)
+        print('Output from confluent command: ', result.returncode)
     except subprocess.CalledProcessError as e:
         print(e)
         sys.exit(1)
     else:
         connectorID=result.stdout.strip()
 
-    # Get connector status
-    # TODO: Inefficient to make a second call, combine into one with above
-    try:
-        result=subprocess.run(f"""
-          confluent connect list -o json |
-          jq -r -e 'map(select(.id == "'{connectorID}'")) | .[].status'
-          """,
-          shell=True, check=True, text=True, capture_output=True)
-        print(result)
-    except subprocess.CalledProcessError as e:
-        print(e)
-        sys.exit(1)
-    else:
-        status=result.stdout.strip()
-
     # Update instance with job info
-    if (status == 'RUNNING'):
-      status = 'Up'
+    status = 'Deleted'
     job = connectorID
     instance_properties.additional_properties.update({ "job" : job })
     instance_properties.additional_properties.update({ "status" : status })

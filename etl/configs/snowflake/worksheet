@@ -25,5 +25,5 @@ grant role kafka_connector_role to user confluent;
 // Make the new role the default role:
 alter user confluent set default_role=kafka_connector_role;
 
-// For Data Preview to work
+// To view records
 grant role kafka_connector_role to role sysadmin;

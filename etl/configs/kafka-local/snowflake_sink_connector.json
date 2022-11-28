@@ -1,5 +1,5 @@
 {
-  "name": "SnowflakeSinkConnector-Local",
+  "name": "${ETL_CONFLUENT_CONNECTOR_NAME}-Local",
   "config": {
     "connector.class"              : "com.snowflake.kafka.connector.SnowflakeSinkConnector",
     "topics"                       : "myKafkaTopicRocks",

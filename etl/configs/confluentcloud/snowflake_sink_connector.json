@@ -1,6 +1,6 @@
 {
   "connector.class": "SnowflakeSink",
-  "name": "SnowflakeSinkConnector_0",
+  "name": "${ETL_CONFLUENT_CONNECTOR_NAME}",
   "kafka.auth.mode": "KAFKA_API_KEY",
   "kafka.api.key": "${ETL_CONFLUENT_API_KEY}",
   "kafka.api.secret": "${ETL_CONFLUENT_API_SECRET}",

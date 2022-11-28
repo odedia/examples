@@ -14,7 +14,7 @@
     "dst_key": "myKey1",
     "dst_db": "myDB1",
     "dst_schema": "mySchema1",
-    "job": "job-111",
+    "job": "lcc-123456",
     "org": "Warehouse Ops"
   },
   {
@@ -32,7 +32,7 @@
     "dst_key": "myKey2",
     "dst_db": "myDB2",
     "dst_schema": "mySchema2",
-    "job": "job-222",
+    "job": "lcc-abcdef",
     "org": "Biz Ops"
   }
 ]
