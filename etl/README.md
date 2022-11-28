@@ -1,8 +1,12 @@
 ## Setup
 - Confluent Cloud CLI installed, logged in, properly configured (username/password, use API key/secret, use Kafka cluster, etc)
-  -- Test it by running `confluent connect list`
+
+  - Test it by running `confluent connect list`
+
 - Snowflake snowsql installed, logged in, properly configured (~/.snowsql/config has valid info)
-  -- Test it by running `snowsql`
+
+  - Test it by running `snowsql`
+
 - Snowflake configured to allow Confluent Cloud connector to write to it (see [documentation](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html#snowflake-sink-connector-for-ccloud) and [worksheet](configs/snowflake/worksheet))
 
 ## From top-level folder
