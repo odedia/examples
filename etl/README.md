@@ -1,4 +1,7 @@
-## Setup
+## Prerequisites
+
+This demo has a lot of prerequisites:
+
 - Confluent Cloud CLI installed, logged in, properly configured (username/password, use API key/secret, use Kafka cluster, Kafka topic exists, etc)
 
   - Test it by running `confluent connect list` (should be blank)
@@ -9,7 +12,11 @@
 
 - Snowflake configured to allow Confluent Cloud connector to write to it (see [documentation](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html#snowflake-sink-connector-for-ccloud) and [worksheet](configs/snowflake/worksheet))
 
-## From top-level folder
+## Setup
+
+You must do all the steps in the [Setup section](../README.md#setup) of the top-level README.md.
+
+:stop_sign: **STOP** :stop_sign: Do not proceed until you have done the above setup :heavy_exclamation_mark:
 
 Modify `.env`. Edit:
 
