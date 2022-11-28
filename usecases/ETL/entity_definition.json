@@ -50,7 +50,7 @@
       },
       "status": {
         "type": "string",
-        "enum": ["Submitted", "Provisioning", "Up", "Deleted"]
+        "enum": ["Submitted", "Provisioning", "Up", "Deleted", "PAUSED", "RUNNING", "UNASSIGNED", "FAILED"]
       }
     },
     "required": [

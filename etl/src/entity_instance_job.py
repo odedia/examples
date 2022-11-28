@@ -3,6 +3,7 @@
 import json
 import os
 import sys
+import subprocess
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -140,10 +141,21 @@ def run():
     instance_id = instance.id
     instance_properties = instance.properties
 
+    # Get connector status
+    connectorName='SnowflakeSinkConnector_0'
+    result=subprocess.run(f"""
+      confluent connect list -o json |
+      jq -r -e 'map(select(.name == "'{connectorName}'")) | .[].status'
+      """,
+      shell=True, check=True, text=True, capture_output=True)
+    print('Output from confluent command: ', result.returncode)
+    status=result.stdout.strip()
+    if (status == 'RUNNING'):
+      status = 'Up'
+
     # Update instance with job info
     randValue = randint(100, 999)
     job = "job-" + str(randValue)
-    status = 'Up'
     instance_properties.additional_properties.update({ "job" : job })
     instance_properties.additional_properties.update({ "status" : status })
     data = UpdateInstanceRequest(properties = instance_properties)
@@ -155,7 +167,7 @@ def run():
         id=instance_id,
         json_body=data,
     )
-    #print(response)
+    print(response)
     print(f"{GOOD} Updated entity instance {instance_id}")
 
     # Show values
