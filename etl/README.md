@@ -1,16 +1,33 @@
 ## Setup
-- Confluent Cloud CLI installed, logged in, properly configured (username/password, use API key/secret, use Kafka cluster, etc)
+- Confluent Cloud CLI installed, logged in, properly configured (username/password, use API key/secret, use Kafka cluster, Kafka topic exists, etc)
 
-  - Test it by running `confluent connect list`
+  - Test it by running `confluent connect list` (should be blank)
 
-- Snowflake snowsql installed, logged in, properly configured (~/.snowsql/config has valid info)
+- Snowflake snowsql installed, logged in, properly configured (~/.snowsql/config has valid info, database and warehouse exist)
 
   - Test it by running `snowsql`
 
 - Snowflake configured to allow Confluent Cloud connector to write to it (see [documentation](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html#snowflake-sink-connector-for-ccloud) and [worksheet](configs/snowflake/worksheet))
 
 ## From top-level folder
-Modify .env: add/edit `NILE_ENTITY_NAME=ETL`
+
+Modify `.env`. Edit:
+
+```
+NILE_ENTITY_NAME=ETL
+```
+
+Add:
+
+```
+ETL_CONFLUENT_KAFKA_CLUSTER
+ETL_CONFLUENT_API_KEY
+ETL_CONFLUENT_API_SECRET
+ETL_CONFLUENT_CONNECTOR_NAME
+ETL_CONFLUENT_KAFKA_TOPIC_NAME
+ETL_SNOWFLAKE_URL
+ETL_SNOWFLAKE_KEY
+```
 
 ## Setup Nile control plane with the new ETL entity and some dummy instances
 
@@ -38,6 +55,7 @@ venv/bin/python src/entity_instance_dst.py
 
 ```
 source .env
+confluent kafka topic create --if-not-exists ${ETL_CONFLUENT_KAFKA_TOPIC_NAME}
 confluent connect create -vvv --config <(eval "cat <<EOF
 $(<configs/confluentcloud/snowflake_sink_connector.json)
 EOF
@@ -49,6 +67,7 @@ venv/bin/python src/entity_instance_job.py
 ## Write and Read
 
 ```
+source .env
 ./src/validate-pipeline.sh
 ```
 

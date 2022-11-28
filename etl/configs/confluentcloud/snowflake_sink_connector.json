@@ -4,7 +4,7 @@
   "kafka.auth.mode": "KAFKA_API_KEY",
   "kafka.api.key": "${ETL_CONFLUENT_API_KEY}",
   "kafka.api.secret": "${ETL_CONFLUENT_API_SECRET}",
-  "topics": "myKafkaTopicRocks",
+  "topics": "${ETL_CONFLUENT_KAFKA_TOPIC_NAME}",
   "input.data.format": "JSON",
   "buffer.flush.time": "10",
   "snowflake.url.name": "${ETL_SNOWFLAKE_URL}",

@@ -2,7 +2,7 @@
   "name": "${ETL_CONFLUENT_CONNECTOR_NAME}-Local",
   "config": {
     "connector.class"              : "com.snowflake.kafka.connector.SnowflakeSinkConnector",
-    "topics"                       : "myKafkaTopicRocks",
+    "topics"                       : "${ETL_CONFLUENT_KAFKA_TOPIC_NAME}",
     "input.data.format"            : "JSON",
     "snowflake.url.name"           : "${ETL_SNOWFLAKE_URL}",
     "snowflake.user.name"          : "confluent",

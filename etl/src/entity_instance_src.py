@@ -32,6 +32,7 @@ params = {
         "ETL_CONFLUENT_KAFKA_CLUSTER",
         "ETL_CONFLUENT_API_KEY",
         "ETL_CONFLUENT_API_SECRET",
+        "ETL_CONFLUENT_KAFKA_TOPIC_NAME",
     ]
 }
 NILE_ENTITY_NAME = "ETL"
@@ -148,11 +149,10 @@ def run():
     src_type = 'confluentcloud'
     #src_bootstrapServers = 'xyz.us-central1.gcp.confluent.cloud:9092'
     src_bootstrapServers = params["ETL_CONFLUENT_KAFKA_CLUSTER"]
-    src_topic = 'myKafkaTopicRocks'
     src_dataformat = 'json'
     instance_properties.additional_properties.update({ "src_type" : src_type })
     instance_properties.additional_properties.update({ "src_bootstrapServers" : src_bootstrapServers })
-    instance_properties.additional_properties.update({ "src_topic" : src_topic })
+    instance_properties.additional_properties.update({ "src_topic" : params["ETL_CONFLUENT_KAFKA_TOPIC_NAME"] })
     instance_properties.additional_properties.update({ "src_dataformat" : src_dataformat })
     data = UpdateInstanceRequest(properties = instance_properties)
     response = update_instance.sync(
