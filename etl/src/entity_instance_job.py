@@ -141,21 +141,40 @@ def run():
     instance_id = instance.id
     instance_properties = instance.properties
 
-    # Get connector status
+    # Get connector id
     connectorName='SnowflakeSinkConnector_0'
-    result=subprocess.run(f"""
-      confluent connect list -o json |
-      jq -r -e 'map(select(.name == "'{connectorName}'")) | .[].status'
-      """,
-      shell=True, check=True, text=True, capture_output=True)
-    print('Output from confluent command: ', result.returncode)
-    status=result.stdout.strip()
-    if (status == 'RUNNING'):
-      status = 'Up'
+    try:
+        result=subprocess.run(f"""
+          confluent connect list -o json |
+          jq -r -e 'map(select(.name == "'{connectorName}'")) | .[].id'
+          """,
+          shell=True, check=True, text=True, capture_output=True)
+        print('Output from confluent command: ', result.returncode)
+    except subprocess.CalledProcessError as e:
+        print(e)
+        sys.exit(1)
+    else:
+        connectorID=result.stdout.strip()
+
+    # Get connector status
+    # TODO: Inefficient to make a second call, combine into one with above
+    try:
+        result=subprocess.run(f"""
+          confluent connect list -o json |
+          jq -r -e 'map(select(.id == "'{connectorID}'")) | .[].status'
+          """,
+          shell=True, check=True, text=True, capture_output=True)
+        print('Output from confluent command: ', result.returncode)
+    except subprocess.CalledProcessError as e:
+        print(e)
+        sys.exit(1)
+    else:
+        status=result.stdout.strip()
 
     # Update instance with job info
-    randValue = randint(100, 999)
-    job = "job-" + str(randValue)
+    if (status == 'RUNNING'):
+      status = 'Up'
+    job = connectorID
     instance_properties.additional_properties.update({ "job" : job })
     instance_properties.additional_properties.update({ "status" : status })
     data = UpdateInstanceRequest(properties = instance_properties)
