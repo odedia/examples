@@ -13,4 +13,12 @@ venv/bin/python src/entity_instance_src.py
 venv/bin/python src/entity_instance_dst.py
 venv/bin/python src/entity_instance_job.py
 
-# Demo: pause/unpause, write data?
+# Write and Read
+# Prereq: Confluent Cloud CLI and Snowflake snowsql installed, logged in, properly configured (username/passwords, API key/secret, clusters used, etc)
+./src/validate-pipeline.sh
+
+
+## To delete
+#create warehouse foo;
+#use warehouse foo;
+#drop warehouse foo;
