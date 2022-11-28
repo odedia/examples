@@ -11,13 +11,13 @@ drop role kafka_connector_role;
 create role kafka_connector_role;
 
 // Grant privileges on the database:
-grant usage on database MYDB to role kafka_connector_role;
+grant usage on database MYDB3 to role kafka_connector_role;
 
 // Grant privileges on the schema:
-grant usage on schema MYDB.PUBLIC to role kafka_connector_role;
-grant create table on schema MYDB.PUBLIC to role kafka_connector_role;
-grant create stage on schema MYDB.PUBLIC to role kafka_connector_role;
-grant create pipe on schema MYDB.PUBLIC to role kafka_connector_role;
+grant usage on schema MYDB3.PUBLIC to role kafka_connector_role;
+grant create table on schema MYDB3.PUBLIC to role kafka_connector_role;
+grant create stage on schema MYDB3.PUBLIC to role kafka_connector_role;
+grant create pipe on schema MYDB3.PUBLIC to role kafka_connector_role;
 
 // Grant the custom role to an existing user:
 grant role kafka_connector_role to user confluent;

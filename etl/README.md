@@ -1,3 +1,5 @@
+# Prereq: Confluent Cloud CLI and Snowflake snowsql installed, logged in, properly configured (username/passwords, API key/secret, clusters used, etc)
+
 # From top-level folder
 Modify .env: add/edit `NILE_ENTITY_NAME=ETL`
 
@@ -13,10 +15,15 @@ venv/bin/python src/entity_instance_src.py
 venv/bin/python src/entity_instance_dst.py
 venv/bin/python src/entity_instance_job.py
 
-# Write and Read
-# Prereq: Confluent Cloud CLI and Snowflake snowsql installed, logged in, properly configured (username/passwords, API key/secret, clusters used, etc)
-./src/validate-pipeline.sh
+# Submit connector
+source .env
+confluent connect create -vvv --config <(eval "cat <<EOF
+$(<configs/confluentcloud_snowflake_sink_connector.json)
+EOF
+")
 
+# Write and Read
+./src/validate-pipeline.sh
 
 ## To delete
 #create warehouse foo;

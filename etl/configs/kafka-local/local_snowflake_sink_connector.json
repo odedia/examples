@@ -1,0 +1,16 @@
+{
+  "name": "SnowflakeSinkConnector-Local",
+  "config": {
+    "connector.class"              : "com.snowflake.kafka.connector.SnowflakeSinkConnector",
+    "topics"                       : "myKafkaTopicRocks",
+    "input.data.format"            : "JSON",
+    "snowflake.url.name"           : "${ETL_SNOWFLAKE_URL}",
+    "snowflake.user.name"          : "confluent",
+    "snowflake.private.key"        : "${ETL_SNOWFLAKE_KEY}",
+    "snowflake.database.name"      : "MYDB3",
+    "snowflake.schema.name"        : "PUBLIC",
+    "snowflake.metadata.createtime": "true",
+    "buffer.flush.time"            : 10,
+    "tasks.max"                    : "1"
+  }
+}
