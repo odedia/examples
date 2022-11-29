@@ -528,6 +528,11 @@ jobs:
           file_name: .env
           fail_on_empty: false
 
+      - name: Set node version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: yarn start
         working-directory: multi-tenancy
         run: yarn start
