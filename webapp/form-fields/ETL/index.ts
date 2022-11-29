@@ -37,7 +37,7 @@ const fields = [
     name: 'src_topic',
     label: 'Kafka topic',
     required: true,
-    defaultValue: 'myTopic',
+    defaultValue: 'TOPICETL',
   },
   {
     name: 'src_dataformat',
@@ -87,7 +87,7 @@ const fields = [
     name: 'dst_schema',
     label: 'Schema',
     required: true,
-    defaultValue: 'mySchema',
+    defaultValue: 'PUBLIC',
   },
 ];
 
