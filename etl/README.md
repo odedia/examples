@@ -47,8 +47,13 @@ python3 -m venv venv && venv/bin/python3 -m pip install -r requirements.txt
 
 These are tasks the Nile developer does:
 
+- Create login credentials
+- Create a new workspace
+- Create a new entity
+
+Then to seed some initial data, a user comes along and prepopulates some organizations and ETL entity instances:
+
 ```
-(cd quickstart && yarn nile-init)
 (cd multi-tenancy && yarn start)
 ```
 
