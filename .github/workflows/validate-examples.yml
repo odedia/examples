@@ -501,3 +501,77 @@ jobs:
       - name: yarn lint
         working-directory: webapp
         run: yarn lint
+
+  multi-tenancy-ETL:
+
+    needs: multi-tenancy
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: https://prod.thenile.dev:443
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_DEVELOPER_EMAIL: ${{ secrets.NILE_DEVELOPER_EMAIL }}
+          envkey_NILE_DEVELOPER_PASSWORD: ${{ secrets.NILE_DEVELOPER_PASSWORD }}
+          envkey_NILE_ENTITY_NAME: ETL
+          directory: multi-tenancy
+          file_name: .env
+          fail_on_empty: false
+
+      - name: yarn start
+        working-directory: multi-tenancy
+        run: yarn start
+
+  etl:
+
+    needs: multi-tenancy-ETL
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NILE_URL: https://prod.thenile.dev:443
+          envkey_NILE_WORKSPACE: ${{ secrets.NILE_WORKSPACE }}
+          envkey_NILE_WORKSPACE_ACCESS_TOKEN: ${{ secrets.NILE_WORKSPACE_ACCESS_TOKEN_PROD }}
+          envkey_NILE_ENTITY_NAME: ETL
+          directory: etl
+          file_name: .env
+          fail_on_empty: false
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        working-directory: etl
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: python src/list_instances_single_tenant.py
+        working-directory: etl
+        run: python src/list_instances_single_tenant.py
+
+      - name: python src/entity_instance_init.py
+        working-directory: etl
+        run: python src/entity_instance_init.py
+
