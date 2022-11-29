@@ -59,7 +59,7 @@ Then to seed some initial data, a user comes along and prepopulates some organiz
 
 ## Operations per tenant
 
-Do an action on a tenant.  To start, list entity instances
+Do an action on a tenant.  To start, list entity instances (refer to code [src/list_instances_single_tenant.py](src/list_instances_single_tenant.py)).
 
 ```
 venv/bin/python src/list_instances_single_tenant.py
@@ -67,20 +67,20 @@ venv/bin/python src/list_instances_single_tenant.py
 
 ## Initialize a new entity instance
 
-These are tasks initiated by the end user:
+These are tasks initiated by the end user (refer to code [src/entity_instance_init.py](src/entity_instance_init.py)).
 
 ```
 venv/bin/python src/entity_instance_init.py
 ```
 
-## Update entity instance ETL source and destination 
+## Update entity instance ETL source and destination (refer to code [src//entity_instance_src.py](src//entity_instance_src.py) and [src//entity_instance_dst.py](src//entity_instance_dst.py)).
 
-```
+```bash
 venv/bin/python src/entity_instance_src.py
 venv/bin/python src/entity_instance_dst.py
 ```
 
-## Submit connector and update entity
+## Submit connector and update entity (refer to code [src/entity_instance_job.py](src/entity_instance_job.py)).
 
 ```
 source .env
@@ -96,6 +96,9 @@ venv/bin/python src/entity_instance_job.py
 
 ## Write and Read
 
+Validate that the pipeline is actually real and working.
+Write a record to a Kafka topic, and validate that it is written to a row in Snowflake.
+
 ```
 source .env
 ./src/validate-pipeline.sh
@@ -103,7 +106,7 @@ source .env
 
 ## Delete the connector
 
-Note: python code marks the entity instance status `Deleted` but the deletion happens asynchronously
+Python code marks the entity instance status `Deleted` but the deletion happens asynchronously.  (refer to code [src/entity_instance_stop.py](src/entity_instance_stop.py)).
 
 ```bash
 source .env
