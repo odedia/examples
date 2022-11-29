@@ -73,14 +73,18 @@ These are tasks initiated by the end user (refer to code [src/entity_instance_in
 venv/bin/python src/entity_instance_init.py
 ```
 
-## Update entity instance ETL source and destination (refer to code [src//entity_instance_src.py](src//entity_instance_src.py) and [src//entity_instance_dst.py](src//entity_instance_dst.py)).
+## Update entity instance ETL source and destination
+
+Set the connection info for the source and destination in Nile (refer to code [src//entity_instance_src.py](src//entity_instance_src.py) and [src//entity_instance_dst.py](src//entity_instance_dst.py)).
 
 ```bash
 venv/bin/python src/entity_instance_src.py
 venv/bin/python src/entity_instance_dst.py
 ```
 
-## Submit connector and update entity (refer to code [src/entity_instance_job.py](src/entity_instance_job.py)).
+## Submit connector and update entity
+
+Create the connector and save the connector ID back into Nile (refer to code [src/entity_instance_job.py](src/entity_instance_job.py)).
 
 ```
 source .env
