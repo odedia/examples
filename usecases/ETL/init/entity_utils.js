@@ -27,6 +27,7 @@ exports.addInstanceToOrg = async function (nile, orgID, entityName, instanceJson
         dst_key: instanceJson.dst_key,
         dst_db: instanceJson.dst_db,
         dst_schema: instanceJson.dst_schema,
+        secrets_url: instanceJson.secrets_url,
         job : instanceJson.job,
         status : "Up"
       }

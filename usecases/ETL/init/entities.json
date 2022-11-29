@@ -14,6 +14,7 @@
     "dst_key": "myKey1",
     "dst_db": "myDB1",
     "dst_schema": "mySchema1",
+    "secrets_url": "keyring",
     "job": "lcc-123456",
     "org": "Warehouse Ops"
   },
@@ -32,6 +33,7 @@
     "dst_key": "myKey2",
     "dst_db": "myDB2",
     "dst_schema": "mySchema2",
+    "secrets_url": "keyring",
     "job": "lcc-abcdef",
     "org": "Biz Ops"
   }

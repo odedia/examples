@@ -45,6 +45,10 @@
       "dst_schema": {
         "type": "string"
       },
+      "secrets_url": {
+        "type": "string",
+        "enum": ["keyring"]
+      },
       "job": {
         "type": "string"
       },

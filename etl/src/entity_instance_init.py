@@ -141,6 +141,7 @@ def run():
                 dict(
                     name="test1",
                     status="Submitted",
+                    secrets_url="keyring",
                 ),
             ),
         )
