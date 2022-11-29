@@ -533,6 +533,10 @@ jobs:
         with:
           node-version: 18
 
+      - name: yarn install
+        working-directory: multi-tenancy
+        run: yarn install --no-lockfile
+
       - name: yarn start
         working-directory: multi-tenancy
         run: yarn start
