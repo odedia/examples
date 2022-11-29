@@ -13,7 +13,7 @@
     "dst_user": "myUser1",
     "dst_key": "myKey1",
     "dst_db": "myDB1",
-    "dst_schema": "mySchema1",
+    "dst_schema": "PUBLIC",
     "secrets_url": "keyring",
     "job": "lcc-123456",
     "org": "Warehouse Ops"
@@ -32,9 +32,27 @@
     "dst_user": "myUser2",
     "dst_key": "myKey2",
     "dst_db": "myDB2",
-    "dst_schema": "mySchema2",
+    "dst_schema": "PUBLIC",
     "secrets_url": "keyring",
     "job": "lcc-abcdef",
     "org": "Biz Ops"
+  },
+  {
+    "name": "Billing",
+    "src_type": "confluentcloud",
+    "src_bootstrapServers": "xyz.us-central1.gcp.confluent.cloud:9092",
+    "src_apiKey": "myKey3",
+    "src_apiSecret": "mySecret3",
+    "src_topic": "transactions",
+    "src_dataformat": "json",
+    "dst_type": "snowflake",
+    "dst_url": "https://abc.us-central1.gcp.snowflakecomputing.com:443",
+    "dst_user": "myUser3",
+    "dst_key": "myKey3",
+    "dst_db": "myDB3",
+    "dst_schema": "PUBLIC",
+    "secrets_url": "keyring",
+    "job": "lcc-456789",
+    "org": "Warehouse Ops"
   }
 ]

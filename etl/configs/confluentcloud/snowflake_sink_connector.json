@@ -10,7 +10,7 @@
   "snowflake.url.name": "${ETL_SNOWFLAKE_URL}",
   "snowflake.user.name": "confluent",
   "snowflake.private.key": "${ETL_SNOWFLAKE_KEY}",
-  "snowflake.database.name": "MYDB3",
+  "snowflake.database.name": "MYDB",
   "snowflake.schema.name": "PUBLIC",
   "tasks.max": "1"
 }

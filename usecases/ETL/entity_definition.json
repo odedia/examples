@@ -13,12 +13,6 @@
       "src_bootstrapServers": {
         "type": "string"
       },
-      "src_apiKey": {
-        "type": "string"
-      },
-      "src_apiSecret": {
-        "type": "string"
-      },
       "src_topic": {
         "type": "string"
       },
@@ -30,20 +24,15 @@
         "type": "string",
         "enum": ["snowflake"]
       },
-      "dst_url": {
-        "type": "string"
-      },
       "dst_user": {
-        "type": "string"
-      },
-      "dst_key": {
         "type": "string"
       },
       "dst_db": {
         "type": "string"
       },
       "dst_schema": {
-        "type": "string"
+        "type": "string",
+        "enum": ["PUBLIC"]
       },
       "secrets_url": {
         "type": "string",

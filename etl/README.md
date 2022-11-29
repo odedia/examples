@@ -36,18 +36,35 @@ ETL_SNOWFLAKE_URL
 ETL_SNOWFLAKE_KEY
 ```
 
+Setup the Python environment:
+
+```bash
+cd etl
+python3 -m venv venv && venv/bin/python3 -m pip install -r requirements.txt
+```
+
 ## Setup Nile control plane with the new ETL entity and some dummy instances
+
+These are tasks the Nile developer does:
 
 ```
 (cd quickstart && yarn nile-init)
 (cd multi-tenancy && yarn start)
 ```
 
-## Initialize a new entity instance
+## Operations per tenant
+
+Do an action on a tenant.  To start, list entity instances
 
 ```
-cd etl
-python3 -m venv venv && venv/bin/python3 -m pip install -r requirements.txt
+venv/bin/python src/list_instances_single_tenant.py
+```
+
+## Initialize a new entity instance
+
+These are tasks initiated by the end user:
+
+```
 venv/bin/python src/entity_instance_init.py
 ```
 
@@ -62,6 +79,7 @@ venv/bin/python src/entity_instance_dst.py
 
 ```
 source .env
+confluent login
 confluent kafka topic create --if-not-exists ${ETL_CONFLUENT_KAFKA_TOPIC_NAME}
 confluent connect create -vvv --config <(eval "cat <<EOF
 $(<configs/confluentcloud/snowflake_sink_connector.json)
